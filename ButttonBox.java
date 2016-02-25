@@ -25,7 +25,7 @@ public class ButttonBox extends JFrame implements ActionListener {
 	private JButton b;
 	private JPanel p;
 	private Clip clip;
-	private AudioInputStream audio;
+	private AudioSystem audio;
 	
 	public ButttonBox(){
 		
@@ -33,8 +33,6 @@ public class ButttonBox extends JFrame implements ActionListener {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		layout = new GridBagLayout();
 		setLayout(layout);
-		
-		File sounds = new File("sounds.wav");
 		
 		JTextField inputField;
 		
@@ -114,8 +112,14 @@ JButton button = (JButton)e.getSource();
 		
 	switch( button.getActionCommand()){
 		
+	
 		case ("one"):
 			
+			audio = new AudioSystem(getResourceAsStream("chord.wav"));
+			clip = audio.getClip();
+		
+			clip.start();
+	
 			
 		
 			

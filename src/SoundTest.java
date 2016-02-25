@@ -3,8 +3,9 @@ import java.awt.event.*;
 
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
 import javax.swing.*;
-import java.io.File;
+import java.io.*;
 
 /**
  * @author SJHSStudent
@@ -57,9 +58,9 @@ public class SoundTest extends JFrame implements ActionListener {
 		buttonPanel.add(button);
 
 		add(buttonPanel, BorderLayout.CENTER);
-		
+
 		Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
-		this.setLocation(dim.width/3-this.getSize().width/2, dim.height/3-this.getSize().height/2);
+		this.setLocation(dim.width / 3 - this.getSize().width / 2, dim.height / 3 - this.getSize().height / 2);
 		setResizable(false);
 		setSize(getPreferredSize());
 		pack();
@@ -70,7 +71,15 @@ public class SoundTest extends JFrame implements ActionListener {
 		JButton button = (JButton) e.getSource();
 		switch (button.getActionCommand()) {
 			case "catMeow":
-				AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(new File().getAbsoluteFile());
+				try {
+			        Clip clip = AudioSystem.getClip();
+			        AudioInputStream inputStream = AudioSystem.getAudioInputStream(
+			        SoundTest.class.getResourceAsStream());
+			        clip.open(inputStream);
+			        clip.start(); 
+			      } catch (Exception e1) {
+			        System.err.println(e1.getMessage());
+			      }
 		}
 	}
 

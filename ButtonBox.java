@@ -22,6 +22,9 @@ public class ButtonBox extends JFrame implements ActionListener {
 	Clip clip;
 	private File[] sounds = new File[7];
 	
+	/**
+	 * ButtonBox constructor
+	 */
 	public ButtonBox() {
 		super("Button Box");
 		
@@ -30,6 +33,7 @@ public class ButtonBox extends JFrame implements ActionListener {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setLayout(new GridLayout(8, 1));
 		
+		// load sound files
 		sounds[0] = new File("clips/423.wav");
 		sounds[1] = new File("clips/Waluigi1.wav");
 		sounds[2] = new File("clips/Waluigi5.wav");
@@ -42,6 +46,7 @@ public class ButtonBox extends JFrame implements ActionListener {
 		
 		add(new JLabel("Press a button to play a sound!"));
 		
+		// create buttons
 		button = new JButton("Gastrodon");
 		button.setActionCommand("0");
 		button.addActionListener(this);
@@ -87,18 +92,26 @@ public class ButtonBox extends JFrame implements ActionListener {
 		setVisible(true);
 	}
 	
+	/**
+	 * Plays a sound clip
+	 * @param sound a File object of .wav file
+	 */
 	public void playSound(File sound) {
 		try {
+			// try to play sound
 			Clip clip = AudioSystem.getClip();
 			clip.open(AudioSystem.getAudioInputStream(sound));
 			clip.start();
 		} catch (Exception e) {
+			// if failed, say so in a window and print error message
 			JOptionPane.showMessageDialog(this, "The sound clip could not be played.");
 			e.printStackTrace();
 		}
 	}
 		
-	
+	/**
+	 * Reacts to ActionEvents
+	 */
 	public void actionPerformed(ActionEvent e) {
 		JButton button  = (JButton)e.getSource();
 		switch(button.getActionCommand()) {
@@ -129,6 +142,10 @@ public class ButtonBox extends JFrame implements ActionListener {
 		}
 	}
 	
+	/**
+	 * ButtonBox main method
+	 * @param args
+	 */
 	public static void main(String[] args) {
 		new ButtonBox();
 	}

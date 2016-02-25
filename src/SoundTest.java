@@ -4,6 +4,7 @@ import java.awt.event.*;
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
+import javax.sound.sampled.UnsupportedAudioFileException;
 import javax.swing.*;
 import java.io.*;
 
@@ -27,18 +28,18 @@ public class SoundTest extends JFrame implements ActionListener {
 		buttonPanel = new JPanel();
 		buttonPanel.setLayout(new GridLayout(2, 3));
 
-		button = new JButton("Cat's Meow");
-		button.setActionCommand("catMeow");
+		button = new JButton("Chimp Yell");
+		button.setActionCommand("chimpYell");
 		button.addActionListener(this);
 		buttonPanel.add(button);
 
-		button = new JButton("Isabelle's Yell");
-		button.setActionCommand("yell");
+		button = new JButton("Chimes");
+		button.setActionCommand("chimes");
 		button.addActionListener(this);
 		buttonPanel.add(button);
 
-		button = new JButton("Mr. Woytek's Boom");
-		button.setActionCommand("boom");
+		button = new JButton("Ding");
+		button.setActionCommand("ding");
 		button.addActionListener(this);
 		buttonPanel.add(button);
 
@@ -70,16 +71,78 @@ public class SoundTest extends JFrame implements ActionListener {
 	public void actionPerformed(ActionEvent e) {
 		JButton button = (JButton) e.getSource();
 		switch (button.getActionCommand()) {
-			case "catMeow":
-				try {
-			        Clip clip = AudioSystem.getClip();
-			        AudioInputStream inputStream = AudioSystem.getAudioInputStream(
-			        SoundTest.class.getResourceAsStream());
-			        clip.open(inputStream);
-			        clip.start(); 
-			      } catch (Exception e1) {
-			        System.err.println(e1.getMessage());
-			      }
+		case "chimpYell":
+			try{
+				String soundName = "C:/Users/SJHSStudent/Documents/jpro24_ GitHub/ButtonBox/Chimpanzee_sound_effect-412407.wav";
+				AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(new File(soundName).getAbsoluteFile());
+				Clip clip = AudioSystem.getClip();
+				clip.open(audioInputStream);
+				clip.start();
+			} catch(Exception es) {
+				System.out.println("Problem with file: " + es.getMessage());
+			}
+			break;
+			
+		case "chimes":
+			try{
+				String soundName = "C:/Users/SJHSStudent/Documents/jpro24_ GitHub/ButtonBox/chimes.wav";
+				AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(new File(soundName).getAbsoluteFile());
+				Clip clip = AudioSystem.getClip();
+				clip.open(audioInputStream);
+				clip.start();
+			} catch(Exception es) {
+				System.out.println("Problem with file: " + es.getMessage());
+			}
+			break;
+			
+		case "ding":
+			try{
+				String soundName = "C:/Users/SJHSStudent/Documents/jpro24_ GitHub/ButtonBox/ding.wav";
+				AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(new File(soundName).getAbsoluteFile());
+				Clip clip = AudioSystem.getClip();
+				clip.open(audioInputStream);
+				clip.start();
+			} catch(Exception es) {
+				System.out.println("Problem with file: " + es.getMessage());
+			}
+			break;
+			
+		case "daniel":
+			try{
+				String soundName = "C:/Users/SJHSStudent/Documents/jpro24_ GitHub/ButtonBox/Chimpanzee_sound_effect-412407.wav";
+				AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(new File(soundName).getAbsoluteFile());
+				Clip clip = AudioSystem.getClip();
+				clip.open(audioInputStream);
+				clip.start();
+			} catch(Exception es) {
+				System.out.println("Problem with file: " + es.getMessage());
+			}
+			break;
+			
+		case "whatAreThose":
+			try{
+				String soundName = "C:/Users/SJHSStudent/Documents/jpro24_ GitHub/ButtonBox/Chimpanzee_sound_effect-412407.wav";
+				AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(new File(soundName).getAbsoluteFile());
+				Clip clip = AudioSystem.getClip();
+				clip.open(audioInputStream);
+				clip.start();
+			} catch(Exception es) {
+				System.out.println("Problem with file: " + es.getMessage());
+			}
+			break;
+			
+		case "facsimile":
+			try{
+				String soundName = "C:/Users/SJHSStudent/Documents/jpro24_ GitHub/ButtonBox/Chimpanzee_sound_effect-412407.wav";
+				AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(new File(soundName).getAbsoluteFile());
+				Clip clip = AudioSystem.getClip();
+				clip.open(audioInputStream);
+				clip.start();
+			} catch(Exception es) {
+				System.out.println("Problem with file: " + es.getMessage());
+			}
+			break;
+			//https://www.youtube.com/watch?v=PnI-byHtMN0
 		}
 	}
 

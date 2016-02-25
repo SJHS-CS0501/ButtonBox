@@ -1,6 +1,7 @@
 import java.awt.*;
 import javax.swing.*;
 import java.awt.event.*;
+import java.io.*; // needed to inherit java.io.InputStream
 
 /**
  * 
@@ -72,7 +73,24 @@ public class ButtonBox extends JFrame implements ActionListener{
 	
 	
 	public void actionPerformed( ActionEvent e ){
-		
+		JButton button = (JButton)e.getSource();
+		switch( button.getActionCommand() ){
+			case "one":
+				break;
+			case "two":
+				break;
+			case "three":
+				break;
+			case "four":
+				break;
+			case "five":
+				break;
+			case "six":
+				break;
+			default:
+				JOptionPane.showMessageDialog( this,  "Unknown button pressed!" );
+				break;
+		}
 	}
 	
 	

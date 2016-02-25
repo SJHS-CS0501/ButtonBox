@@ -1,4 +1,5 @@
 import java.awt.*;
+import javax.sound.sampled.Clip;
 import javax.swing.*;
 import java.awt.event.*;
 
@@ -10,9 +11,12 @@ public class ButtonBox extends JFrame implements ActionListener {
 	
 	private static final long serialVersionUID = 1;
 	private JPanel buttonPanel;
+	private JLabel label;
+	private Clip clip;
 	
 	public ButtonBox() {
 		super("Button Box");
+		
 		
 		setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
 		
@@ -20,33 +24,45 @@ public class ButtonBox extends JFrame implements ActionListener {
 		
 		JButton button;
 		
-		buttonPanel.setLayout(new GridLayout(1, 3));
+		GridBagConstraints c = new GridBagConstraints();
+		c.fill = GridBagConstraints.BOTH;
+		
+		c.weightx = 0.0;
+        c.gridwidth = GridBagConstraints.RELATIVE;
+        
+        label = new JLabel("Click a button to make a sound!");
 		
 		button = new JButton( "Sound One" );
-		button.setActionCommand( "Sound One" );
+		button.setActionCommand( "One" );
 		button.addActionListener( this );
 		buttonPanel.add(button);
 		
 		button = new JButton( "Sound Two" );
-		button.setActionCommand( "Sound Two" );
+		button.setActionCommand( "Two" );
 		button.addActionListener( this );
 		buttonPanel.add(button);
 		
 		button = new JButton( "Sound Three" );
-		button.setActionCommand( "Sound Three" );
+		button.setActionCommand( "Three" );
 		button.addActionListener( this );
 		buttonPanel.add(button);
 		
 		button = new JButton( "Sound Four" );
-		button.setActionCommand( "Sound Four" );
+		button.setActionCommand( "Four" );
 		button.addActionListener( this );
 		buttonPanel.add(button);
 		
 		button = new JButton( "Sound Five" );
-		button.setActionCommand( "Sound Five" );
+		button.setActionCommand( "Five" );
 		button.addActionListener( this );
 		buttonPanel.add(button);
 		
+		button = new JButton( "Sound Six" );
+		button.setActionCommand( "Six" );
+		button.addActionListener( this );
+		buttonPanel.add(button);
+		
+		add(label, BorderLayout.NORTH);
 		add(buttonPanel, BorderLayout.SOUTH);
 		
 		setSize(getPreferredSize());
@@ -63,7 +79,30 @@ public class ButtonBox extends JFrame implements ActionListener {
 	}
 	
 	public void actionPerformed( ActionEvent e ) {
-		
+		JButton button = (JButton)e.getSource();
+		switch( button.getActionCommand() ) {
+		case "One":
+			clip.open(stream);
+			break;
+		case "Two":
+			
+			break;
+		case "Three":
+			
+			break;
+		case "Four":
+			
+			break;
+		case "Five":
+			
+			break;
+		case "Six":
+			
+			break;			
+		default:
+			
+			break;
+		}
 	}
 
 }

@@ -1,5 +1,5 @@
+import java.applet.*;
 import java.awt.*;
-import javax.sound.sampled.Clip;
 import javax.swing.*;
 import java.awt.event.*;
 
@@ -12,11 +12,10 @@ public class ButtonBox extends JFrame implements ActionListener {
 	private static final long serialVersionUID = 1;
 	private JPanel buttonPanel;
 	private JLabel label;
-	private Clip clip;
+	private AudioClip clip;
 	
 	public ButtonBox() {
 		super("Button Box");
-		
 		
 		setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
 		
@@ -82,7 +81,7 @@ public class ButtonBox extends JFrame implements ActionListener {
 		JButton button = (JButton)e.getSource();
 		switch( button.getActionCommand() ) {
 		case "One":
-			clip.open(stream);
+			
 			break;
 		case "Two":
 			

@@ -99,8 +99,12 @@ public class ButtonBox extends JFrame implements ActionListener {
 	public void playSound(File sound) {
 		try {
 			// try to play sound
-			Clip clip = AudioSystem.getClip();
-			clip.open(AudioSystem.getAudioInputStream(sound));
+			AudioInputStream soundIn = AudioSystem.getAudioInputStream(sound);
+			AudioFormat format = soundIn.getFormat();
+			DataLine.Info info = new DataLine.Info(Clip.class, format);
+
+			Clip clip = (Clip)AudioSystem.getLine(info);
+			clip.open(soundIn);
 			clip.start();
 		} catch (Exception e) {
 			// if failed, say so in a window and print error message

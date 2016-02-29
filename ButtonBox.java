@@ -1,7 +1,8 @@
 import java.awt.*;
 import javax.swing.*;
 import java.awt.event.*;
-import java.io.*; // needed to inherit java.io.InputStream
+import java.io.*;   // needed to inherit java.io.InputStream
+import javax.sound.sampled.*;
 
 /**
  * 
@@ -9,7 +10,7 @@ import java.io.*; // needed to inherit java.io.InputStream
  * @author Isabelle Schroeder
  *
  */
-public class ButtonBox extends JFrame implements ActionListener{
+public class ButtonBox extends JFrame implements ActionListener, LineListener{
 	
 	private static final long serialVersionUID = 1;
 	private JPanel panel;
@@ -96,6 +97,13 @@ public class ButtonBox extends JFrame implements ActionListener{
 	
 	public static void main(String[] args) {
 		new ButtonBox();
+	}
+
+
+	@Override
+	public void update(LineEvent arg0) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

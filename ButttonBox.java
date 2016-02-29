@@ -6,6 +6,7 @@ import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 
 import javax.sound.sampled.AudioInputStream;
@@ -115,6 +116,30 @@ JButton button = (JButton)e.getSource();
 	
 		case ("one"):
 			
+			 String strFilename = "ding.wav";
+		
+		
+		File audi0 = new File(audioFilePath);
+		//http://www.codejava.net/coding/how-to-play-back-audio-in-java-with-examples
+		
+		
+		/*
+			 try {
+		         File  soundFile = new FileInputStream(fileName);
+		        		 //new File(strFilename);
+		        } catch (Exception e1) {
+		            e1.printStackTrace();
+		            System.exit(1);
+		        }
+
+		        try {
+		            audio = AudioSystem.getAudioInputStream();
+		        } catch (Exception e1){
+		            e1.printStackTrace();
+		            System.exit(1);
+		        }
+		*/
+			/*
 		try {
 			AudioInputStream audio = AudioSystem.getAudioInputStream(new File("ding.wav").getAbsoluteFile());
 		} catch (UnsupportedAudioFileException e2) {
@@ -140,7 +165,7 @@ JButton button = (JButton)e.getSource();
 		}catch(Exception e1){
 			System.out.println("die");
 		}
-			
+			*/
 		
 			
 		break;

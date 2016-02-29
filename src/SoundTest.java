@@ -9,8 +9,10 @@ import javax.swing.*;
 import java.io.*;
 
 /**
- * @author SJHSStudent
- *
+ * @author Jack Protivnak
+ * 
+ * This program is designed to allow the user to play different sounds
+ * based on the click of a JButton.
  */
 public class SoundTest extends JFrame implements ActionListener {
 
@@ -19,6 +21,11 @@ public class SoundTest extends JFrame implements ActionListener {
 	private JPanel buttonPanel;
 	private JButton button;
 
+	
+	/**
+	 * Constructor to setup the JFrame and also to 
+	 * place the buttons.
+	 */
 	public SoundTest() {
 		super("SoundTest");
 
@@ -26,7 +33,7 @@ public class SoundTest extends JFrame implements ActionListener {
 		setLayout(new BorderLayout());
 
 		buttonPanel = new JPanel();
-		buttonPanel.setLayout(new GridLayout(2, 3));
+		buttonPanel.setLayout(new GridLayout(5, 1));
 
 		button = new JButton("Chimp Yell");
 		button.setActionCommand("chimpYell");
@@ -43,18 +50,13 @@ public class SoundTest extends JFrame implements ActionListener {
 		button.addActionListener(this);
 		buttonPanel.add(button);
 
-		button = new JButton("Damn Daniel");
-		button.setActionCommand("daniel");
+		button = new JButton("Tada");
+		button.setActionCommand("tada");
 		button.addActionListener(this);
 		buttonPanel.add(button);
 
-		button = new JButton("What are those????");
-		button.setActionCommand("whatAreThose");
-		button.addActionListener(this);
-		buttonPanel.add(button);
-
-		button = new JButton("*Facsimile Noise*");
-		button.setActionCommand("facsimile");
+		button = new JButton("Ring");
+		button.setActionCommand("ring");
 		button.addActionListener(this);
 		buttonPanel.add(button);
 
@@ -68,13 +70,17 @@ public class SoundTest extends JFrame implements ActionListener {
 		setVisible(true);
 	}
 
+	/**
+	 * ActionListener to catch the actions performed by
+	 * button click.
+	 */
 	public void actionPerformed(ActionEvent e) {
 		JButton button = (JButton) e.getSource();
 		switch (button.getActionCommand()) {
 		case "chimpYell":
 			try{
-				String soundName = "C:/Users/SJHSStudent/Documents/jpro24_ GitHub/ButtonBox/Chimpanzee_sound_effect-412407.wav";
-				AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(new File(soundName).getAbsoluteFile());
+				String sound = "Chimpanzee_sound_effect-412407.wav";
+				AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(new File(sound));
 				Clip clip = AudioSystem.getClip();
 				clip.open(audioInputStream);
 				clip.start();
@@ -85,8 +91,8 @@ public class SoundTest extends JFrame implements ActionListener {
 			
 		case "chimes":
 			try{
-				String soundName = "C:/Users/SJHSStudent/Documents/jpro24_ GitHub/ButtonBox/chimes.wav";
-				AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(new File(soundName).getAbsoluteFile());
+				String sound = "chimes.wav";
+				AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(new File(sound));
 				Clip clip = AudioSystem.getClip();
 				clip.open(audioInputStream);
 				clip.start();
@@ -97,8 +103,8 @@ public class SoundTest extends JFrame implements ActionListener {
 			
 		case "ding":
 			try{
-				String soundName = "C:/Users/SJHSStudent/Documents/jpro24_ GitHub/ButtonBox/ding.wav";
-				AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(new File(soundName).getAbsoluteFile());
+				String sound = "ding.wav";
+				AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(new File(sound));
 				Clip clip = AudioSystem.getClip();
 				clip.open(audioInputStream);
 				clip.start();
@@ -107,10 +113,10 @@ public class SoundTest extends JFrame implements ActionListener {
 			}
 			break;
 			
-		case "daniel":
+		case "tada":
 			try{
-				String soundName = "C:/Users/SJHSStudent/Documents/jpro24_ GitHub/ButtonBox/Chimpanzee_sound_effect-412407.wav";
-				AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(new File(soundName).getAbsoluteFile());
+				String sound = "tada.wav";
+				AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(new File(sound));
 				Clip clip = AudioSystem.getClip();
 				clip.open(audioInputStream);
 				clip.start();
@@ -119,10 +125,10 @@ public class SoundTest extends JFrame implements ActionListener {
 			}
 			break;
 			
-		case "whatAreThose":
+		case "ring":
 			try{
-				String soundName = "C:/Users/SJHSStudent/Documents/jpro24_ GitHub/ButtonBox/Chimpanzee_sound_effect-412407.wav";
-				AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(new File(soundName).getAbsoluteFile());
+				String sound = "Windows Ringin.wav";
+				AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(new File(sound));
 				Clip clip = AudioSystem.getClip();
 				clip.open(audioInputStream);
 				clip.start();
@@ -130,19 +136,6 @@ public class SoundTest extends JFrame implements ActionListener {
 				System.out.println("Problem with file: " + es.getMessage());
 			}
 			break;
-			
-		case "facsimile":
-			try{
-				String soundName = "C:/Users/SJHSStudent/Documents/jpro24_ GitHub/ButtonBox/Chimpanzee_sound_effect-412407.wav";
-				AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(new File(soundName).getAbsoluteFile());
-				Clip clip = AudioSystem.getClip();
-				clip.open(audioInputStream);
-				clip.start();
-			} catch(Exception es) {
-				System.out.println("Problem with file: " + es.getMessage());
-			}
-			break;
-			//https://www.youtube.com/watch?v=PnI-byHtMN0
 		}
 	}
 

@@ -1,7 +1,9 @@
-import java.applet.*;
 import java.awt.*;
 import javax.swing.*;
 import java.awt.event.*;
+import java.io.*;
+
+import javax.sound.sampled.*;
 
 /**
  * This program will have buttons that make sounds.
@@ -12,7 +14,13 @@ public class ButtonBox extends JFrame implements ActionListener {
 	private static final long serialVersionUID = 1;
 	private JPanel buttonPanel;
 	private JLabel label;
-	private AudioClip clip;
+	
+	AudioInputStream audioSound;
+	Clip clip = null;
+	File sound;
+	AudioFormat format;
+	DataLine.Info info;
+	Clip audioClip;
 	
 	public ButtonBox() {
 		super("Button Box");
@@ -64,6 +72,26 @@ public class ButtonBox extends JFrame implements ActionListener {
 		add(label, BorderLayout.NORTH);
 		add(buttonPanel, BorderLayout.SOUTH);
 		
+		sound = new File("duck.wav");
+		
+		try {
+			audioSound = AudioSystem.getAudioInputStream(sound);
+		} catch (UnsupportedAudioFileException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
+		AudioFormat format = audioSound.getFormat();
+		
+		DataLine.Info info = new DataLine.Info(Clip.class, format);
+		
+		try {
+			audioClip = (Clip) AudioSystem.getLine(info);
+		} catch (LineUnavailableException e) {
+			e.printStackTrace();
+		}
+		
 		setSize(getPreferredSize());
 		pack();
 		setVisible(true);
@@ -81,7 +109,14 @@ public class ButtonBox extends JFrame implements ActionListener {
 		JButton button = (JButton)e.getSource();
 		switch( button.getActionCommand() ) {
 		case "One":
-			
+			try {
+				audioClip.open(audioSound);
+			} catch (LineUnavailableException e1) {
+				e1.printStackTrace();
+			} catch (IOException e1) {
+				e1.printStackTrace();
+			}
+			audioClip.start();
 			break;
 		case "Two":
 			
@@ -102,6 +137,7 @@ public class ButtonBox extends JFrame implements ActionListener {
 			
 			break;
 		}
+		
 	}
 
 }

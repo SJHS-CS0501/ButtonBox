@@ -84,9 +84,12 @@ public class SoundTest extends JFrame implements ActionListener {
 				Clip clip = AudioSystem.getClip();
 				clip.open(audioInputStream);
 				clip.start();
+				clip.loop(-1);
+				//Thread.sleep();
 			} catch(Exception es) {
 				System.out.println("Problem with file: " + es.getMessage());
 			}
+			
 			break;
 			
 		case "chimes":
@@ -96,6 +99,9 @@ public class SoundTest extends JFrame implements ActionListener {
 				Clip clip = AudioSystem.getClip();
 				clip.open(audioInputStream);
 				clip.start();
+				while( clip.isRunning() ) {
+					wait(10);
+				}
 			} catch(Exception es) {
 				System.out.println("Problem with file: " + es.getMessage());
 			}

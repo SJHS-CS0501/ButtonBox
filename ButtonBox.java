@@ -1,5 +1,12 @@
 import java.awt.*;
 import java.awt.event.*;
+
+import javax.sound.sampled.AudioFormat;
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
+import javax.sound.sampled.DataLine;
+import javax.sound.sampled.Line;
 import javax.swing.*;
 import java.io.*;
 import sun.audio.*;
@@ -50,8 +57,8 @@ public class ButtonBox extends JFrame implements ActionListener {
 
 		c.gridwidth = GridBagConstraints.REMAINDER; // button constraints
 		sound1 = new JButton("DING"); // sound for
-		sound2 = new JButton(""); // sound for
-		sound3 = new JButton(""); // sound for
+		sound2 = new JButton("WAPANG"); // sound for
+		sound3 = new JButton("RECYCLE"); // sound for
 		sound4 = new JButton(""); // sound for
 		sound1.setFont(new Font("TimesRoman", Font.ITALIC, 12)); // sets font, makes font italicized and font size
 		sound2.setFont(new Font("TimesRoman", Font.ITALIC, 12)); // sets font, makes font italicized and font size
@@ -63,6 +70,8 @@ public class ButtonBox extends JFrame implements ActionListener {
 		sound4.addActionListener(this); // adds ActionListener to button to roll dice
 		sound2.addActionListener(this);// adds ActionListener to button to stop rolling dice
 		sound1.setActionCommand("Sound One");
+		sound2.setActionCommand("Sound Two");
+		sound3.setActionCommand("Sound Three");
 		layout.setConstraints(sound1, c); // more button constraints
 		layout.setConstraints(sound2, c); // more button constraints
 		layout.setConstraints(sound3, c); // more button constraints
@@ -86,7 +95,13 @@ public class ButtonBox extends JFrame implements ActionListener {
 /*
  * (non-Javadoc)
  * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
-
+AudioInputStream audioStream = AudioSystem.getAudioInputStream(audioFile);
+AudioFormat format = audioStream.getFormat();
+ 
+DataLine.Info info = new DataLine.Info(Clip.class, format);
+Clip audioClip = (Clip) AudioSystem.getLine(info);
+audioClip.open(audioStream);
+audioClip.start();
  */
 
 		public void actionPerformed(ActionEvent e) {
@@ -97,37 +112,63 @@ public class ButtonBox extends JFrame implements ActionListener {
 			case "Sound One":
 				
 					try {
-					File "ding.wav";
-						java.applet.AudioClip clip = new ("ding.wav");
-						clip.play();
-						} catch (java.net.MalformedURLException murle) {
-						System.out.println(murle);
+					File ding = new File("ding.wav");
+						AudioInputStream dingStream = AudioSystem.getAudioInputStream(ding);
+						AudioFormat dingFormat = dingStream.getFormat();
+						DataLine.Info dingInfo = new DataLine.Info( Clip.class, dingFormat);
+						Clip dingClip = (Clip) AudioSystem.getLine(dingInfo);
+						dingClip.open(dingStream);
+						dingClip.start();
+						} catch (Exception e1) {
+						System.out.println(e1);
 						}
 					
 				break;
 			case "Sound Two":
+				
 				try {
-					java.applet.AudioClip clip = java.applet.Applet.newAudioClip(new (""));
-					clip.play();
-					} catch (java.net.MalformedURLException murle) {
-					System.out.println(murle);
+					File wapang = new File("WindowsCriticalStop.wav");
+					AudioInputStream wapangStream = AudioSystem.getAudioInputStream(wapang);
+					AudioFormat wapangFormat = wapangStream.getFormat();
+					DataLine.Info wapangInfo = new DataLine.Info( Clip.class, wapangFormat);
+					Clip wapangClip = (Clip) AudioSystem.getLine(wapangInfo);
+					wapangClip.open(wapangStream);
+					wapangClip.start();
+					} catch (Exception e1) {
+					System.out.println(e1);
 					}
+					
 				break;
 			case "Sound Three":
+				
 				try {
-					java.applet.AudioClip clip = java.applet.Applet.newAudioClip(new (""));
-					clip.play();
-					} catch (java.net.MalformedURLException murle) {
-					System.out.println(murle);
+					File recycle = new File("WindowsRecycle.wav");
+					AudioInputStream recycleStream = AudioSystem.getAudioInputStream(recycle);
+					AudioFormat recycleFormat = recycleStream.getFormat();
+					DataLine.Info recycleInfo = new DataLine.Info( Clip.class, recycleFormat);
+					Clip recycleClip = (Clip) AudioSystem.getLine(recycleInfo);
+					recycleClip.open(recycleStream);
+					recycleClip.start();
+					} catch (Exception e1) {
+					System.out.println(e1);
 					}
+					
+					
 				break;
 			case "Sound Four":
+				
 				try {
-					java.applet.AudioClip clip = java.applet.Applet.newAudioClip(new (""));
-					clip.play();
-					} catch (java.net.MalformedURLException murle) {
-					System.out.println(murle);
+					File ringTone = new File("WindowsRingin.wav");
+					AudioInputStream ringToneStream = AudioSystem.getAudioInputStream(ringTone);
+					AudioFormat ringToneFormat = ringToneStream.getFormat();
+					DataLine.Info ringToneInfo = new DataLine.Info( Clip.class, ringToneFormat);
+					Clip ringToneClip = (Clip) AudioSystem.getLine(ringToneInfo);
+					ringToneClip.open(recycleStream);
+					recycleClip.start();
+					} catch (Exception e1) {
+					System.out.println(e1);
 					}
+					
 				break;
 			default:
 

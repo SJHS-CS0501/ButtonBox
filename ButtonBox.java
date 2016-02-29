@@ -31,7 +31,7 @@ public class ButtonBox extends JFrame implements ActionListener {
 		JButton button;
 		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setLayout(new GridLayout(8, 1));
+		setLayout(new GridLayout(9, 1));
 		
 		// load sound files
 		sounds[0] = new File("clips/423.wav");
@@ -79,6 +79,11 @@ public class ButtonBox extends JFrame implements ActionListener {
 		
 		button = new JButton("Baby Red Panda");
 		button.setActionCommand("6");
+		button.addActionListener(this);
+		add(button);
+		
+		button = new JButton("Record");
+		button.setActionCommand("s");
 		button.addActionListener(this);
 		add(button);
 		
@@ -139,6 +144,11 @@ public class ButtonBox extends JFrame implements ActionListener {
 				break;
 			case "6":
 				playSound(sounds[6]);
+				break;
+			case "s":
+				SoundSequence s = new SoundSequence(sounds);
+				s.initTestSequence();
+				s.start();
 				break;
 			default:
 				JOptionPane.showMessageDialog(this, "Unknown button pressed!");

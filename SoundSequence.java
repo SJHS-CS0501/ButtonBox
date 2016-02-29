@@ -9,8 +9,33 @@ import java.io.File;
 import javax.sound.sampled.*;
 import javax.swing.JOptionPane;
 
+/**
+ * This class stores and plays a sequence of sound effects at specific intervals
+ * @author Ryan Luchs
+ * 
+ */
 public class SoundSequence extends Thread {
 	
+	/**
+	 * Creates a reference variable for a int primitive so it can be stored in an ArrayList
+	 * I am lazy
+	 * @author Ryan Luchs
+	 * 
+	 */
+	private class IndexWrapper {
+		public int index;
+		
+		IndexWrapper(int t){
+			index = t;
+		}
+	}
+	
+	/**
+	 * Creates a reference variable for a long primitive so it can be stored in an ArrayList
+	 * I am VERY lazy
+	 * @author Ryan Luchs
+	 *
+	 */
 	private class TimeSpanWrapper {
 		public long time;
 		
@@ -18,30 +43,29 @@ public class SoundSequence extends Thread {
 			time = t;
 		}
 	}
-	
-	private class FileListIndexWrapper {
-		public int index;
-		
-		FileListIndexWrapper(int t){
-			index = t;
-		}
-	}
 
-	private ArrayList<FileListIndexWrapper> playList;
+	private ArrayList<IndexWrapper> playList;
 	private ArrayList<TimeSpanWrapper> playTimes;
 	
 	private File[] files;
 	
+	/**
+	 * Creates a new SoundSequence that uses the given file array to draw its sounds from
+	 * @param f Array of .wav files
+	 */
 	SoundSequence(File[] f) {
 		files = f;
+		playList = new ArrayList<IndexWrapper>();
+		playTimes = new ArrayList<TimeSpanWrapper>();
 	}
 	
-	public void add(int i) {
-		playList.add(new FileListIndexWrapper(i));
-	}
-	
+	/**
+	 * Adds a sound to be played after a delay
+	 * @param i The index of the sound to play
+	 * @param t The delay in milliseconds
+	 */
 	public void add(int i, long t) {
-		playList.add(new FileListIndexWrapper(i));
+		playList.add(new IndexWrapper(i));
 		playTimes.add(new TimeSpanWrapper(t));
 	}
 	
@@ -53,8 +77,12 @@ public class SoundSequence extends Thread {
 	public boolean playSound(File sound) {
 		try {
 			// try to play sound
-			Clip clip = AudioSystem.getClip();
-			clip.open(AudioSystem.getAudioInputStream(sound));
+			AudioInputStream soundIn = AudioSystem.getAudioInputStream(sound);
+			AudioFormat format = soundIn.getFormat();
+			DataLine.Info info = new DataLine.Info(Clip.class, format);
+
+			Clip clip = (Clip)AudioSystem.getLine(info);
+			clip.open(soundIn);
 			clip.start();
 			return true;
 		} catch (Exception e) {
@@ -64,19 +92,33 @@ public class SoundSequence extends Thread {
 		}
 	}
 	
-	private File translateIndexToFile(int i ) {
-		return files[playList.get(i).index];
+	/**
+	 * Creates a sequence to test functionality
+	 */
+	public void initTestSequence() {
+		//add(1, 100);
+		//add(2, 1000);
+		//add(0, 200);
+		for(int i = 1; i < 5; i++) {
+			add(1, i*100);
+		}
 	}
-
+	
+	/**
+	 * Plays the sound sequence in a new thread
+	 */
 	public void run() {
-		int index = 0;
-		
-		playSound(translateIndexToFile(index));
-		try {
-			sleep(playTimes.get(index).time);
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		for(int i = 0; i < playList.size(); i++) {
+			// sleep for x milliseconds
+			try {
+				sleep(playTimes.get(i).time);
+			} catch (InterruptedException e) {
+				System.out.println("Failure.");
+				e.printStackTrace();
+			}
+			
+			// then play a sound
+			playSound(files[playList.get(i).index]);
 		}
 	}
 }

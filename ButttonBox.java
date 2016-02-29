@@ -25,7 +25,7 @@ public class ButttonBox extends JFrame implements ActionListener {
 	private JButton b;
 	private JPanel p;
 	private Clip clip;
-	private AudioSystem audio;
+	private AudioInputStream audio;
 	
 	public ButttonBox(){
 		
@@ -115,11 +115,31 @@ JButton button = (JButton)e.getSource();
 	
 		case ("one"):
 			
-			audio = new AudioSystem(getResourceAsStream("chord.wav"));
-			clip = audio.getClip();
+		try {
+			AudioInputStream audio = AudioSystem.getAudioInputStream(new File("ding.wav").getAbsoluteFile());
+		} catch (UnsupportedAudioFileException e2) {
+			// TODO Auto-generated catch block
+			e2.printStackTrace();
+		} catch (IOException e2) {
+			// TODO Auto-generated catch block
+			e2.printStackTrace();
+		}
+			//audio = ;
+			
+		try {
+			clip = AudioSystem.getClip();
+		} catch (LineUnavailableException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+					//audio.getClip();
 		
+		try{
+		clip.open(audio);
 			clip.start();
-	
+		}catch(Exception e1){
+			System.out.println("die");
+		}
 			
 		
 			

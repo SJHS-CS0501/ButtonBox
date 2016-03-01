@@ -1,8 +1,13 @@
 import java.awt.*;
 import java.awt.event.*;
+import java.io.File;
+
+import javax.sound.sampled.AudioFormat;
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
+import javax.sound.sampled.DataLine;
 import javax.swing.*;
-import java.applet.*;
-import java.net.*;
 
 /**
  * 
@@ -84,27 +89,84 @@ public class ButtonBox extends JFrame implements ActionListener{
 	 * This method is the listener that plays the sound when the JButton is pressed.
 	 */
 	public void actionPerformed(ActionEvent e) {
-		JButton button = (JButton)e.getSource();
+		JButton button = (JButton)e.getSource();//reference for JButton
 		switch(button.getActionCommand()) {
 		case "one":
 			myLabel.setText("Playing sound 1...");
+			try {
+			File dingSound = new File("ding.wav");//creating sound file reference
+				AudioInputStream ding = AudioSystem.getAudioInputStream(dingSound);//creating AudioInputStream for sound ding
+				AudioFormat formatOne = ding.getFormat();//new audio format
+				DataLine.Info dingInfo = new DataLine.Info(Clip.class, formatOne);
+				Clip dingClip  = (Clip) AudioSystem.getLine(dingInfo);//creates clip to be played
+				dingClip.open(ding);//opens the clip
+				dingClip.start();//plays the clip
+				} catch(Exception e1) {
+				System.out.println(e1);
+				}
 			break;
 		case "two":
 			myLabel.setText("Playing sound 2...");
+			try {
+			File soundTwo = new File("Speech_Off.wav");//creating sound file reference
+				AudioInputStream soundTwoStream = AudioSystem.getAudioInputStream(soundTwo);//creating AudioInputStream for soundTwo
+				AudioFormat formatTwo = soundTwoStream.getFormat();//new audio format
+				DataLine.Info soundTwoInfo = new DataLine.Info(Clip.class, formatTwo);
+				Clip soundTwoClip  = (Clip) AudioSystem.getLine(soundTwoInfo);//creates clip to be played
+				soundTwoClip.open(soundTwoStream);//opens the clip
+				soundTwoClip.start();//plays the clip
+				} catch(Exception e2) {
+				System.out.println(e2);
+				}
 			break;
 		case "three":
 			myLabel.setText("Playing sound 3...");
+			try {
+			File soundThree = new File("Windows_Logon_Sound.wav");//creating sound file reference
+				AudioInputStream soundThreeStream = AudioSystem.getAudioInputStream(soundThree);//creating AudioInputStream for soundThree
+				AudioFormat formatThree = soundThreeStream.getFormat();//new audio format
+				DataLine.Info soundThreeInfo = new DataLine.Info(Clip.class, formatThree);
+				Clip soundThreeClip  = (Clip) AudioSystem.getLine(soundThreeInfo);//creates clip to be played
+				soundThreeClip.open(soundThreeStream);//opens the clip
+				soundThreeClip.start();//plays the clip
+				} catch(Exception e3) {
+				System.out.println(e3);
+				}
 			break;
 		case "four":
 			myLabel.setText("Playing sound 4...");
+			try {
+				File soundFour = new File("Windows_Battery_Low.wav");//creating sound file reference
+					AudioInputStream soundFourStream = AudioSystem.getAudioInputStream(soundFour);//creating AudioInputStream for soundFour
+					AudioFormat formatFour = soundFourStream.getFormat();//new audio format
+					DataLine.Info soundFourInfo = new DataLine.Info(Clip.class, formatFour);
+					Clip soundFourClip  = (Clip) AudioSystem.getLine(soundFourInfo);//creates clip to be played
+					soundFourClip.open(soundFourStream);//opens the clip
+					soundFourClip.start();//plays the clip
+					} catch(Exception e4) {
+					System.out.println(e4);
+					}
 			break;
 		case "five":
 			myLabel.setText("Playing sound 5...");
+			try {
+				File soundFive = new File("Windows_Hardware_Remove.wav");//creating sound file reference
+				AudioInputStream soundFiveStream = AudioSystem.getAudioInputStream(soundFive);//creating AudioInputStream for soundFive
+				AudioFormat formatFive = soundFiveStream.getFormat();//new audio format
+				DataLine.Info soundFiveInfo = new DataLine.Info(Clip.class, formatFive);
+				Clip soundFiveClip  = (Clip) AudioSystem.getLine(soundFiveInfo);//creates clip to be played
+				soundFiveClip.open(soundFiveStream);//opens the clip
+				soundFiveClip.start();//plays the clip
+				} catch(Exception e5) {
+					System.out.println(e5);
+				}
 			break;
 		default:
 			JOptionPane.showMessageDialog(this, "Unknown button pressed");//Will never happen.
 		}
+		
 	}
+	
 
 	/**
 	 * @param args

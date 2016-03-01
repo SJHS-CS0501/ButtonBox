@@ -11,20 +11,22 @@ import java.io.*;
 /**
  * @author Jack Protivnak
  * 
- * This program is designed to allow the user to play different sounds
- * based on the click of a JButton.
+ *         This program is designed to allow the user to play different sounds
+ *         based on the click of a JButton.
  */
 public class SoundTest extends JFrame implements ActionListener {
 
 	private static final long serialVersionUID = 1;
 	private JFrame frame;
 	private JPanel buttonPanel;
+	private JPanel radioButtonPanel;
 	private JButton button;
+	private JRadioButton radioButton;
+	private ButtonGroup playbackGroup;
+	private String temp = null;
 
-	
 	/**
-	 * Constructor to setup the JFrame and also to 
-	 * place the buttons.
+	 * Constructor to setup the JFrame and also to place the buttons.
 	 */
 	public SoundTest() {
 		super("SoundTest");
@@ -62,6 +64,26 @@ public class SoundTest extends JFrame implements ActionListener {
 
 		add(buttonPanel, BorderLayout.CENTER);
 
+		radioButtonPanel = new JPanel();
+		radioButtonPanel.setLayout(new GridLayout(1, 2));
+
+		radioButton = new JRadioButton("Play Sounds Without Gap");
+		radioButton.setActionCommand("gapless");
+		radioButton.addActionListener(this);
+		radioButtonPanel.add(radioButton);
+
+		playbackGroup = new ButtonGroup();
+		playbackGroup.add(radioButton);
+
+		radioButton = new JRadioButton("Play Sounds With Gap");
+		radioButton.setActionCommand("gap");
+		radioButton.addActionListener(this);
+		radioButtonPanel.add(radioButton);
+
+		playbackGroup.add(radioButton);
+
+		add(radioButtonPanel, BorderLayout.SOUTH);
+
 		Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
 		this.setLocation(dim.width / 3 - this.getSize().width / 2, dim.height / 3 - this.getSize().height / 2);
 		setResizable(false);
@@ -71,78 +93,143 @@ public class SoundTest extends JFrame implements ActionListener {
 	}
 
 	/**
-	 * ActionListener to catch the actions performed by
-	 * button click.
+	 * ActionListener to catch the actions performed by button click.
 	 */
 	public void actionPerformed(ActionEvent e) {
-		JButton button = (JButton) e.getSource();
-		switch (button.getActionCommand()) {
-		case "chimpYell":
-			try{
-				String sound = "Chimpanzee_sound_effect-412407.wav";
-				AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(new File(sound));
-				Clip clip = AudioSystem.getClip();
-				clip.open(audioInputStream);
-				clip.start();
-				clip.loop(-1);
-				//Thread.sleep();
-			} catch(Exception es) {
-				System.out.println("Problem with file: " + es.getMessage());
-			}
-			
-			break;
-			
-		case "chimes":
-			try{
-				String sound = "chimes.wav";
-				AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(new File(sound));
-				Clip clip = AudioSystem.getClip();
-				clip.open(audioInputStream);
-				clip.start();
-				while( clip.isRunning() ) {
-					wait(10);
+
+			switch (e.getActionCommand()) {
+			case "chimpYell":
+				try {
+					String sound = "Chimpanzee_sound_effect-412407.wav";
+					AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(new File(sound));
+					Clip clip = AudioSystem.getClip();
+					clip.open(audioInputStream);
+					clip.start();
+				} catch (Exception es) {
+					System.out.println("Problem with file: " + es.getMessage());
 				}
-			} catch(Exception es) {
-				System.out.println("Problem with file: " + es.getMessage());
+				break;
+
+			case "chimes":
+				try {
+					String sound = "chimes.wav";
+					AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(new File(sound));
+					Clip clip = AudioSystem.getClip();
+					clip.open(audioInputStream);
+					clip.start();
+				} catch (Exception es) {
+					System.out.println("Problem with file: " + es.getMessage());
+				}
+				break;
+
+			case "ding":
+				try {
+					String sound = "ding.wav";
+					AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(new File(sound));
+					Clip clip = AudioSystem.getClip();
+					clip.open(audioInputStream);
+					clip.start();
+				} catch (Exception es) {
+					System.out.println("Problem with file: " + es.getMessage());
+				}
+				break;
+
+			case "tada":
+				try {
+					String sound = "tada.wav";
+					AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(new File(sound));
+					Clip clip = AudioSystem.getClip();
+					clip.open(audioInputStream);
+					clip.start();
+				} catch (Exception es) {
+					System.out.println("Problem with file: " + es.getMessage());
+				}
+				break;
+
+			case "ring":
+				try {
+					String sound = "Windows Ringin.wav";
+					AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(new File(sound));
+					Clip clip = AudioSystem.getClip();
+					clip.open(audioInputStream);
+					clip.start();
+				} catch (Exception es) {
+					System.out.println("Problem with file: " + es.getMessage());
+				}
+				break;
 			}
-			break;
-			
-		case "ding":
-			try{
-				String sound = "ding.wav";
-				AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(new File(sound));
-				Clip clip = AudioSystem.getClip();
-				clip.open(audioInputStream);
-				clip.start();
-			} catch(Exception es) {
-				System.out.println("Problem with file: " + es.getMessage());
+
+			if (temp.equals("gap")) {
+				JButton tempButton1 = (JButton) e.getSource();
+				switch (tempButton1.getActionCommand()) {
+				case "chimpYell":
+					try {
+						String sound = "Chimpanzee_sound_effect-412407.wav";
+						AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(new File(sound));
+						Clip clip = AudioSystem.getClip();
+						clip.open(audioInputStream);
+						clip.start();
+						Thread.sleep(7000);
+					} catch (Exception es) {
+						System.out.println("Problem with file: " + es.getMessage());
+					}
+					break;
+
+				case "chimes":
+					try {
+						String sound = "chimes.wav";
+						AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(new File(sound));
+						Clip clip = AudioSystem.getClip();
+						clip.open(audioInputStream);
+						clip.start();
+						Thread.sleep(1000);
+					} catch (Exception es) {
+						System.out.println("Problem with file: " + es.getMessage());
+					}
+					break;
+
+				case "ding":
+					try {
+						String sound = "ding.wav";
+						AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(new File(sound));
+						Clip clip = AudioSystem.getClip();
+						clip.open(audioInputStream);
+						clip.start();
+						Thread.sleep(1000);
+					} catch (Exception es) {
+						System.out.println("Problem with file: " + es.getMessage());
+					}
+					break;
+
+				case "tada":
+					try {
+						String sound = "tada.wav";
+						AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(new File(sound));
+						Clip clip = AudioSystem.getClip();
+						clip.open(audioInputStream);
+						clip.start();
+						Thread.sleep(1000);
+					} catch (Exception es) {
+						System.out.println("Problem with file: " + es.getMessage());
+					}
+					break;
+
+				case "ring":
+					try {
+						String sound = "Windows Ringin.wav";
+						AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(new File(sound));
+						Clip clip = AudioSystem.getClip();
+						clip.open(audioInputStream);
+						clip.start();
+						Thread.sleep(1000);
+					} catch (Exception es) {
+						System.out.println("Problem with file: " + es.getMessage());
+					}
+					break;
+				}
 			}
-			break;
-			
-		case "tada":
-			try{
-				String sound = "tada.wav";
-				AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(new File(sound));
-				Clip clip = AudioSystem.getClip();
-				clip.open(audioInputStream);
-				clip.start();
-			} catch(Exception es) {
-				System.out.println("Problem with file: " + es.getMessage());
-			}
-			break;
-			
-		case "ring":
-			try{
-				String sound = "Windows Ringin.wav";
-				AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(new File(sound));
-				Clip clip = AudioSystem.getClip();
-				clip.open(audioInputStream);
-				clip.start();
-			} catch(Exception es) {
-				System.out.println("Problem with file: " + es.getMessage());
-			}
-			break;
 		}
+
 	}
 
 	/**

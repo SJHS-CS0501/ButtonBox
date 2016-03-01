@@ -7,7 +7,6 @@
 import java.util.ArrayList;
 import java.io.File;
 import javax.sound.sampled.*;
-import javax.swing.JOptionPane;
 
 /**
  * This class stores and plays a sequence of sound effects at specific intervals
@@ -60,6 +59,31 @@ public class SoundSequence extends Thread {
 	}
 	
 	/**
+	 * Creates a new SoundSequnce from a file array, a an ArrayList<IndexWrapper>, and an ArrayList<TimeSpanWrapper>
+	 * @param f Array of .wav files
+	 * @param w a sequence of indexes
+	 * @param t a sequence of delay times
+	 */
+	private SoundSequence(File[] f, ArrayList<IndexWrapper> w, ArrayList<TimeSpanWrapper> t){
+		files = f;
+		
+		for(int i = 0; i < w.size(); i++) {
+			playList.add(new IndexWrapper(w.get(i).index));
+		}
+		
+		for(int i = 0; i < t.size(); i++) {
+			playTimes.add(new TimeSpanWrapper(t.get(i).time));
+		}
+	}
+	
+	/**
+	 * Makes a copy of this object
+	 */
+	public SoundSequence clone() {	
+		return new SoundSequence(files, playList, playTimes);
+	}
+	
+	/**
 	 * Adds a sound to be played after a delay
 	 * @param i The index of the sound to play
 	 * @param t The delay in milliseconds
@@ -96,9 +120,9 @@ public class SoundSequence extends Thread {
 	 * Creates a sequence to test functionality
 	 */
 	public void initTestSequence() {
-		//add(1, 100);
-		//add(2, 1000);
-		//add(0, 200);
+		add(1, 100);
+		add(2, 1000);
+		add(0, 200);
 		for(int i = 1; i < 5; i++) {
 			add(1, i*100);
 		}

@@ -19,8 +19,12 @@ public class ButtonBox extends JFrame implements ActionListener {
 
 	private static final long serialVersionUID = 1;
 	
-	Clip clip;
+	private boolean recording = false;
+	
 	private File[] sounds = new File[7];
+	private JButton recButton;
+	
+	private SoundSequence recorder;
 	
 	/**
 	 * ButtonBox constructor
@@ -29,9 +33,10 @@ public class ButtonBox extends JFrame implements ActionListener {
 		super("Button Box");
 		
 		JButton button;
+		JPanel panel;
 		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setLayout(new GridLayout(9, 1));
+		setLayout(new BorderLayout());
 		
 		// load sound files
 		sounds[0] = new File("clips/423.wav");
@@ -42,50 +47,67 @@ public class ButtonBox extends JFrame implements ActionListener {
 		sounds[5] = new File("clips/PandaRed_Adult_WhistleA.wav");
 		sounds[6] = new File("clips/PandaRed_Young_WhistleA.wav");
 		
-		//JLabel label;
+		// create the sound sequence object
+		recorder = new SoundSequence(sounds);
+		recorder.initTestSequence();
 		
-		add(new JLabel("Press a button to play a sound!"));
+		// make sound button panel
+		panel = new JPanel(new GridLayout(8, 1));
+		
+		panel.add(new JLabel("Press a button to play a sound!"));
 		
 		// create buttons
 		button = new JButton("Gastrodon");
 		button.setActionCommand("0");
 		button.addActionListener(this);
-		add(button);
+		panel.add(button);
 		
 		button = new JButton("\"Wa\"");
 		button.setActionCommand("1");
 		button.addActionListener(this);
-		add(button);
+		panel.add(button);
 		
 		button = new JButton("\"Move!\"");
 		button.setActionCommand("2");
 		button.addActionListener(this);
-		add(button);
+		panel.add(button);
 		
 		button = new JButton("Zubat");
 		button.setActionCommand("3");
 		button.addActionListener(this);
-		add(button);
+		panel.add(button);
 		
 		button = new JButton("Froslass");
 		button.setActionCommand("4");
 		button.addActionListener(this);
-		add(button);
+		panel.add(button);
 		
 		button = new JButton("Red Panda");
 		button.setActionCommand("5");
 		button.addActionListener(this);
-		add(button);
+		panel.add(button);
 		
 		button = new JButton("Baby Red Panda");
 		button.setActionCommand("6");
 		button.addActionListener(this);
-		add(button);
+		panel.add(button);
 		
-		button = new JButton("Record");
-		button.setActionCommand("s");
+		add(panel, BorderLayout.CENTER);
+		
+		// make record/play panel
+		panel = new JPanel(new GridLayout(1, 2));
+		
+		button = new JButton("Play");
+		button.setActionCommand("play");
 		button.addActionListener(this);
-		add(button);
+		panel.add(button);
+		
+		recButton = new JButton("Record");
+		recButton.setActionCommand("record");
+		recButton.addActionListener(this);
+		panel.add(recButton);
+		
+		add(panel, BorderLayout.SOUTH);
 		
 //		label = new JLabel("*I do not own any of these sounds, they are the property of their respective owners*");
 //		label.setFont(new Font("TimesRoman", Font.BOLD, 6));
@@ -145,10 +167,19 @@ public class ButtonBox extends JFrame implements ActionListener {
 			case "6":
 				playSound(sounds[6]);
 				break;
-			case "s":
-				SoundSequence s = new SoundSequence(sounds);
-				s.initTestSequence();
+			case "play":
+				SoundSequence s = recorder.clone();
 				s.start();
+				break;
+			case "record":
+				recButton.setText("Stop");
+				recButton.setActionCommand("stop");
+				recording = true;
+				break;
+			case "stop":
+				recButton.setText("Record");
+				recButton.setActionCommand("record");
+				recording = false;
 				break;
 			default:
 				JOptionPane.showMessageDialog(this, "Unknown button pressed!");

@@ -5,13 +5,18 @@
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
+
+import sun.audio.AudioStream;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 
+import javax.sound.sampled.AudioFormat;
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
+import javax.sound.sampled.DataLine;
 import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.UnsupportedAudioFileException;
 
@@ -115,67 +120,27 @@ JButton button = (JButton)e.getSource();
 		
 	
 		case ("one"):
+		
+		
+			File ding = new File("ding.wav");
+		
+			playSound(ding);
 			
-			 String strFilename = "ding.wav";
-		
-		
-		File audi0 = new File(audioFilePath);
-		//http://www.codejava.net/coding/how-to-play-back-audio-in-java-with-examples
-		
-		
-		/*
-			 try {
-		         File  soundFile = new FileInputStream(fileName);
-		        		 //new File(strFilename);
-		        } catch (Exception e1) {
-		            e1.printStackTrace();
-		            System.exit(1);
-		        }
-
-		        try {
-		            audio = AudioSystem.getAudioInputStream();
-		        } catch (Exception e1){
-		            e1.printStackTrace();
-		            System.exit(1);
-		        }
-		*/
-			/*
-		try {
-			AudioInputStream audio = AudioSystem.getAudioInputStream(new File("ding.wav").getAbsoluteFile());
-		} catch (UnsupportedAudioFileException e2) {
-			// TODO Auto-generated catch block
-			e2.printStackTrace();
-		} catch (IOException e2) {
-			// TODO Auto-generated catch block
-			e2.printStackTrace();
-		}
-			//audio = ;
-			
-		try {
-			clip = AudioSystem.getClip();
-		} catch (LineUnavailableException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
-					//audio.getClip();
-		
-		try{
-		clip.open(audio);
-			clip.start();
-		}catch(Exception e1){
-			System.out.println("die");
-		}
-			*/
-		
-			
-		break;
+			break;
 		
 		case ("two"):
 			
+			ding = new File("chord.wav");
+		
+			playSound(ding);
 			
 		break;
 		
 		case ("three"):
+			
+			ding = new File("chimes.wav");
+		
+			playSound(ding);
 	
 			
 		break;
@@ -187,6 +152,43 @@ JButton button = (JButton)e.getSource();
 		
 		}
 	        
+		
+	}
+	
+	public void playSound(File ding){
+		
+		try {
+			audio = AudioSystem.getAudioInputStream(ding);
+		} catch (UnsupportedAudioFileException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		} catch (IOException e1) {
+			// TODO Auto-generated catch block
+			System.out.println("y");
+		}
+		//http://www.codejava.net/coding/how-to-play-back-audio-in-java-with-examples
+		
+		//AudioFormat format = new AudioFormat(getOpacity(), getDefaultCloseOperation(), getDefaultCloseOperation(), rootPaneCheckingEnabled, rootPaneCheckingEnabled);
+		 
+		AudioFormat format = audio.getFormat();
+		
+		DataLine.Info info = new DataLine.Info(Clip.class, format);
+		
+		try {
+			clip = (Clip) AudioSystem.getLine(info);
+		} catch (LineUnavailableException e1) {
+			// TODO Auto-generated catch block
+			System.out.println("why");
+		}
+		
+		try {
+			clip.open(audio);
+		} catch (LineUnavailableException | IOException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		clip.start();
+		
 		
 	}
 	

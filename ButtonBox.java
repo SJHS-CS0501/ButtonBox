@@ -4,6 +4,7 @@ import java.awt.event.*;
 import java.io.*;   // needed to inherit java.io.InputStream
 import javax.sound.sampled.*;
 
+
 /**
  * 
  * This program plays different sounds!!
@@ -16,6 +17,8 @@ public class ButtonBox extends JFrame implements ActionListener, LineListener{
 	private JPanel panel;
 	private JPanel forButtons;
 	//private JLabel label;
+	private File sounds;
+	
 	
 	public ButtonBox(){
 		
@@ -73,10 +76,117 @@ public class ButtonBox extends JFrame implements ActionListener, LineListener{
 	}
 	
 	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	/**
+    * this flag indicates whether the playback completes or not.
+    */
+   boolean playCompleted;
+    
+   /**
+    * Play a given audio file.
+    * @param audioFilePath Path of the audio file.
+    */
+   void play(String audioFilePath) {
+       //File audioFile = new File(audioFilePath);
+
+  
+       
+       try {
+    	   sounds = new File("ominous.wav");
+           
+    	   AudioInputStream audioStream = AudioSystem.getAudioInputStream( sounds );
+
+           AudioFormat format = audioStream.getFormat();
+
+           DataLine.Info info = new DataLine.Info(Clip.class, format);
+
+           Clip audioClip = (Clip) AudioSystem.getLine(info);
+
+           audioClip.addLineListener(this);
+
+           audioClip.open(audioStream);
+            
+           audioClip.start();
+            
+           while (!playCompleted) {
+               // wait for the playback completes
+               try {
+                   Thread.sleep(1000);
+               } catch (InterruptedException e) {
+                   e.printStackTrace();
+               }
+           }
+            
+            
+       } catch (UnsupportedAudioFileException e) {
+           System.out.println("The specified audio file is not supported.");
+           e.printStackTrace();
+       } catch (LineUnavailableException e) {
+           System.out.println("Audio line for playing back is unavailable.");
+           e.printStackTrace();
+       } catch (IOException e) {
+           System.out.println("Error playing the audio file.");
+           e.printStackTrace();
+       }
+        
+   }
+    
+   /**
+    * Listens to the START and STOP events of the audio line.
+    */
+   @Override
+   public void update(LineEvent event) {
+       LineEvent.Type type = event.getType();
+        
+       if (type == LineEvent.Type.START) {
+           System.out.println("Playback started.");
+            
+       } else if (type == LineEvent.Type.STOP) {
+           playCompleted = true;
+           System.out.println("Playback completed.");
+       }
+
+   }
+
+
+	
+	
+
+
+
+
+
+
+
+
+
+
+
+	
+	
+	
+	
+	
+	
 	public void actionPerformed( ActionEvent e ){
 		JButton button = (JButton)e.getSource();
 		switch( button.getActionCommand() ){
 			case "one":
+				
+				
+				
 				break;
 			case "two":
 				break;
@@ -100,10 +210,8 @@ public class ButtonBox extends JFrame implements ActionListener, LineListener{
 	}
 
 
-	@Override
-	public void update(LineEvent arg0) {
-		// TODO Auto-generated method stub
-		
-	}
+	//@Override
+	//public void update(LineEvent arg0) {
+	//}
 
 }

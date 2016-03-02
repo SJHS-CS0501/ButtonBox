@@ -1,17 +1,12 @@
 import java.awt.*;
 import java.awt.event.*;
-
-import javax.sound.sampled.AudioFormat;
-import javax.sound.sampled.AudioInputStream;
-import javax.sound.sampled.AudioSystem;
-import javax.sound.sampled.Clip;
-import javax.sound.sampled.DataLine;
-import javax.sound.sampled.Line;
+import javax.sound.sampled.*;
 import javax.swing.*;
 import java.io.*;
 import sun.audio.*;
 import java.applet.*;
 import java.net.*;
+import java.util.*;
 /**
  * 
  */
@@ -25,9 +20,9 @@ import java.net.*;
 public class ButtonBox extends JFrame implements ActionListener {
 
 	private static final long serialVersionUID = 1;
-	JLabel myLabel; // variable for label
-	GridBagLayout layout; // variable for the gridbag layout
-
+	private JLabel myLabel; // variable for label
+	private GridBagLayout layout; // variable for the gridbag layout
+	private ArrayList<Integer> buttonPressed;
 	/**
 	 * @param args
 	 */
@@ -38,7 +33,7 @@ public class ButtonBox extends JFrame implements ActionListener {
 		JButton sound2; // button for sound two, WAPANG
 		JButton sound3; // button for sound three, RECYCLE
 		JButton sound4; // button for sound four, RING TONE
-
+		JButton playBack; // button for playing back the sounds
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);// sets it to close as default
 		layout = new GridBagLayout(); // creates a new GridBagLayout
 		setLayout(layout); // sets the layout of myFrame according to GridBagLayout
@@ -60,19 +55,22 @@ public class ButtonBox extends JFrame implements ActionListener {
 		sound2 = new JButton("WAPANG"); // sound for WAPANG
 		sound3 = new JButton("RECYCLE"); // sound for RECYCLE
 		sound4 = new JButton("RING TONE"); // sound for RING TONE
+		playBack = new JButton("PLAYBACK"); // creates the button for playing for play back sounds
 		sound1.setFont(new Font("TimesRoman", Font.ITALIC, 12)); // sets font, makes font italicized and font size
 		sound2.setFont(new Font("TimesRoman", Font.ITALIC, 12)); // sets font, makes font italicized and font size
 		sound3.setFont(new Font("TimesRoman", Font.ITALIC, 12)); // sets font, makes font italicized and font size
 		sound4.setFont(new Font("TimesRoman", Font.ITALIC, 12)); // sets font, makes font italicized and font size
-
+		playBack.setFont(new Font("TimesRoman", Font.ITALIC, 12));
 		sound1.addActionListener(this); // adds ActionListener to button to roll dice
 		sound2.addActionListener(this);// adds ActionListener to button to stop rolling dice
 		sound4.addActionListener(this); // adds ActionListener to button to roll dice
 		sound3.addActionListener(this);// adds ActionListener to button to stop rolling dice
+		playBack.addActionListener(this);
 		sound1.setActionCommand("Sound One");
 		sound2.setActionCommand("Sound Two");
 		sound3.setActionCommand("Sound Three");
 		sound4.setActionCommand("Sound Four");
+		
 		layout.setConstraints(sound1, c); // more button constraints
 		layout.setConstraints(sound2, c); // more button constraints
 		layout.setConstraints(sound3, c); // more button constraints
@@ -98,7 +96,7 @@ public class ButtonBox extends JFrame implements ActionListener {
  */
 		public void actionPerformed(ActionEvent e) {
 			JButton button = (JButton) e.getSource(); // button variable for swtitch statement
-			
+			buttonPressed = new ArrayList<Integer>(100);
 			switch (button.getActionCommand()) {
 			case "Sound One":
 				
@@ -110,6 +108,7 @@ public class ButtonBox extends JFrame implements ActionListener {
 						Clip dingClip = (Clip) AudioSystem.getLine(dingInfo); // creates the clip that will be played 
 						dingClip.open(dingStream); // opens the clip so that it can be played
 						dingClip.start(); // starts to play the clip
+						buttonPressed.add(1);
 						} catch (Exception e1) {
 						System.out.println(e1); // if an exception is found, the exception is printed in console
 						}
@@ -160,6 +159,10 @@ public class ButtonBox extends JFrame implements ActionListener {
 					System.out.println(e1); // if an exception is found, the exception is printed in console
 					}
 					
+				break;
+			case "Play Back":
+				
+				
 				break;
 			default:
 

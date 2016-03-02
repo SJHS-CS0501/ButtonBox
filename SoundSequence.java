@@ -5,7 +5,13 @@
  */
 
 import java.util.ArrayList;
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
+import java.io.PrintWriter;
+
 import javax.sound.sampled.*;
 
 /**
@@ -42,6 +48,15 @@ public class SoundSequence extends Thread {
 	SoundSequence(File[] f) {
 		files = f;
 		playList = new ArrayList<SoundDataWrapper>();
+	}
+	
+	/**
+	 * Creates a new SoundSequence using the provided filename
+	 * @param filename
+	 */
+	SoundSequence(String filename) throws FileNotFoundException{
+		playList = new ArrayList<SoundDataWrapper>();
+		readFile(filename);
 	}
 	
 	/**
@@ -99,6 +114,30 @@ public class SoundSequence extends Thread {
 	}
 	
 	/**
+	 * Returns a string representation of the sound sequence
+	 * @return String representation of sound sequence
+	 */
+	public String toString() {
+		StringBuilder s = new StringBuilder();
+		
+		for(int i = 0; i < files.length; i++) {
+			s.append(files[i].getPath());
+			s.append(' ');
+		}
+		
+		s.append('\n');
+		
+		for(int i = 0; i < playList.size(); i++) {
+			s.append(playList.get(i).index);
+			s.append(':');
+			s.append(playList.get(i).delay);
+			s.append(' ');
+		}
+		
+		return s.toString();
+	}
+	
+	/**
 	 * Creates a sequence to test functionality
 	 */
 	public void initTestSequence() {
@@ -108,6 +147,49 @@ public class SoundSequence extends Thread {
 		for(int i = 1; i < 5; i++) {
 			add(1, i*100);
 		}
+	}
+	
+	/**
+	 * Read a SoundSequence from the provided filename
+	 * @throws FileNotFoundException 
+	 */
+	public void readFile(String filename) throws FileNotFoundException{
+		// assume playList is initialized
+		playList.clear(); // clear playList of data
+		
+		String[] fileLine;
+		String[] playLine;
+
+		BufferedReader reader = new BufferedReader(new FileReader(filename));
+		try {
+			fileLine = reader.readLine().split(" ");
+			playLine = reader.readLine().split(" ");
+			
+			files = new File[fileLine.length];
+			for(int i = 0; i < fileLine.length; i++) {
+				files[i] = new File(fileLine[i]);
+			}
+			
+			for(int i = 0; i < playLine.length; i++) {
+				String[] dataPair = playLine[i].split(":");
+				add(Integer.parseInt(dataPair[0]), Long.parseLong(dataPair[1]));
+			}
+			
+			reader.close();
+		} catch(IOException e) {
+			System.out.print("IOException Encountered: " + e.getMessage());
+		}
+	}
+	
+	/**
+	 * Write the SoundSequnce to disk at the provided filename
+	 * @param filename File to write to
+	 * @throws FileNotFoundException 
+	 */
+	public void writeFile(String filename) throws FileNotFoundException {
+		PrintWriter writer = new PrintWriter(filename);
+		writer.print(toString());
+		writer.close();
 	}
 	
 	/**

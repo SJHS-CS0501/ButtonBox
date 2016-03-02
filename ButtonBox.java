@@ -48,8 +48,12 @@ public class ButtonBox extends JFrame implements ActionListener {
 		sounds[6] = new File("clips/PandaRed_Young_WhistleA.wav");
 		
 		// create the sound sequence object
-		recorder = new SoundSequence(sounds);
-		recorder.initTestSequence();
+		try {
+			recorder = new SoundSequence("testSequence.txt");
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		
 		// make sound button panel
 		panel = new JPanel(new GridLayout(8, 1));
@@ -169,6 +173,7 @@ public class ButtonBox extends JFrame implements ActionListener {
 				break;
 			case "play":
 				SoundSequence s = recorder.clone();
+				System.out.println(s.toString());
 				s.start();
 				break;
 			case "record":

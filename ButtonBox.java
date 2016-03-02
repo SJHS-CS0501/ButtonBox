@@ -18,6 +18,7 @@ public class ButtonBox extends JFrame implements ActionListener, LineListener{
 	private JPanel forButtons;
 	//private JLabel label;
 	private File sounds;
+	boolean playCompleted;
 	
 	
 	public ButtonBox(){
@@ -34,17 +35,17 @@ public class ButtonBox extends JFrame implements ActionListener, LineListener{
 		forButtons = new JPanel();
 		
 		forButtons.setLayout( new GridLayout( 2, 3) );
-		button = new JButton( "One" );
+		button = new JButton( "Ominous" );
 		button.setActionCommand( "one" );
 		button.addActionListener( this );
 		forButtons.add( button );
 		
-		button = new JButton( "Two" );
+		button = new JButton( "Seal" );
 		button.setActionCommand( "two" );
 		button.addActionListener( this );
 		forButtons.add( button );
 		
-		button = new JButton( "Three" );
+		button = new JButton( "Sheep" );
 		button.setActionCommand( "three" );
 		button.addActionListener( this );
 		forButtons.add( button );
@@ -75,37 +76,14 @@ public class ButtonBox extends JFrame implements ActionListener, LineListener{
 		setVisible( true );
 	}
 	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	/**
-    * this flag indicates whether the playback completes or not.
-    */
-   boolean playCompleted;
     
    /**
-    * Play a given audio file.
-    * @param audioFilePath Path of the audio file.
+    *
+    * @param 
     */
-   void play(String audioFilePath) {
-       //File audioFile = new File(audioFilePath);
-
-  
+   void play( File sounds ) {
        
        try {
-    	   sounds = new File("ominous.wav");
-           
     	   AudioInputStream audioStream = AudioSystem.getAudioInputStream( sounds );
 
            AudioFormat format = audioStream.getFormat();
@@ -125,7 +103,7 @@ public class ButtonBox extends JFrame implements ActionListener, LineListener{
                try {
                    Thread.sleep(1000);
                } catch (InterruptedException e) {
-                   e.printStackTrace();
+                   //e.printStackTrace();
                }
            }
             
@@ -143,6 +121,7 @@ public class ButtonBox extends JFrame implements ActionListener, LineListener{
         
    }
     
+   
    /**
     * Listens to the START and STOP events of the audio line.
     */
@@ -151,32 +130,14 @@ public class ButtonBox extends JFrame implements ActionListener, LineListener{
        LineEvent.Type type = event.getType();
         
        if (type == LineEvent.Type.START) {
-           System.out.println("Playback started.");
+           //System.out.println("Playback started.");
             
        } else if (type == LineEvent.Type.STOP) {
            playCompleted = true;
-           System.out.println("Playback completed.");
+           //System.out.println("Playback completed.");
        }
 
    }
-
-
-	
-	
-
-
-
-
-
-
-
-
-
-
-
-	
-	
-	
 	
 	
 	
@@ -184,19 +145,28 @@ public class ButtonBox extends JFrame implements ActionListener, LineListener{
 		JButton button = (JButton)e.getSource();
 		switch( button.getActionCommand() ){
 			case "one":
-				
-				
-				
+				sounds = new File("ominous.wav");
+				play( sounds );
 				break;
 			case "two":
+				sounds = new File("seal.wav");
+				play( sounds );
 				break;
 			case "three":
+				sounds = new File("sheep521.wav");
+				play( sounds );
 				break;
 			case "four":
+				sounds = new File("");
+				play( sounds );
 				break;
 			case "five":
+				sounds = new File("");
+				play( sounds );
 				break;
 			case "six":
+				sounds = new File("");
+				play( sounds );
 				break;
 			default:
 				JOptionPane.showMessageDialog( this,  "Unknown button pressed!" );
@@ -208,10 +178,5 @@ public class ButtonBox extends JFrame implements ActionListener, LineListener{
 	public static void main(String[] args) {
 		new ButtonBox();
 	}
-
-
-	//@Override
-	//public void update(LineEvent arg0) {
-	//}
 
 }

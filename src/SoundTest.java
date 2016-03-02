@@ -2,7 +2,7 @@ import java.awt.*;
 import java.awt.event.*;
 import javax.sound.sampled.*;
 import javax.swing.*;
-import javax.swing.border.EtchedBorder;
+import javax.swing.border.*;
 
 import java.io.*;
 
@@ -23,6 +23,7 @@ public class SoundTest extends JFrame implements ActionListener {
 	private JRadioButton radioButton;
 	private ButtonGroup playbackGroup;
 	private boolean toggle = false;
+	private JButton recordButton;
 
 	/**
 	 * Constructor to setup the JFrame and also to place the buttons
@@ -91,10 +92,10 @@ public class SoundTest extends JFrame implements ActionListener {
 		recordPanel = new JPanel();
 		recordPanel.setLayout(new GridLayout(1,2));
 		
-		button = new JButton("Record");
-		button.setActionCommand("record");
-		button.addActionListener(this);
-		recordPanel.add(button);
+		recordButton = new JButton("Record");
+		recordButton.setActionCommand("record");
+		recordButton.addActionListener(this);
+		recordPanel.add(recordButton);
 		
 		button = new JButton("Stop");
 		button.setActionCommand("stop");
@@ -229,8 +230,6 @@ public class SoundTest extends JFrame implements ActionListener {
 				break;
 			}
 		}
-
-
 
 	/**
 	 * @param args

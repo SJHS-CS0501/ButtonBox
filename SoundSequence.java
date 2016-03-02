@@ -16,6 +16,8 @@ import javax.sound.sampled.*;
 
 /**
  * This class stores and plays a sequence of sound effects at specific intervals
+ * It can write sequnces to sound files, and provided the needed sound are available,
+ * can read them in and play the sequence back. The sequence playing runs in a new thread.
  * @author Ryan Luchs
  * 
  */
@@ -23,7 +25,6 @@ public class SoundSequence extends Thread {
 	
 	/**
 	 * Creates a reference variable for some primitives so they can be stored in an ArrayList
-	 * I am lazy
 	 * @author Ryan Luchs
 	 * 
 	 */
@@ -107,7 +108,7 @@ public class SoundSequence extends Thread {
 			clip.start();
 			return true;
 		} catch (Exception e) {
-			// if failed, say so in a window and print error message
+			// if failed, print error message
 			e.printStackTrace();
 			return false;
 		}
@@ -138,30 +139,19 @@ public class SoundSequence extends Thread {
 	}
 	
 	/**
-	 * Creates a sequence to test functionality
-	 */
-	public void initTestSequence() {
-		add(1, 100);
-		add(2, 1000);
-		add(0, 200);
-		for(int i = 1; i < 5; i++) {
-			add(1, i*100);
-		}
-	}
-	
-	/**
 	 * Read a SoundSequence from the provided filename
 	 * @throws FileNotFoundException 
 	 */
 	public void readFile(String filename) throws FileNotFoundException{
-		// assume playList is initialized
-		playList.clear(); // clear playList of data
 		
 		String[] fileLine;
 		String[] playLine;
 
 		BufferedReader reader = new BufferedReader(new FileReader(filename));
 		try {
+			// assume playList is initialized
+			playList.clear(); // clear playList of data
+			
 			fileLine = reader.readLine().split(" ");
 			playLine = reader.readLine().split(" ");
 			
@@ -188,7 +178,7 @@ public class SoundSequence extends Thread {
 	 */
 	public void writeFile(String filename) throws FileNotFoundException {
 		PrintWriter writer = new PrintWriter(filename);
-		writer.print(toString());
+		writer.print(toString()/*.replace('\\', '/')*/);
 		writer.close();
 	}
 	

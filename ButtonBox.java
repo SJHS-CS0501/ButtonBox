@@ -20,6 +20,7 @@ public class ButtonBox extends JFrame implements ActionListener {
 	private static final long serialVersionUID = 1;
 	
 	private boolean recording = false;
+	private long startTime = 0L;
 	
 	private File[] sounds = new File[7];
 	private JButton recButton;
@@ -49,11 +50,11 @@ public class ButtonBox extends JFrame implements ActionListener {
 		
 		// create the sound sequence object
 		try {
-			recorder = new SoundSequence("testSequence.txt");
+			recorder = new SoundSequence("test.txt");
 		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+
 		
 		// make sound button panel
 		panel = new JPanel(new GridLayout(8, 1));
@@ -143,33 +144,50 @@ public class ButtonBox extends JFrame implements ActionListener {
 			e.printStackTrace();
 		}
 	}
+	
+	/**
+	 * Records button presses
+	 * @param b the ActionCommand string from the button pressed, this should be an integer number
+	 */
+	public void recordButtonPress(String b) {
+		recorder.add(Integer.parseInt(b), ((System.nanoTime() - startTime) / 1000000L));
+		startTime = System.nanoTime();
+	}
 		
 	/**
 	 * Reacts to ActionEvents
 	 */
 	public void actionPerformed(ActionEvent e) {
 		JButton button  = (JButton)e.getSource();
-		switch(button.getActionCommand()) {
+		String b;
+		switch(b = button.getActionCommand()) {
 			case "0":
 				playSound(sounds[0]);
+				if(recording) recordButtonPress(b);
 				break;
 			case "1":
 				playSound(sounds[1]);
+				if(recording) recordButtonPress(b);
 				break;
 			case "2":
 				playSound(sounds[2]);
+				if(recording) recordButtonPress(b);
 				break;
 			case "3":
 				playSound(sounds[3]);
+				if(recording) recordButtonPress(b);
 				break;
 			case "4":
-				playSound(sounds[4]);
+				playSound(sounds[4]);	
+				if(recording) recordButtonPress(b);
 				break;
 			case "5":
 				playSound(sounds[5]);
+				if(recording) recordButtonPress(b);
 				break;
 			case "6":
 				playSound(sounds[6]);
+				if(recording) recordButtonPress(b);
 				break;
 			case "play":
 				SoundSequence s = recorder.clone();
@@ -180,11 +198,20 @@ public class ButtonBox extends JFrame implements ActionListener {
 				recButton.setText("Stop");
 				recButton.setActionCommand("stop");
 				recording = true;
+				
+				recorder = new SoundSequence(sounds);
+				startTime = System.nanoTime();
 				break;
 			case "stop":
 				recButton.setText("Record");
 				recButton.setActionCommand("record");
 				recording = false;
+				
+				try {
+					recorder.writeFile("test.txt");
+				} catch (FileNotFoundException e1) {
+					e1.printStackTrace();
+				}
 				break;
 			default:
 				JOptionPane.showMessageDialog(this, "Unknown button pressed!");

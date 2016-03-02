@@ -1,6 +1,7 @@
 import java.awt.*;
 import java.awt.event.*;
 import java.io.File;
+import java.util.ArrayList;
 
 import javax.sound.sampled.AudioFormat;
 import javax.sound.sampled.AudioInputStream;
@@ -26,6 +27,7 @@ public class ButtonBox extends JFrame implements ActionListener{
 	private JPanel buttonPanel;
 	static JButton quitButton;
 	static GridLayout layout;
+	public ArrayList buttonList;
 	
 	/**
 	 * Constructor
@@ -72,6 +74,11 @@ public class ButtonBox extends JFrame implements ActionListener{
 		
 		add(buttonPanel, BorderLayout.SOUTH);
 		
+		button = new JButton("Play back");
+		button.setActionCommand("six");
+		button.addActionListener(this);
+		buttonPanel.add(button);
+		
 		label = new JLabel("Press a button to play a sound: ");
 		mainPanel.add(label);
 		
@@ -90,6 +97,7 @@ public class ButtonBox extends JFrame implements ActionListener{
 	 */
 	public void actionPerformed(ActionEvent e) {
 		JButton button = (JButton)e.getSource();//reference for JButton
+		buttonList = new ArrayList<Integer>(100);
 		switch(button.getActionCommand()) {
 		case "one":
 			myLabel.setText("Playing sound 1...");
@@ -101,6 +109,7 @@ public class ButtonBox extends JFrame implements ActionListener{
 				Clip dingClip  = (Clip) AudioSystem.getLine(dingInfo);//creates clip to be played
 				dingClip.open(ding);//opens the clip
 				dingClip.start();//plays the clip
+				buttonList.add(1);
 				} catch(Exception e1) {
 				System.out.println(e1);
 				}
@@ -160,6 +169,10 @@ public class ButtonBox extends JFrame implements ActionListener{
 				} catch(Exception e5) {
 					System.out.println(e5);
 				}
+			break;
+		case "six":
+			myLabel.setText("Play that funky music!");
+			
 			break;
 		default:
 			JOptionPane.showMessageDialog(this, "Unknown button pressed");//Will never happen.

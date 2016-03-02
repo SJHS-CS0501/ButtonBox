@@ -14,12 +14,12 @@ public class ButtonBox extends JFrame implements ActionListener {
 	AudioInputStream audioSound;
 	private JPanel buttonPanel;
 	private JLabel label;
+	Boolean stop = false;
 	DataLine.Info info;
 	AudioFormat format;
 	Clip clip = null;
 	Clip audioClip;
 	File sound;
-	Boolean stop = false;
 	
 	public ButtonBox() {
 		super("Button Box");
@@ -38,27 +38,27 @@ public class ButtonBox extends JFrame implements ActionListener {
         
         label = new JLabel("Click a button to make a sound!");
 		
-		button = new JButton( "Bicycle Bell" );
+		button = new JButton( "Drum roll" );
 		button.setActionCommand( "One" );
 		button.addActionListener( this );
 		buttonPanel.add(button);
 		
-		button = new JButton( "Cuckoo Clock" );
+		button = new JButton( "Cymbals" );
 		button.setActionCommand( "Two" );
 		button.addActionListener( this );
 		buttonPanel.add(button);
 		
-		button = new JButton( "Drum roll" );
+		button = new JButton( "Bicycle Bell" );
 		button.setActionCommand( "Three" );
 		button.addActionListener( this );
 		buttonPanel.add(button);
 		
-		button = new JButton( "Cymbals" );
+		button = new JButton( "Cuckoo Clock" );
 		button.setActionCommand( "Four" );
 		button.addActionListener( this );
 		buttonPanel.add(button);
 		
-		button = new JButton( "Duck" );
+		button = new JButton( "Dolphin" );
 		button.setActionCommand( "Five" );
 		button.addActionListener( this );
 		buttonPanel.add(button);
@@ -88,28 +88,40 @@ public class ButtonBox extends JFrame implements ActionListener {
 		JButton button = (JButton)e.getSource();
 		switch( button.getActionCommand() ) {
 		case "One":
-			sound = new File("bicycle_bell.wav");
+			sound = new File("drum_roll2.wav");
+			play(sound);
 			break;
 		case "Two":
-			sound = new File("cuckoo_clock1_x.wav");
+			sound = new File("cymbals.wav");
+			play(sound);
 			break;
 		case "Three":
-			sound = new File("drum_roll2.wav");
+			sound = new File("bicycle_bell.wav");
+			play(sound);
 			break;
 		case "Four":
-			sound = new File("cymbals.wav");
+			sound = new File("cuckoo_clock1_x.wav");
+			play(sound);
 			break;
 		case "Five":
-			sound = new File("duck.wav");
+			sound = new File("dolphin.wav");
+			play(sound);
 			break;
 		case "Six":
 			sound = new File("cow.wav");
-			break;			
+			play(sound);
+			break;
 		default:
 			System.exit(0);
 			break;
 		}
-		
+	}
+	
+	/**
+	 * Plays sound
+	 * @param sound
+	 */
+	public void play( File sound ) {
 		try {
 			audioSound = AudioSystem.getAudioInputStream(sound);
 		} catch (UnsupportedAudioFileException e1) {
@@ -137,9 +149,6 @@ public class ButtonBox extends JFrame implements ActionListener {
 		}
 		
 		audioClip.start();
-		
-		audioClip.setFramePosition(0);
-		
 	}
 
 }

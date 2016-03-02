@@ -16,35 +16,22 @@ import javax.sound.sampled.*;
 public class SoundSequence extends Thread {
 	
 	/**
-	 * Creates a reference variable for a int primitive so it can be stored in an ArrayList
+	 * Creates a reference variable for some primitives so they can be stored in an ArrayList
 	 * I am lazy
 	 * @author Ryan Luchs
 	 * 
 	 */
-	private class IndexWrapper {
+	private class SoundDataWrapper {
 		public int index;
+		public long delay;
 		
-		IndexWrapper(int t){
-			index = t;
-		}
-	}
-	
-	/**
-	 * Creates a reference variable for a long primitive so it can be stored in an ArrayList
-	 * I am VERY lazy
-	 * @author Ryan Luchs
-	 *
-	 */
-	private class TimeSpanWrapper {
-		public long time;
-		
-		TimeSpanWrapper(long t){
-			time = t;
+		SoundDataWrapper(int i, long t){
+			index = i;
+			delay = t;
 		}
 	}
 
-	private ArrayList<IndexWrapper> playList;
-	private ArrayList<TimeSpanWrapper> playTimes;
+	private ArrayList<SoundDataWrapper> playList;
 	
 	private File[] files;
 	
@@ -54,25 +41,21 @@ public class SoundSequence extends Thread {
 	 */
 	SoundSequence(File[] f) {
 		files = f;
-		playList = new ArrayList<IndexWrapper>();
-		playTimes = new ArrayList<TimeSpanWrapper>();
+		playList = new ArrayList<SoundDataWrapper>();
 	}
 	
 	/**
-	 * Creates a new SoundSequnce from a file array, a an ArrayList<IndexWrapper>, and an ArrayList<TimeSpanWrapper>
+	 * Creates a new SoundSequnce from a file array, a an ArrayList<SoundDataWrapper>
 	 * @param f Array of .wav files
 	 * @param w a sequence of indexes
 	 * @param t a sequence of delay times
 	 */
-	private SoundSequence(File[] f, ArrayList<IndexWrapper> w, ArrayList<TimeSpanWrapper> t){
+	private SoundSequence(File[] f, ArrayList<SoundDataWrapper> s){
 		files = f;
+		playList = new ArrayList<SoundDataWrapper>();
 		
-		for(int i = 0; i < w.size(); i++) {
-			playList.add(new IndexWrapper(w.get(i).index));
-		}
-		
-		for(int i = 0; i < t.size(); i++) {
-			playTimes.add(new TimeSpanWrapper(t.get(i).time));
+		for(int i = 0; i < s.size(); i++) {
+			playList.add(new SoundDataWrapper(s.get(i).index, s.get(i).delay));
 		}
 	}
 	
@@ -80,7 +63,7 @@ public class SoundSequence extends Thread {
 	 * Makes a copy of this object
 	 */
 	public SoundSequence clone() {	
-		return new SoundSequence(files, playList, playTimes);
+		return new SoundSequence(files, playList);
 	}
 	
 	/**
@@ -89,8 +72,7 @@ public class SoundSequence extends Thread {
 	 * @param t The delay in milliseconds
 	 */
 	public void add(int i, long t) {
-		playList.add(new IndexWrapper(i));
-		playTimes.add(new TimeSpanWrapper(t));
+		playList.add(new SoundDataWrapper(i, t));
 	}
 	
 	/**
@@ -135,7 +117,7 @@ public class SoundSequence extends Thread {
 		for(int i = 0; i < playList.size(); i++) {
 			// sleep for x milliseconds
 			try {
-				sleep(playTimes.get(i).time);
+				sleep(playList.get(i).delay);
 			} catch (InterruptedException e) {
 				System.out.println("Failure.");
 				e.printStackTrace();

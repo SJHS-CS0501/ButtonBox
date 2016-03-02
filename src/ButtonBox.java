@@ -58,12 +58,12 @@ public class ButtonBox extends JFrame implements ActionListener {
 		button.addActionListener( this );
 		buttonPanel.add(button);
 		
-		button = new JButton( "Sound Five" );
+		button = new JButton( "Duck" );
 		button.setActionCommand( "Five" );
 		button.addActionListener( this );
 		buttonPanel.add(button);
 		
-		button = new JButton( "Sound Six" );
+		button = new JButton( "Cow" );
 		button.setActionCommand( "Six" );
 		button.addActionListener( this );
 		buttonPanel.add(button);
@@ -89,188 +89,53 @@ public class ButtonBox extends JFrame implements ActionListener {
 		switch( button.getActionCommand() ) {
 		case "One":
 			sound = new File("bicycle_bell.wav");
-			
-			try {
-				audioSound = AudioSystem.getAudioInputStream(sound);
-			} catch (UnsupportedAudioFileException e1) {
-				e1.printStackTrace();
-			} catch (IOException e1) {
-				e1.printStackTrace();
-			}
-			
-			format = audioSound.getFormat();
-			
-			DataLine.Info info = new DataLine.Info(Clip.class, format);
-			
-			try {
-				audioClip = (Clip) AudioSystem.getLine(info);
-			} catch (LineUnavailableException e1) {
-				e1.printStackTrace();
-			}
-			
-			try {
-				audioClip.open(audioSound);
-			} catch (LineUnavailableException e1) {
-				e1.printStackTrace();
-			} catch (IOException e1) {
-				e1.printStackTrace();
-			}
-			audioClip.start();
 			break;
 		case "Two":
 			sound = new File("cuckoo_clock1_x.wav");
-			
-			try {
-				audioSound = AudioSystem.getAudioInputStream(sound);
-			} catch (UnsupportedAudioFileException e1) {
-				e1.printStackTrace();
-			} catch (IOException e1) {
-				e1.printStackTrace();
-			}
-			
-			format = audioSound.getFormat();
-			
-			info = new DataLine.Info(Clip.class, format);
-			
-			try {
-				audioClip = (Clip) AudioSystem.getLine(info);
-			} catch (LineUnavailableException e1) {
-				e1.printStackTrace();
-			}
-			
-			try {
-				audioClip.open(audioSound);
-			} catch (LineUnavailableException e1) {
-				e1.printStackTrace();
-			} catch (IOException e1) {
-				e1.printStackTrace();
-			}
-			audioClip.start();
 			break;
 		case "Three":
 			sound = new File("cymbals.wav");
-			
-			try {
-				audioSound = AudioSystem.getAudioInputStream(sound);
-			} catch (UnsupportedAudioFileException e1) {
-				e1.printStackTrace();
-			} catch (IOException e1) {
-				e1.printStackTrace();
-			}
-			
-			format = audioSound.getFormat();
-			
-			info = new DataLine.Info(Clip.class, format);
-			
-			try {
-				audioClip = (Clip) AudioSystem.getLine(info);
-			} catch (LineUnavailableException e1) {
-				e1.printStackTrace();
-			}
-			
-			try {
-				audioClip.open(audioSound);
-			} catch (LineUnavailableException e1) {
-				e1.printStackTrace();
-			} catch (IOException e1) {
-				e1.printStackTrace();
-			}
-			audioClip.start();
 			break;
 		case "Four":
 			sound = new File("drum_roll2.wav");
-			
-			try {
-				audioSound = AudioSystem.getAudioInputStream(sound);
-			} catch (UnsupportedAudioFileException e1) {
-				e1.printStackTrace();
-			} catch (IOException e1) {
-				e1.printStackTrace();
-			}
-			
-			format = audioSound.getFormat();
-			
-			info = new DataLine.Info(Clip.class, format);
-			
-			try {
-				audioClip = (Clip) AudioSystem.getLine(info);
-			} catch (LineUnavailableException e1) {
-				e1.printStackTrace();
-			}
-			
-			try {
-				audioClip.open(audioSound);
-			} catch (LineUnavailableException e1) {
-				e1.printStackTrace();
-			} catch (IOException e1) {
-				e1.printStackTrace();
-			}
-			audioClip.start();
 			break;
 		case "Five":
 			sound = new File("duck.wav");
-			
-			try {
-				audioSound = AudioSystem.getAudioInputStream(sound);
-			} catch (UnsupportedAudioFileException e1) {
-				e1.printStackTrace();
-			} catch (IOException e1) {
-				e1.printStackTrace();
-			}
-			
-			format = audioSound.getFormat();
-			
-			info = new DataLine.Info(Clip.class, format);
-			
-			try {
-				audioClip = (Clip) AudioSystem.getLine(info);
-			} catch (LineUnavailableException e1) {
-				e1.printStackTrace();
-			}
-			
-			try {
-				audioClip.open(audioSound);
-			} catch (LineUnavailableException e1) {
-				e1.printStackTrace();
-			} catch (IOException e1) {
-				e1.printStackTrace();
-			}
-			audioClip.start();
 			break;
 		case "Six":
 			sound = new File("cow.wav");
-			
-			try {
-				audioSound = AudioSystem.getAudioInputStream(sound);
-			} catch (UnsupportedAudioFileException e1) {
-				e1.printStackTrace();
-			} catch (IOException e1) {
-				e1.printStackTrace();
-			}
-			
-			format = audioSound.getFormat();
-			
-			info = new DataLine.Info(Clip.class, format);
-			
-			try {
-				audioClip = (Clip) AudioSystem.getLine(info);
-			} catch (LineUnavailableException e1) {
-				e1.printStackTrace();
-			}
-			
-			try {
-				audioClip.open(audioSound);
-			} catch (LineUnavailableException e1) {
-				e1.printStackTrace();
-			} catch (IOException e1) {
-				e1.printStackTrace();
-			}
-			audioClip.start();
 			break;			
 		default:
 			
 			break;
 		}
+		
+		try {
+			audioSound = AudioSystem.getAudioInputStream(sound);
+		} catch (UnsupportedAudioFileException e1) {
+			e1.printStackTrace();
+		} catch (IOException e1) {
+			e1.printStackTrace();
+		}
+		
+		format = audioSound.getFormat();
+		
+		DataLine.Info info = new DataLine.Info(Clip.class, format);
+		
+		try {
+			audioClip = (Clip) AudioSystem.getLine(info);
+		} catch (LineUnavailableException e1) {
+			e1.printStackTrace();
+		}
+		
+		try {
+			audioClip.open(audioSound);
+		} catch (LineUnavailableException e1) {
+			e1.printStackTrace();
+		} catch (IOException e1) {
+			e1.printStackTrace();
+		}
+		audioClip.start();
 		
 	}
 

@@ -11,15 +11,15 @@ import javax.sound.sampled.*;
 public class ButtonBox extends JFrame implements ActionListener {
 	
 	private static final long serialVersionUID = 1;
+	AudioInputStream audioSound;
 	private JPanel buttonPanel;
 	private JLabel label;
-	
-	AudioInputStream audioSound;
-	Clip clip = null;
-	File sound;
-	AudioFormat format;
 	DataLine.Info info;
+	AudioFormat format;
+	Clip clip = null;
 	Clip audioClip;
+	File sound;
+	Boolean stop = false;
 	
 	public ButtonBox() {
 		super("Button Box");
@@ -48,12 +48,12 @@ public class ButtonBox extends JFrame implements ActionListener {
 		button.addActionListener( this );
 		buttonPanel.add(button);
 		
-		button = new JButton( "Cymbals" );
+		button = new JButton( "Drum roll" );
 		button.setActionCommand( "Three" );
 		button.addActionListener( this );
 		buttonPanel.add(button);
 		
-		button = new JButton( "Drum roll" );
+		button = new JButton( "Cymbals" );
 		button.setActionCommand( "Four" );
 		button.addActionListener( this );
 		buttonPanel.add(button);
@@ -94,10 +94,10 @@ public class ButtonBox extends JFrame implements ActionListener {
 			sound = new File("cuckoo_clock1_x.wav");
 			break;
 		case "Three":
-			sound = new File("cymbals.wav");
+			sound = new File("drum_roll2.wav");
 			break;
 		case "Four":
-			sound = new File("drum_roll2.wav");
+			sound = new File("cymbals.wav");
 			break;
 		case "Five":
 			sound = new File("duck.wav");
@@ -106,7 +106,7 @@ public class ButtonBox extends JFrame implements ActionListener {
 			sound = new File("cow.wav");
 			break;			
 		default:
-			
+			System.exit(0);
 			break;
 		}
 		
@@ -135,7 +135,10 @@ public class ButtonBox extends JFrame implements ActionListener {
 		} catch (IOException e1) {
 			e1.printStackTrace();
 		}
+		
 		audioClip.start();
+		
+		audioClip.setFramePosition(0);
 		
 	}
 

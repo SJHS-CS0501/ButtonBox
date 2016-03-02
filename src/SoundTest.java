@@ -23,7 +23,7 @@ public class SoundTest extends JFrame implements ActionListener {
 	private JButton button;
 	private JRadioButton radioButton;
 	private ButtonGroup playbackGroup;
-	private String temp = null;
+	private boolean toggle = false;
 
 	/**
 	 * Constructor to setup the JFrame and also to place the buttons.
@@ -97,7 +97,7 @@ public class SoundTest extends JFrame implements ActionListener {
 	 */
 	public void actionPerformed(ActionEvent e) {
 
-			switch (e.getActionCommand()) {
+		switch (e.getActionCommand()) {
 			case "chimpYell":
 				try {
 					String sound = "Chimpanzee_sound_effect-412407.wav";
@@ -153,80 +153,20 @@ public class SoundTest extends JFrame implements ActionListener {
 					Clip clip = AudioSystem.getClip();
 					clip.open(audioInputStream);
 					clip.start();
+					if(toggle = true) {
+						Thread.sleep(10);
+					} else {
+						break;
+					}
 				} catch (Exception es) {
 					System.out.println("Problem with file: " + es.getMessage());
 				}
 				break;
-			}
+			
+			case "gap":
+				toggle = true;
+				break;
 
-			if (temp.equals("gap")) {
-				JButton tempButton1 = (JButton) e.getSource();
-				switch (tempButton1.getActionCommand()) {
-				case "chimpYell":
-					try {
-						String sound = "Chimpanzee_sound_effect-412407.wav";
-						AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(new File(sound));
-						Clip clip = AudioSystem.getClip();
-						clip.open(audioInputStream);
-						clip.start();
-						Thread.sleep(7000);
-					} catch (Exception es) {
-						System.out.println("Problem with file: " + es.getMessage());
-					}
-					break;
-
-				case "chimes":
-					try {
-						String sound = "chimes.wav";
-						AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(new File(sound));
-						Clip clip = AudioSystem.getClip();
-						clip.open(audioInputStream);
-						clip.start();
-						Thread.sleep(1000);
-					} catch (Exception es) {
-						System.out.println("Problem with file: " + es.getMessage());
-					}
-					break;
-
-				case "ding":
-					try {
-						String sound = "ding.wav";
-						AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(new File(sound));
-						Clip clip = AudioSystem.getClip();
-						clip.open(audioInputStream);
-						clip.start();
-						Thread.sleep(1000);
-					} catch (Exception es) {
-						System.out.println("Problem with file: " + es.getMessage());
-					}
-					break;
-
-				case "tada":
-					try {
-						String sound = "tada.wav";
-						AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(new File(sound));
-						Clip clip = AudioSystem.getClip();
-						clip.open(audioInputStream);
-						clip.start();
-						Thread.sleep(1000);
-					} catch (Exception es) {
-						System.out.println("Problem with file: " + es.getMessage());
-					}
-					break;
-
-				case "ring":
-					try {
-						String sound = "Windows Ringin.wav";
-						AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(new File(sound));
-						Clip clip = AudioSystem.getClip();
-						clip.open(audioInputStream);
-						clip.start();
-						Thread.sleep(1000);
-					} catch (Exception es) {
-						System.out.println("Problem with file: " + es.getMessage());
-					}
-					break;
-				}
 			}
 		}
 

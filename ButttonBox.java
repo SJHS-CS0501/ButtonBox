@@ -11,6 +11,7 @@ import sun.audio.AudioStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.util.ArrayList;
 
 import javax.sound.sampled.AudioFormat;
 import javax.sound.sampled.AudioInputStream;
@@ -32,6 +33,8 @@ public class ButttonBox extends JFrame implements ActionListener {
 	private JPanel p;
 	private Clip clip;
 	private AudioInputStream audio;
+	private ArrayList <Action> sl;
+	static Color fail;
 	
 	public ButttonBox(){
 		
@@ -55,7 +58,7 @@ public class ButttonBox extends JFrame implements ActionListener {
         layout.setConstraints( l, c );
         add(l );
         
-        p = new JPanel(new GridLayout(1,2));
+        p = new JPanel(new BorderLayout());
         
         c.weightx = 1;
        // c.gridwidth = GridBagConstraints.WEST;
@@ -83,25 +86,69 @@ public class ButttonBox extends JFrame implements ActionListener {
         
         c.weightx = 1;
         //   c.gridwidth = GridBagConstraints.REMAINDER;
-           c.gridx = 2;
-           c.gridy = 1;
-           b = new JButton("Second Sound");
-           b.setActionCommand("two");
-           b.addActionListener(this);
-           layout.setConstraints( b, c );
-           add( b );
+        c.gridx = 2;
+        c.gridy = 1;
+        b = new JButton("Second Sound");
+        b.setActionCommand("two");
+        b.addActionListener(this);
+        layout.setConstraints( b, c );
+        add( b );
            
         
         
         c.weightx = 1;
      //   c.gridwidth = GridBagConstraints.REMAINDER;
-        c.gridx = 2;
-        c.gridy = 1;
+        c.gridx = 1;
+        c.gridy = 2;
         b = new JButton("Third Sound");
         b.setActionCommand("three");
         b.addActionListener(this);
         layout.setConstraints( b, c );
         add( b );
+        
+        c.weightx = 1;
+        //   c.gridwidth = GridBagConstraints.REMAINDER;
+         c.gridx = 2;
+         c.gridy = 2;
+         b = new JButton("Fourth Sound");
+         b.setActionCommand("four");
+         b.addActionListener(this);
+         layout.setConstraints( b, c );
+         add( b );
+           
+         c.weightx = 1;
+         //   c.gridwidth = GridBagConstraints.REMAINDER;
+          c.gridx = 1;
+          c.gridy = 3;
+          b = new JButton("Fith Sound");
+          b.setActionCommand("five");
+          b.addActionListener(this);
+          layout.setConstraints( b, c );
+          add( b );
+          
+          c.weightx = 1;
+          //   c.gridwidth = GridBagConstraints.REMAINDER;
+          c.gridx = 2;
+          c.gridy = 3;
+          b = new JButton("Sixth Sound");
+          b.setActionCommand("six");
+          b.addActionListener(this);
+          layout.setConstraints( b, c );
+          add( b );
+          
+          c.weightx = 1;
+          //   c.gridwidth = GridBagConstraints.REMAINDER;
+          c.gridx = 1;
+          c.gridy = 4;
+          b = new JButton("Playback Sounds");
+          b.setActionCommand("play");
+          b.addActionListener(this);
+          p.add(b, BorderLayout.SOUTH);
+          layout.setConstraints( p, c );
+          add( p );
+             
+             
+              
         
         
         setSize( getPreferredSize());
@@ -126,6 +173,8 @@ JButton button = (JButton)e.getSource();
 		
 			playSound(ding);
 			
+			sl.add(button.getAction());
+			
 			break;
 		
 		case ("two"):
@@ -134,7 +183,9 @@ JButton button = (JButton)e.getSource();
 		
 			playSound(ding);
 			
-		break;
+			sl.add(button.getAction());
+			
+			break;
 		
 		case ("three"):
 			
@@ -142,10 +193,62 @@ JButton button = (JButton)e.getSource();
 		
 			playSound(ding);
 	
+			sl.add(button.getAction());
 			
-		break;
+			break;
+			
+		case ("four"):
+			
+			ding = new File("WindowsNotify.wav");
+		
+			playSound(ding);
+			
+			sl.add(button.getAction());
+			
+			break;
+		
+		case ("five"):
+			
+			ding = new File("WindowsRestore.wav");
+		
+			playSound(ding);
+			
+			sl.add(button.getAction());
+			
+			break;
+		
+		case ("six"):
+			
+			ding = new File("WindowsStartup.wav");
+		
+			playSound(ding);
+			
+			sl.add(button.getAction());
+			
+			break;
+			
+		case ("play"):
+			
+			playBack();
+		
+			Action e = playBack();
+			
+			this.actionPerformed(y);
+			
+			break;
 		
 		default:
+			
+			fail = Color.RED;
+			
+			ding = new File("ir_end.wav");
+			
+			l.setText("Button Error");
+			l.setForeground(fail);
+			
+			playSound(ding);
+			
+			b.setEnabled(false);;
 			
 			break;
 			
@@ -154,6 +257,7 @@ JButton button = (JButton)e.getSource();
 	        
 		
 	}
+	
 	
 	public void playSound(File ding){
 		
@@ -190,6 +294,17 @@ JButton button = (JButton)e.getSource();
 		clip.start();
 		
 		
+	}
+	
+	public Action playBack(){
+		
+		for(int i = 0; i< sl.size(); i++){
+			
+			sl.get(i);
+			
+			return sl.get(i);
+		}
+		return null;
 	}
 	
 	public static void main(String[] args) {

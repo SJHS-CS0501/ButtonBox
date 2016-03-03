@@ -13,6 +13,7 @@ public class ButtonBox extends JFrame implements ActionListener {
 	private static final long serialVersionUID = 1;
 	AudioInputStream audioSound;
 	private JPanel buttonPanel;
+	private JPanel startStop;
 	private JLabel label;
 	Boolean stop = false;
 	DataLine.Info info;
@@ -27,6 +28,7 @@ public class ButtonBox extends JFrame implements ActionListener {
 		setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
 		
 		buttonPanel = new JPanel();
+		startStop = new JPanel();
 		
 		JButton button;
 		
@@ -68,8 +70,19 @@ public class ButtonBox extends JFrame implements ActionListener {
 		button.addActionListener( this );
 		buttonPanel.add(button);
 		
+		button = new JButton( "Start" );
+		button.setActionCommand("Seven");
+		button.addActionListener( this );
+		startStop.add(button);
+		
+		button = new JButton( "Stop" );
+		button.setActionCommand("Eight");
+		button.addActionListener( this );
+		startStop.add(button);
+		
 		add(label, BorderLayout.NORTH);
-		add(buttonPanel, BorderLayout.SOUTH);
+		add(buttonPanel, BorderLayout.CENTER);
+		add(startStop, BorderLayout.SOUTH);
 		
 		setSize(getPreferredSize());
 		pack();
@@ -110,6 +123,12 @@ public class ButtonBox extends JFrame implements ActionListener {
 		case "Six":
 			sound = new File("cow.wav");
 			play(sound);
+			break;
+		case "Seven":
+			audioClip.start();
+			break;
+		case "Eight":
+			audioClip.stop();
 			break;
 		default:
 			System.exit(0);

@@ -2,7 +2,7 @@ import java.awt.*;
 import java.awt.event.*;
 import javax.sound.sampled.*;
 import javax.swing.*;
-import javax.swing.border.*;
+import javax.swing.border.EtchedBorder;
 
 import java.io.*;
 
@@ -228,8 +228,28 @@ public class SoundTest extends JFrame implements ActionListener {
 			case "gapless":
 				toggle = false;
 				break;
+				
+			case "record":
+				try {
+					recordFlash(recordButton, Color.RED);
+				} catch (Exception es) {
+					System.out.println("Uh oh");
+				}
+				
 			}
 		}
+
+	public void recordFlash(JButton button, Color color) throws Exception {
+		Color originalColor = button.getBackground();
+		button.setBackground(color);
+		Thread.sleep(1000);		
+		button.setBackground(originalColor);
+		Thread.sleep(1000);
+		
+		
+	}
+	
+
 
 	/**
 	 * @param args

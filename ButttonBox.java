@@ -165,7 +165,7 @@ public class ButttonBox extends JFrame implements ActionListener {
 		
 		JButton button = (JButton)e.getSource();
 
-		sl.add(button.getActionCommand());
+		sl.add(e.getActionCommand());
 
 	switch( button.getActionCommand()){
 		

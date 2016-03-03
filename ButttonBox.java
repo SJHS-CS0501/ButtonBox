@@ -33,8 +33,10 @@ public class ButttonBox extends JFrame implements ActionListener {
 	private JPanel p;
 	private Clip clip;
 	private AudioInputStream audio;
-	private ArrayList <Action> sl;
+	private ArrayList <String> sl;
 	static Color fail;
+	private int assign;
+	//private ActionListener listener = new MyListener();
 	
 	public ButttonBox(){
 		
@@ -148,7 +150,7 @@ public class ButttonBox extends JFrame implements ActionListener {
           add( p );
              
              
-              
+              System.nanoTime();
         
         
         setSize( getPreferredSize());
@@ -161,19 +163,22 @@ public class ButttonBox extends JFrame implements ActionListener {
 	public void actionPerformed(ActionEvent e) {
 		// TODO Auto-generated method stub
 		
-JButton button = (JButton)e.getSource();
-		
+		JButton button = (JButton)e.getSource();
+
+		sl.add(button.getActionCommand());
+
 	switch( button.getActionCommand()){
 		
 	
+	
+	
 		case ("one"):
-		
 		
 			File ding = new File("ding.wav");
 		
 			playSound(ding);
-			
-			sl.add(button.getAction());
+		
+			//sl.add(button.getActionCommand());
 			
 			break;
 		
@@ -183,7 +188,7 @@ JButton button = (JButton)e.getSource();
 		
 			playSound(ding);
 			
-			sl.add(button.getAction());
+			
 			
 			break;
 		
@@ -193,7 +198,7 @@ JButton button = (JButton)e.getSource();
 		
 			playSound(ding);
 	
-			sl.add(button.getAction());
+			//sl.add(button.getAction());
 			
 			break;
 			
@@ -203,7 +208,7 @@ JButton button = (JButton)e.getSource();
 		
 			playSound(ding);
 			
-			sl.add(button.getAction());
+			//sl.add(button.getAction());
 			
 			break;
 		
@@ -213,7 +218,7 @@ JButton button = (JButton)e.getSource();
 		
 			playSound(ding);
 			
-			sl.add(button.getAction());
+			//sl.add(button.getAction());
 			
 			break;
 		
@@ -223,20 +228,21 @@ JButton button = (JButton)e.getSource();
 		
 			playSound(ding);
 			
-			sl.add(button.getAction());
+			//sl.add(button.getActionCommand());
 			
 			break;
 			
 		case ("play"):
 			
-			playBack();
+			//playBack();
 		
-			Action e = playBack();
+			//String that = playBack().getActionCommand();
 			
-			this.actionPerformed(y);
+			this.actionPerformed(e);
 			
 			break;
 		
+			
 		default:
 			
 			fail = Color.RED;
@@ -296,16 +302,18 @@ JButton button = (JButton)e.getSource();
 		
 	}
 	
-	public Action playBack(){
+	/*public JButton playBack(){
 		
 		for(int i = 0; i< sl.size(); i++){
 			
 			sl.get(i);
 			
+			
 			return sl.get(i);
 		}
 		return null;
 	}
+	*/
 	
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub

@@ -24,6 +24,8 @@ public class ButtonBox extends JFrame implements ActionListener {
 	
 	private File[] sounds = new File[7];
 	private JButton recButton;
+	private JTextField filenameField;
+	private String openFile;
 	
 	private SoundSequence recorder;
 	
@@ -37,7 +39,7 @@ public class ButtonBox extends JFrame implements ActionListener {
 		JPanel panel;
 		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setLayout(new BorderLayout());
+		setLayout(new GridLayout(10, 1));
 		
 		// load sound files
 		sounds[0] = new File("clips/423.wav");
@@ -57,47 +59,47 @@ public class ButtonBox extends JFrame implements ActionListener {
 
 		
 		// make sound button panel
-		panel = new JPanel(new GridLayout(8, 1));
+		//panel = new JPanel(new GridLayout(8, 1));
 		
-		panel.add(new JLabel("Press a button to play a sound!"));
+		add(new JLabel("Press a button to play a sound!"));
 		
 		// create buttons
 		button = new JButton("Gastrodon");
 		button.setActionCommand("0");
 		button.addActionListener(this);
-		panel.add(button);
+		add(button);
 		
 		button = new JButton("\"Wa\"");
 		button.setActionCommand("1");
 		button.addActionListener(this);
-		panel.add(button);
+		add(button);
 		
 		button = new JButton("\"Move!\"");
 		button.setActionCommand("2");
 		button.addActionListener(this);
-		panel.add(button);
+		add(button);
 		
 		button = new JButton("Zubat");
 		button.setActionCommand("3");
 		button.addActionListener(this);
-		panel.add(button);
+		add(button);
 		
 		button = new JButton("Froslass");
 		button.setActionCommand("4");
 		button.addActionListener(this);
-		panel.add(button);
+		add(button);
 		
 		button = new JButton("Red Panda");
 		button.setActionCommand("5");
 		button.addActionListener(this);
-		panel.add(button);
+		add(button);
 		
 		button = new JButton("Baby Red Panda");
 		button.setActionCommand("6");
 		button.addActionListener(this);
-		panel.add(button);
+		add(button);
 		
-		add(panel, BorderLayout.CENTER);
+		//add(panel, BorderLayout.CENTER);
 		
 		// make record/play panel
 		panel = new JPanel(new GridLayout(1, 2));
@@ -105,15 +107,19 @@ public class ButtonBox extends JFrame implements ActionListener {
 		button = new JButton("Play");
 		button.setActionCommand("play");
 		button.addActionListener(this);
-		panel.add(button);
+		panel.add(button, BorderLayout.CENTER);
 		
 		recButton = new JButton("Record");
 		recButton.setActionCommand("record");
 		recButton.setBackground(Color.GREEN);
 		recButton.addActionListener(this);
-		panel.add(recButton);
+		panel.add(recButton, BorderLayout.CENTER);
 		
-		add(panel, BorderLayout.SOUTH);
+		add(panel);
+		
+		filenameField = new JTextField("text.txt", 10);
+		openFile = filenameField.getText();
+		add(filenameField);
 		
 //		label = new JLabel("*I do not own any of these sounds, they are the property of their respective owners*");
 //		label.setFont(new Font("TimesRoman", Font.BOLD, 6));
@@ -191,9 +197,20 @@ public class ButtonBox extends JFrame implements ActionListener {
 				if(recording) recordButtonPress(b);
 				break;
 			case "play":
-				SoundSequence s = recorder.clone();
-				System.out.println(s.toString());
-				s.start();
+				if(!filenameField.getText().equals(openFile)) {
+					try {
+						SoundSequence s = new SoundSequence(filenameField.getText());
+						System.out.println(s.toString());
+						s.start();
+					} catch (FileNotFoundException e2) {
+						JOptionPane.showMessageDialog(this, "File not found!");
+						e2.printStackTrace();
+					}
+				} else {
+					SoundSequence s = recorder.clone();
+					System.out.println(s.toString());
+					s.start();
+				}
 				break;
 			case "record":
 				recButton.setText("Stop");
@@ -210,10 +227,15 @@ public class ButtonBox extends JFrame implements ActionListener {
 				recButton.setActionCommand("record");
 				recording = false;
 				
-				try {
-					recorder.writeFile("test.txt");
-				} catch (FileNotFoundException e1) {
-					e1.printStackTrace();
+				if(filenameField.getText().equals("") || filenameField.getText().contains("\\") || filenameField.getText().contains("/")) {
+					JOptionPane.showMessageDialog(this, "Filename contains invalid characters!");
+				} else {
+					try {
+						recorder.writeFile(filenameField.getText());
+						openFile = filenameField.getText();
+					} catch (FileNotFoundException e1) {
+						e1.printStackTrace();
+					}
 				}
 				break;
 			default:

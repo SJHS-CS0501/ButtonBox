@@ -1,7 +1,7 @@
+import java.io.*;
 import java.awt.*;
 import javax.swing.*;
 import java.awt.event.*;
-import java.io.*;
 import javax.sound.sampled.*;
 
 /**
@@ -12,8 +12,8 @@ public class ButtonBox extends JFrame implements ActionListener {
 	
 	private static final long serialVersionUID = 1;
 	AudioInputStream audioSound;
-	private JPanel buttonPanel;
-	private JPanel startStop;
+	private JPanel buttonPanel; //buttons that will make sounds
+	private JPanel startStop; //start and stop buttons
 	private JLabel label;
 	Boolean stop = false;
 	DataLine.Info info;
@@ -22,24 +22,34 @@ public class ButtonBox extends JFrame implements ActionListener {
 	Clip audioClip;
 	File sound;
 	
+	//constructor
 	public ButtonBox() {
 		super("Button Box");
 		
 		setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
 		
-		buttonPanel = new JPanel();
-		startStop = new JPanel();
-		
+		buttonPanel = new JPanel(); //creating panel with sound buttons
+		startStop = new JPanel(); //creating panel with start/stop buttons
 		JButton button;
 		
 		GridBagConstraints c = new GridBagConstraints();
-		c.fill = GridBagConstraints.BOTH;
+		c.fill = GridBagConstraints.BOTH; //makes components fill space both horizontally and vertically
 		
-		c.weightx = 0.0;
-        c.gridwidth = GridBagConstraints.RELATIVE;
+		c.weightx = 0.0; //resizing behavior
+        c.gridwidth = GridBagConstraints.RELATIVE; //rows, last one in its row
         
         label = new JLabel("Click a button to make a sound!");
 		
+        /*
+         * This is what the next bit of code is doing:
+         * 
+         * - Making button for [drum roll] sound
+         * - Setting word that is recognized by switch statement
+         * - Adding ACtionListener so it will listen for this button
+         * 		[this] referring to the current button
+         * - Adding button to the panel
+         */
+        
 		button = new JButton( "Drum roll" );
 		button.setActionCommand( "One" );
 		button.addActionListener( this );

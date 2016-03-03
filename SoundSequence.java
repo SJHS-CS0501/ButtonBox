@@ -178,7 +178,7 @@ public class SoundSequence extends Thread {
 	 */
 	public void writeFile(String filename) throws FileNotFoundException {
 		PrintWriter writer = new PrintWriter(filename);
-		writer.print(toString()/*.replace('\\', '/')*/);
+		writer.print(toString().replace('\\', '/'));
 		writer.close();
 	}
 	

@@ -109,6 +109,7 @@ public class ButtonBox extends JFrame implements ActionListener {
 		
 		recButton = new JButton("Record");
 		recButton.setActionCommand("record");
+		recButton.setBackground(Color.GREEN);
 		recButton.addActionListener(this);
 		panel.add(recButton);
 		
@@ -197,6 +198,7 @@ public class ButtonBox extends JFrame implements ActionListener {
 			case "record":
 				recButton.setText("Stop");
 				recButton.setActionCommand("stop");
+				recButton.setBackground(Color.RED);
 				recording = true;
 				
 				recorder = new SoundSequence(sounds);
@@ -204,6 +206,7 @@ public class ButtonBox extends JFrame implements ActionListener {
 				break;
 			case "stop":
 				recButton.setText("Record");
+				recButton.setBackground(Color.GREEN);
 				recButton.setActionCommand("record");
 				recording = false;
 				

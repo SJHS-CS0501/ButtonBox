@@ -5,12 +5,13 @@ import javax.swing.*;
 import javax.swing.border.EtchedBorder;
 
 import java.io.*;
+import java.util.*;
 
 /**
  * @author Jack Protivnak
  * 
- * This program is designed to allow the user to play different sounds
- * based on the click of a JButton.
+ *         This program is designed to allow the user to play different sounds
+ *         based on the click of a JButton.
  */
 public class SoundTest extends JFrame implements ActionListener {
 
@@ -24,11 +25,15 @@ public class SoundTest extends JFrame implements ActionListener {
 	private ButtonGroup playbackGroup;
 	private boolean toggle = false;
 	private JButton recordButton;
+	private boolean recording = false;
+	private ArrayList soundsRecorded = new ArrayList(), timeRecorded = new ArrayList();
+	private int one = 1, two = 2, three = 3, four = 4, five = 5;
+	private long first, second, third, fourth, fifth;
 
 	/**
-	 * Constructor to setup the JFrame and also to place the buttons
-	 * into two different panels. One panel for the sound buttons and
-	 * the other for the radio buttons.
+	 * Constructor to setup the JFrame and also to place the buttons into two
+	 * different panels. One panel for the sound buttons and the other for the
+	 * radio buttons.
 	 */
 	public SoundTest() {
 		super("SoundTest");
@@ -63,7 +68,7 @@ public class SoundTest extends JFrame implements ActionListener {
 		button.setActionCommand("ring");
 		button.addActionListener(this);
 		buttonPanel.add(button);
-		
+
 		buttonPanel.setBorder(BorderFactory.createTitledBorder(BorderFactory.createEtchedBorder(EtchedBorder.RAISED), "Sounds"));
 
 		add(buttonPanel, BorderLayout.NORTH);
@@ -88,24 +93,25 @@ public class SoundTest extends JFrame implements ActionListener {
 		playbackGroup.add(radioButton);
 
 		add(radioButtonPanel, BorderLayout.CENTER);
-		
+
 		recordPanel = new JPanel();
-		recordPanel.setLayout(new GridLayout(1,2));
-		
+		recordPanel.setLayout(new GridLayout(1, 2));
+
 		recordButton = new JButton("Record");
 		recordButton.setActionCommand("record");
 		recordButton.addActionListener(this);
 		recordPanel.add(recordButton);
-		
+
 		button = new JButton("Stop");
 		button.setActionCommand("stop");
 		button.addActionListener(this);
 		recordPanel.add(button);
-		
-		recordPanel.setBorder(BorderFactory.createTitledBorder(BorderFactory.createEtchedBorder(EtchedBorder.RAISED), "Recording Options"));
-		
+
+		recordPanel.setBorder(BorderFactory.createTitledBorder(BorderFactory.createEtchedBorder(EtchedBorder.RAISED),
+				"Recording Options"));
+
 		add(recordPanel, BorderLayout.SOUTH);
-		
+
 		Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
 		this.setLocation(dim.width / 3 - this.getSize().width / 2, dim.height / 3 - this.getSize().height / 2);
 		setResizable(false);
@@ -115,142 +121,157 @@ public class SoundTest extends JFrame implements ActionListener {
 	}
 
 	/**
-	 * ActionListener to catch the actions performed by button click
-	 * as well as for the radio buttons.
+	 * ActionListener to catch the actions performed by button click as well as
+	 * for the radio buttons.
 	 */
 	public void actionPerformed(ActionEvent e) {
+		handle(e.getActionCommand());
+	}
 
-		switch (e.getActionCommand()) {
-			case "chimpYell":
-				try {
-					String sound = "Chimpanzee_sound_effect-412407.wav";
-					AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(new File(sound));
-					Clip clip = AudioSystem.getClip();
-					clip.open(audioInputStream);
-					clip.start();
-					while(toggle) {
-						Thread.sleep(10);
-						if(clip.isRunning()) {
-							toggle = true;
-						} else {
-							toggle = false;
-						}
+	public void handle(String s) {
+		switch (s) {
+		case "chimpYell":
+			try {
+				String sound = "Chimpanzee_sound_effect-412407.wav";
+				AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(new File(sound));
+				Clip clip = AudioSystem.getClip();
+				clip.open(audioInputStream);
+				clip.start();
+				while (toggle) {
+					Thread.sleep(10);
+					if (clip.isRunning()) {
+						toggle = true;
+					} else {
+						toggle = false;
 					}
-				} catch (Exception es) {
-					System.out.println("Problem with file: " + es.getMessage());
 				}
-				break;
-
-			case "chimes":
-				try {
-					String sound = "chimes.wav";
-					AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(new File(sound));
-					Clip clip = AudioSystem.getClip();
-					clip.open(audioInputStream);
-					clip.start();
-					while(toggle) {
-						Thread.sleep(10);
-						if(clip.isRunning()) {
-							toggle = true;
-						} else {
-							toggle = false;
-						}
-					}
-				} catch (Exception es) {
-					System.out.println("Problem with file: " + es.getMessage());
-				}
-				break;
-
-			case "ding":
-				try {
-					String sound = "ding.wav";
-					AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(new File(sound));
-					Clip clip = AudioSystem.getClip();
-					clip.open(audioInputStream);
-					clip.start();
-					while(toggle) {
-						Thread.sleep(10);
-						if(clip.isRunning()) {
-							toggle = true;
-						} else {
-							toggle = false;
-						}
-					}
-				} catch (Exception es) {
-					System.out.println("Problem with file: " + es.getMessage());
-				}
-				break;
-
-			case "tada":
-				try {
-					String sound = "tada.wav";
-					AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(new File(sound));
-					Clip clip = AudioSystem.getClip();
-					clip.open(audioInputStream);
-					clip.start();
-					while(toggle) {
-						Thread.sleep(10);
-						if(clip.isRunning()) {
-							toggle = true;
-						} else {
-							toggle = false;
-						}
-					}
-				} catch (Exception es) {
-					System.out.println("Problem with file: " + es.getMessage());
-				}
-				break;
-
-			case "ring":
-				try {
-					String sound = "Windows Ringin.wav";
-					AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(new File(sound));
-					Clip clip = AudioSystem.getClip();
-					clip.open(audioInputStream);
-					clip.start();
-					while(toggle) {
-						Thread.sleep(10);
-						if(clip.isRunning()) {
-							toggle = true;
-						} else {
-							toggle = false;
-						}
-					}
-				} catch (Exception es) {
-					System.out.println("Problem with file: " + es.getMessage());
-				}
-				break;
-			
-			case "gap":
-				toggle = true;
-				break;
-
-			case "gapless":
-				toggle = false;
-				break;
-				
-			case "record":
-				try {
-					recordFlash(recordButton, Color.RED);
-				} catch (Exception es) {
-					System.out.println("Uh oh");
-				}
-				
+			} catch (Exception es) {
+				System.out.println("Problem with file: " + es.getMessage());
 			}
-		}
+			first = System.currentTimeMillis();
+			soundsRecorded.add(one);
+			timeRecorded.add(first);			
+			break;
 
-	public void recordFlash(JButton button, Color color) throws Exception {
-		Color originalColor = button.getBackground();
-		button.setBackground(color);
-		Thread.sleep(1000);		
-		button.setBackground(originalColor);
-		Thread.sleep(1000);
-		
+		case "chimes":
+			try {
+				String sound = "chimes.wav";
+				AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(new File(sound));
+				Clip clip = AudioSystem.getClip();
+				clip.open(audioInputStream);
+				clip.start();
+				while (toggle) {
+					Thread.sleep(10);
+					if (clip.isRunning()) {
+						toggle = true;
+					} else {
+						toggle = false;
+					}
+				}
+			} catch (Exception es) {
+				System.out.println("Problem with file: " + es.getMessage());
+			}
+			second = System.currentTimeMillis();
+			soundsRecorded.add(two);
+			timeRecorded.add(second);
+			break;
+
+		case "ding":
+			try {
+				String sound = "ding.wav";
+				AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(new File(sound));
+				Clip clip = AudioSystem.getClip();
+				clip.open(audioInputStream);
+				clip.start();
+				while (toggle) {
+					Thread.sleep(10);
+					if (clip.isRunning()) {
+						toggle = true;
+					} else {
+						toggle = false;
+					}
+				}
+			} catch (Exception es) {
+				System.out.println("Problem with file: " + es.getMessage());
+			}
+			third = System.currentTimeMillis();
+			soundsRecorded.add(three);
+			timeRecorded.add(third);
+			break;
+
+		case "tada":
+			try {
+				String sound = "tada.wav";
+				AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(new File(sound));
+				Clip clip = AudioSystem.getClip();
+				clip.open(audioInputStream);
+				clip.start();
+				while (toggle) {
+					Thread.sleep(10);
+					if (clip.isRunning()) {
+						toggle = true;
+					} else {
+						toggle = false;
+					}
+				}
+			} catch (Exception es) {
+				System.out.println("Problem with file: " + es.getMessage());
+			}
+			fourth = System.currentTimeMillis();
+			soundsRecorded.add(four);
+			timeRecorded.add(fourth);
+			break;
+
+		case "ring":
+			try {
+				String sound = "Windows Ringin.wav";
+				AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(new File(sound));
+				Clip clip = AudioSystem.getClip();
+				clip.open(audioInputStream);
+				clip.start();
+				while (toggle) {
+					Thread.sleep(10);
+					if (clip.isRunning()) {
+						toggle = true;
+					} else {
+						toggle = false;
+					}
+				}
+			} catch (Exception es) {
+				System.out.println("Problem with file: " + es.getMessage());
+			}
+			fifth = System.currentTimeMillis();
+			soundsRecorded.add(five);
+			timeRecorded.add(fifth);
+			break;
+
+		case "gap":
+			toggle = true;
+			break;
+
+		case "gapless":
+			toggle = false;
+			break;
+
+		case "record":
+			soundsRecorded = new ArrayList();
+			timeRecorded = new ArrayList();
+			recording = true;
+			//recordFlash();
+			record();		
+			break;
+			
+		case "stop":
+			recording = false;
+			break;
+		}
+	}
+	
+	public void record() {
 		
 	}
 	
-
-
+	
 	/**
 	 * @param args
 	 */

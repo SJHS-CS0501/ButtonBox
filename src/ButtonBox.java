@@ -43,7 +43,7 @@ public class ButtonBox extends JFrame implements ActionListener {
         /*
          * This is what the next bit of code is doing:
          * 
-         * - Making button for [drum roll] sound
+         * - Making button for [drum roll] sound (also, start and stop)
          * - Setting word that is recognized by switch statement
          * - Adding ACtionListener so it will listen for this button
          * 		[this] referring to the current button
@@ -90,13 +90,13 @@ public class ButtonBox extends JFrame implements ActionListener {
 		button.addActionListener( this );
 		startStop.add(button);
 		
-		add(label, BorderLayout.NORTH);
-		add(buttonPanel, BorderLayout.CENTER);
-		add(startStop, BorderLayout.SOUTH);
+		add(label, BorderLayout.NORTH); //putting label at the top of the JFrame
+		add(buttonPanel, BorderLayout.CENTER); //putting the sound buttons in the center of the JFrame
+		add(startStop, BorderLayout.SOUTH); //putting the start/stop buttons at the bottom of the JFrame
 		
-		setSize(getPreferredSize());
+		setSize(getPreferredSize()); //when resizing it resizes to the preferred size of each container
 		pack();
-		setVisible(true);
+		setVisible(true); //setting frame visible
 	}
 
 	/**
@@ -107,9 +107,23 @@ public class ButtonBox extends JFrame implements ActionListener {
 		new ButtonBox();
 	}
 	
+	/**
+	 * ActionListener, listens for button clicks
+	 * @param ActionEvent e, button to be clicked
+	 */
 	public void actionPerformed( ActionEvent e ) {
 		JButton button = (JButton)e.getSource();
 		switch( button.getActionCommand() ) {
+		/*
+		 * all cases are set up:
+		 * 
+		 * - New file created
+		 * - Call on 'play' method to actually play the sound
+		 * 
+		 * - Start/stop have commands to start/stop the sound playing
+		 * 
+		 * - Default terminates the program
+		 */
 		case "One":
 			sound = new File("drum_roll2.wav");
 			play(sound);
@@ -148,36 +162,37 @@ public class ButtonBox extends JFrame implements ActionListener {
 	
 	/**
 	 * Plays sound
-	 * @param sound
+	 * @param File sound
 	 */
 	public void play( File sound ) {
+		
 		try {
-			audioSound = AudioSystem.getAudioInputStream(sound);
-		} catch (UnsupportedAudioFileException e1) {
-			e1.printStackTrace();
-		} catch (IOException e1) {
-			e1.printStackTrace();
+			audioSound = AudioSystem.getAudioInputStream(sound); //accessing file (?)
+		} catch (UnsupportedAudioFileException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
 		}
 		
 		format = audioSound.getFormat();
 		
-		DataLine.Info info = new DataLine.Info(Clip.class, format);
+		DataLine.Info info = new DataLine.Info(Clip.class, format); //adding functionality to sounds (?)
 		
 		try {
-			audioClip = (Clip) AudioSystem.getLine(info);
-		} catch (LineUnavailableException e1) {
-			e1.printStackTrace();
+			audioClip = (Clip) AudioSystem.getLine(info); //accessing file again after going through DataLine (?)
+		} catch (LineUnavailableException e) {
+			e.printStackTrace();
 		}
 		
 		try {
-			audioClip.open(audioSound);
-		} catch (LineUnavailableException e1) {
-			e1.printStackTrace();
-		} catch (IOException e1) {
-			e1.printStackTrace();
+			audioClip.open(audioSound); //opening sound file
+		} catch (LineUnavailableException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
 		}
 		
-		audioClip.start();
+		audioClip.start(); //playing sound file
 	}
 
 }

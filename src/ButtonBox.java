@@ -167,7 +167,7 @@ public class ButtonBox extends JFrame implements ActionListener {
 	public void play( File sound ) {
 		
 		try {
-			audioSound = AudioSystem.getAudioInputStream(sound); //accessing file (?)
+			audioSound = AudioSystem.getAudioInputStream(sound); //accessing file
 		} catch (UnsupportedAudioFileException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
@@ -176,10 +176,10 @@ public class ButtonBox extends JFrame implements ActionListener {
 		
 		format = audioSound.getFormat();
 		
-		DataLine.Info info = new DataLine.Info(Clip.class, format); //adding functionality to sounds (?)
+		DataLine.Info info = new DataLine.Info(Clip.class, format); //adding functionality to sounds
 		
 		try {
-			audioClip = (Clip) AudioSystem.getLine(info); //accessing file again after going through DataLine (?)
+			audioClip = (Clip) AudioSystem.getLine(info); //accessing file again after going through DataLine
 		} catch (LineUnavailableException e) {
 			e.printStackTrace();
 		}

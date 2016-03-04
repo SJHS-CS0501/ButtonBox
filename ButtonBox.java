@@ -11,12 +11,12 @@ import javax.sound.sampled.*;
  * @author Isabelle Schroeder
  *
  */
-public class ButtonBox extends JFrame implements ActionListener, LineListener{
+public class ButtonBox extends JFrame implements ActionListener, LineListener{ 
+	// need both action and line listener to listen to button pushes and lines
 	
-	private static final long serialVersionUID = 1;
-	private JPanel panel;
-	private JPanel forButtons;
-	//private JLabel label;
+	private static final long serialVersionUID = 1; // keeps from throwing an exception (needed for happiness)
+	private JPanel panel; // 
+	private JPanel forButtons; // panel for the buttons
 	private File sounds;
 	boolean playCompleted;
 	
@@ -26,21 +26,20 @@ public class ButtonBox extends JFrame implements ActionListener, LineListener{
 		super( "ButtonBox" );
 		
 		JButton button; // for all the buttons
-		//JLabel labeler;
 		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); // program close when exited
 		setLayout( new BorderLayout() );
 		
-		panel = new JPanel(); // adding panel to frame
-		forButtons = new JPanel(); // adding another panel to frame
+		forButtons = new JPanel(); // adding panel to frame
 		
 		forButtons.setLayout( new GridLayout( 2, 3) ); // laying out the buttons in a 2 row, 3 column set up
 		
-		button = new JButton( "Ominous" );
-		button.setActionCommand( "one" );
-		button.addActionListener( this );
-		forButtons.add( button );
+		button = new JButton( "Ominous" ); // name on button
+		button.setActionCommand( "one" ); // identification in switch
+		button.addActionListener( this ); // adding action listener for this JButton
+		forButtons.add( button ); // ADDING THE BUTTON!!!
 		
+		// rest of the buttons follow the same reasoning
 		button = new JButton( "Seal" );
 		button.setActionCommand( "two" );
 		button.addActionListener( this );
@@ -66,15 +65,11 @@ public class ButtonBox extends JFrame implements ActionListener, LineListener{
 		button.addActionListener( this );
 		forButtons.add( button );
 		
-		add( forButtons, BorderLayout.SOUTH );
-		
-		panel.setLayout( new FlowLayout() );
-		
-		add( panel, BorderLayout.CENTER );
+		add( forButtons, BorderLayout.SOUTH ); // add the panel to the frame, set the layout
 			
-		setSize( getPreferredSize() );
-		pack();
-		setVisible( true );
+		setSize( getPreferredSize() ); // set the size of the frame to preferred
+		pack(); // pack the whole frame all happy
+		setVisible( true ); // This is pretty important, not gonna lie.
 	}
 	
     
@@ -83,40 +78,36 @@ public class ButtonBox extends JFrame implements ActionListener, LineListener{
     * @param takes a file
     */
    void play( File sounds ) {
-       
+       // These operations require a lot of try catch things to surround them, so here is just one big try catch so everyone is happy!!
        try {
-    	   AudioInputStream audioStream = AudioSystem.getAudioInputStream( sounds );
+    	   AudioInputStream audioStream = AudioSystem.getAudioInputStream( sounds ); // accesses file
 
-           AudioFormat format = audioStream.getFormat();
+           AudioFormat format = audioStream.getFormat(); // setting up audio format
 
-           DataLine.Info info = new DataLine.Info(Clip.class, format);
+           DataLine.Info info = new DataLine.Info(Clip.class, format); // "adds media-related functionality" (start and stop and such things)
 
-           Clip audioClip = (Clip) AudioSystem.getLine(info);
+           Clip audioClip = (Clip) AudioSystem.getLine(info); // making the clip
 
-           audioClip.addLineListener(this);
+           audioClip.addLineListener(this); // listen to the clip
 
-           audioClip.open(audioStream);
+           audioClip.open(audioStream); // open clip file
             
-           audioClip.start();
+           audioClip.start(); // start playing clip
             
-           while (!playCompleted) {
-               // wait for the playback completes
+           while (!playCompleted) { // wait for clip to complete
                try {
-                   Thread.sleep(1000);
-               } catch (InterruptedException e) {
+                   Thread.sleep(1000); // wait 1 second (1000 miliseconds)
+               } catch (InterruptedException e) { // Catch the exception. Do nothing..
                }
            }
             
-            
+       // for when sadness happens
        } catch (UnsupportedAudioFileException e) {
            System.out.println("The specified audio file is not supported.");
-           e.printStackTrace();
        } catch (LineUnavailableException e) {
            System.out.println("Audio line for playing back is unavailable.");
-           e.printStackTrace();
        } catch (IOException e) {
            System.out.println("Error playing the audio file.");
-           e.printStackTrace();
        }
         
    }
@@ -146,7 +137,7 @@ public class ButtonBox extends JFrame implements ActionListener, LineListener{
 			case "one":
 				sounds = new File("ominous.wav");
 				play( sounds );
-				break;
+				break; // always, always, ALWAYS remember to put your breaks in when you don't want fallthroughs -_-
 			case "two":
 				sounds = new File("seal.wav");
 				play( sounds );
@@ -168,7 +159,7 @@ public class ButtonBox extends JFrame implements ActionListener, LineListener{
 				play( sounds );
 				break;
 			default:
-				JOptionPane.showMessageDialog( this,  "Unknown button pressed!" );
+				JOptionPane.showMessageDialog( this,  "Unknown button pressed!" ); // shouldn't be needed, but DEFAULT!!
 				break;
 		}
 	}

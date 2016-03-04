@@ -11,6 +11,7 @@ import sun.audio.AudioStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 import javax.sound.sampled.AudioFormat;
@@ -34,6 +35,8 @@ public class ButttonBox extends JFrame implements ActionListener {
 	private Clip clip;
 	private AudioInputStream audio;
 	private ArrayList <String> sl;
+	private ArrayList <Long> time;
+	private long nanot;
 	static Color fail;
 	private int assign;
 	//private ActionListener listener = new MyListener();
@@ -150,8 +153,10 @@ public class ButttonBox extends JFrame implements ActionListener {
           add( p );
              
              
-              System.nanoTime();
+             
         
+              sl = new ArrayList <String>();
+              time = new ArrayList <Long>();
         
         setSize( getPreferredSize());
 		pack();
@@ -165,12 +170,15 @@ public class ButttonBox extends JFrame implements ActionListener {
 		
 		JButton button = (JButton)e.getSource();
 
-		sl.add(e.getActionCommand());
-
-	switch( button.getActionCommand()){
 		
-	
-	
+		sl.add(e.getActionCommand());
+		
+		time.add(System.nanoTime());
+		
+		//playSound(assign(e.getActionCommand()));
+	 	
+	 
+	switch( button.getActionCommand()){
 	
 		case ("one"):
 		
@@ -182,6 +190,7 @@ public class ButttonBox extends JFrame implements ActionListener {
 			
 			break;
 		
+			
 		case ("two"):
 			
 			ding = new File("chord.wav");
@@ -189,9 +198,9 @@ public class ButttonBox extends JFrame implements ActionListener {
 			playSound(ding);
 			
 			
-			
 			break;
 		
+			
 		case ("three"):
 			
 			ding = new File("chimes.wav");
@@ -202,6 +211,7 @@ public class ButttonBox extends JFrame implements ActionListener {
 			
 			break;
 			
+			
 		case ("four"):
 			
 			ding = new File("WindowsNotify.wav");
@@ -211,6 +221,7 @@ public class ButttonBox extends JFrame implements ActionListener {
 			//sl.add(button.getAction());
 			
 			break;
+			
 		
 		case ("five"):
 			
@@ -221,6 +232,7 @@ public class ButttonBox extends JFrame implements ActionListener {
 			//sl.add(button.getAction());
 			
 			break;
+			
 		
 		case ("six"):
 			
@@ -232,13 +244,12 @@ public class ButttonBox extends JFrame implements ActionListener {
 			
 			break;
 			
+			
 		case ("play"):
 			
-			//playBack();
+		playBack();
 		
-			//String that = playBack().getActionCommand();
 			
-			this.actionPerformed(e);
 			
 			break;
 		
@@ -254,7 +265,7 @@ public class ButttonBox extends JFrame implements ActionListener {
 			
 			playSound(ding);
 			
-			b.setEnabled(false);;
+			b.setEnabled(false);
 			
 			break;
 			
@@ -271,10 +282,12 @@ public class ButttonBox extends JFrame implements ActionListener {
 			audio = AudioSystem.getAudioInputStream(ding);
 		} catch (UnsupportedAudioFileException e1) {
 			// TODO Auto-generated catch block
-			e1.printStackTrace();
+			System.out.println(e1.getMessage());
 		} catch (IOException e1) {
 			// TODO Auto-generated catch block
 			System.out.println("y");
+		} catch(NullPointerException e2){
+			System.out.println("Something is null line 287");
 		}
 		//http://www.codejava.net/coding/how-to-play-back-audio-in-java-with-examples
 		
@@ -302,18 +315,85 @@ public class ButttonBox extends JFrame implements ActionListener {
 		
 	}
 	
-	/*public JButton playBack(){
+	public void playBack() {
 		
 		for(int i = 0; i< sl.size(); i++){
 			
 			sl.get(i);
+			time.get(i);
+			
+			try{
+			nanot = (time.get(i + 1)- time.get(i));
+			}catch(Exception e){
+				System.out.println("Its ok");
+			}
+			System.out.println(nanot);
+			playSound(assign(sl.get(i)));
+			
+			try {
+				Thread.sleep(nanot/1000000);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 			
 			
-			return sl.get(i);
 		}
-		return null;
+		
+		
 	}
-	*/
+	
+	public File assign(String i){
+		
+		switch(i){
+		
+
+		case ("one"):
+		
+			File ding = new File("ding.wav");
+		
+			return ding;
+		
+			
+		case ("two"):
+			
+			ding = new File("chord.wav");
+			
+			return ding;
+			
+		case ("three"):
+			
+			ding = new File("chimes.wav");
+			
+			return ding;
+			
+			
+		case ("four"):
+			
+			ding = new File("WindowsNotify.wav");
+			
+			return ding;
+			
+		
+		case ("five"):
+			
+			ding = new File("WindowsRestore.wav");
+			
+			return ding;
+			
+		
+		case ("six"):
+			
+			ding = new File("WindowsStartup.wav");
+			
+			return ding;
+		
+			
+		}
+		
+		return null;
+		
+	}
 	
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub

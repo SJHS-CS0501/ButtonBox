@@ -327,6 +327,10 @@ public class ButttonBox extends JFrame implements ActionListener {
 			}catch(Exception e){
 				System.out.println("Its ok");
 			}
+			
+			if(nanot > 2000000000){
+				nanot = 10000000;
+			}
 			System.out.println(nanot);
 			playSound(assign(sl.get(i)));
 			

@@ -23,7 +23,12 @@ import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.UnsupportedAudioFileException;
 
 
-
+/**
+ * 
+ * @author Ryley Danielson
+ *This program creates a GUI Frame with buttons that allows you to
+ * play sounds, record them, and start new ones
+ */
 public class ButttonBox extends JFrame implements ActionListener {
 
 	private static final long serialVersionUID = 1;
@@ -32,15 +37,18 @@ public class ButttonBox extends JFrame implements ActionListener {
 	private JLabel l;
 	private JButton b;
 	private JPanel p;
-	private Clip clip;
-	private AudioInputStream audio;
-	private ArrayList <String> sl;
-	private ArrayList <Long> time;
-	private long nanot;
+	private Clip clip;// for playing audio clip
+	private AudioInputStream audio;// helps to play audio
+	private ArrayList <String> sl;// stores button Action Commands
+	private ArrayList <Long> time;// stores time between each button press
+	private long nanot;// nanoseconds
 	static Color fail;
 	private int assign;
 	//private ActionListener listener = new MyListener();
 	
+	/**
+	 * Extents frame and implements action listener for easier use of JFrame
+	 */
 	public ButttonBox(){
 		
 		super("Button Box Sounds");
@@ -50,6 +58,7 @@ public class ButttonBox extends JFrame implements ActionListener {
 		
 		JTextField inputField;
 		
+		//sets constants
 		c = new GridBagConstraints();
 	      // general constraints
 	    c.fill = GridBagConstraints.BOTH;
@@ -57,14 +66,17 @@ public class ButttonBox extends JFrame implements ActionListener {
 	    c.weightx = 0.0;
         c.gridwidth = GridBagConstraints.RELATIVE;
         
+        //first label
         c.gridx = 1;
         c.gridy = 0;
         l = new JLabel( "Sound Board" );
         layout.setConstraints( l, c );
         add(l );
         
+        // not used up to this point
         p = new JPanel(new BorderLayout());
         
+        //First sound
         c.weightx = 1;
        // c.gridwidth = GridBagConstraints.WEST;
         c.gridx = 0;
@@ -89,6 +101,7 @@ public class ButttonBox extends JFrame implements ActionListener {
         add( b );
 	   */
         
+        //Second Sound
         c.weightx = 1;
         //   c.gridwidth = GridBagConstraints.REMAINDER;
         c.gridx = 2;
@@ -100,7 +113,7 @@ public class ButttonBox extends JFrame implements ActionListener {
         add( b );
            
         
-        
+        //Third Sound
         c.weightx = 1;
      //   c.gridwidth = GridBagConstraints.REMAINDER;
         c.gridx = 1;
@@ -111,6 +124,7 @@ public class ButttonBox extends JFrame implements ActionListener {
         layout.setConstraints( b, c );
         add( b );
         
+        //Fourth Sound
         c.weightx = 1;
         //   c.gridwidth = GridBagConstraints.REMAINDER;
          c.gridx = 2;
@@ -121,6 +135,7 @@ public class ButttonBox extends JFrame implements ActionListener {
          layout.setConstraints( b, c );
          add( b );
            
+         //Fifth Sound
          c.weightx = 1;
          //   c.gridwidth = GridBagConstraints.REMAINDER;
           c.gridx = 1;
@@ -131,6 +146,7 @@ public class ButttonBox extends JFrame implements ActionListener {
           layout.setConstraints( b, c );
           add( b );
           
+          //Sixth Sound
           c.weightx = 1;
           //   c.gridwidth = GridBagConstraints.REMAINDER;
           c.gridx = 2;
@@ -141,20 +157,41 @@ public class ButttonBox extends JFrame implements ActionListener {
           layout.setConstraints( b, c );
           add( b );
           
+          //Label used to separate buttons
+          c.gridx = 1;
+          c.gridy = 4;
+          l = new JLabel("More Options");
+          layout.setConstraints( l, c );
+          add(l );
+          
+          //Playback Button
           c.weightx = 1;
           //   c.gridwidth = GridBagConstraints.REMAINDER;
           c.gridx = 1;
-          c.gridy = 4;
+          c.gridy = 5;
           b = new JButton("Playback Sounds");
           b.setActionCommand("play");
           b.addActionListener(this);
-          p.add(b, BorderLayout.SOUTH);
-          layout.setConstraints( p, c );
-          add( p );
+         // p.add(b, BorderLayout.SOUTH);
+          layout.setConstraints( b, c );
+          add( b );
+          
+          
+          //new sound ArrayList button
+          c.weightx = 1;
+          //   c.gridwidth = GridBagConstraints.REMAINDER;
+          c.gridx = 2;
+          c.gridy = 5;
+          b = new JButton("New Sound String");
+          b.setActionCommand("newSound");
+          b.addActionListener(this);
+         // p.add(b, BorderLayout.SOUTH);
+          layout.setConstraints( b, c );
+          add( b );
              
              
              
-        
+          //instantiates command and time arrays
               sl = new ArrayList <String>();
               time = new ArrayList <Long>();
         
@@ -164,20 +201,22 @@ public class ButttonBox extends JFrame implements ActionListener {
 	}
 	
 	
-
+	/**
+	 * Action listener listens for actions and determines what to do based on each 
+	 */
 	public void actionPerformed(ActionEvent e) {
 		// TODO Auto-generated method stub
 		
 		JButton button = (JButton)e.getSource();
 
-		
+		//saves to command and time arraylists
 		sl.add(e.getActionCommand());
 		
 		time.add(System.nanoTime());
 		
 		//playSound(assign(e.getActionCommand()));
 	 	
-	 
+	 //determines what to do based on each command
 	switch( button.getActionCommand()){
 	
 		case ("one"):
@@ -252,7 +291,13 @@ public class ButttonBox extends JFrame implements ActionListener {
 			
 			
 			break;
+			
+		case ("newSound"):
+			
+			sl = new ArrayList <String>();
+        	time = new ArrayList <Long>();
 		
+        	break;
 			
 		default:
 			
@@ -275,7 +320,10 @@ public class ButttonBox extends JFrame implements ActionListener {
 		
 	}
 	
-	
+	/**
+	 * Plays the chosen sound from file
+	 * @param File ding
+	 */
 	public void playSound(File ding){
 		
 		try {
@@ -315,6 +363,10 @@ public class ButttonBox extends JFrame implements ActionListener {
 		
 	}
 	
+	/**
+	 * Plays back an Arraylist of sounds and the times between them
+	 * based on the user's button clicks
+	 */
 	public void playBack() {
 		
 		for(int i = 0; i< sl.size(); i++){
@@ -322,18 +374,20 @@ public class ButttonBox extends JFrame implements ActionListener {
 			sl.get(i);
 			time.get(i);
 			
+			//compares times for elements in the arraylist
 			try{
 			nanot = (time.get(i + 1)- time.get(i));
 			}catch(Exception e){
 				System.out.println("Its ok");
 			}
 			
-			if(nanot > 2000000000){
+			if(nanot > 1500000000){
 				nanot = 10000000;
 			}
 			System.out.println(nanot);
 			playSound(assign(sl.get(i)));
 			
+			//pauses program for given time
 			try {
 				Thread.sleep(nanot/1000000);
 			} catch (InterruptedException e) {
@@ -347,6 +401,11 @@ public class ButttonBox extends JFrame implements ActionListener {
 		
 	}
 	
+	/**
+	 * assigns file names to each action command for playback
+	 * @param i
+	 * @return File
+	 */
 	public File assign(String i){
 		
 		switch(i){
@@ -399,6 +458,10 @@ public class ButttonBox extends JFrame implements ActionListener {
 		
 	}
 	
+	/**
+	 * Main creates a new ButtonBox JFrame
+	 * @param args
+	 */
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 

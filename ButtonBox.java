@@ -1,7 +1,7 @@
 import java.awt.*;
 import javax.swing.*;
 import java.awt.event.*;
-import java.io.*;   // needed to inherit java.io.InputStream
+import java.io.*;
 import javax.sound.sampled.*;
 
 
@@ -14,11 +14,10 @@ import javax.sound.sampled.*;
 public class ButtonBox extends JFrame implements ActionListener, LineListener{ 
 	// need both action and line listener to listen to button pushes and lines
 	
-	private static final long serialVersionUID = 1; // keeps from throwing an exception (needed for happiness)
-	private JPanel panel; // 
+	private static final long serialVersionUID = 1; // keeps from throwing an exception (needed for happiness) 
 	private JPanel forButtons; // panel for the buttons
-	private File sounds;
-	boolean playCompleted;
+	private File sounds; // file with all the sounds
+	boolean playCompleted; // for audio stuffs (keeps clip playing until it's done)
 	
 	
 	public ButtonBox(){
@@ -27,7 +26,7 @@ public class ButtonBox extends JFrame implements ActionListener, LineListener{
 		
 		JButton button; // for all the buttons
 		
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); // program close when exited
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); // program close when exited (not necessary, but still spiff)
 		setLayout( new BorderLayout() );
 		
 		forButtons = new JPanel(); // adding panel to frame
@@ -68,7 +67,7 @@ public class ButtonBox extends JFrame implements ActionListener, LineListener{
 		add( forButtons, BorderLayout.SOUTH ); // add the panel to the frame, set the layout
 			
 		setSize( getPreferredSize() ); // set the size of the frame to preferred
-		pack(); // pack the whole frame all happy
+		pack(); // pack the whole frame all happily
 		setVisible( true ); // This is pretty important, not gonna lie.
 	}
 	
@@ -88,7 +87,7 @@ public class ButtonBox extends JFrame implements ActionListener, LineListener{
 
            Clip audioClip = (Clip) AudioSystem.getLine(info); // making the clip
 
-           audioClip.addLineListener(this); // listen to the clip
+           audioClip.addLineListener(this); // Listen to the clip. It knows what's up.
 
            audioClip.open(audioStream); // open clip file
             
@@ -96,7 +95,7 @@ public class ButtonBox extends JFrame implements ActionListener, LineListener{
             
            while (!playCompleted) { // wait for clip to complete
                try {
-                   Thread.sleep(1000); // wait 1 second (1000 miliseconds)
+                   Thread.sleep(1000); // wait 1 second (1000 milliseconds)
                } catch (InterruptedException e) { // Catch the exception. Do nothing..
                }
            }

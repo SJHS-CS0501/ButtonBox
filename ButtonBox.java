@@ -1,7 +1,7 @@
 import java.awt.*;
 import javax.swing.*;
 import java.awt.event.*;
-import java.io.*;
+import java.io.*;   // needed to inherit java.io.InputStream
 import javax.sound.sampled.*;
 
 
@@ -14,10 +14,11 @@ import javax.sound.sampled.*;
 public class ButtonBox extends JFrame implements ActionListener, LineListener{ 
 	// need both action and line listener to listen to button pushes and lines
 	
-	private static final long serialVersionUID = 1; // keeps from throwing an exception (needed for happiness) 
+	private static final long serialVersionUID = 1; // keeps from throwing an exception (needed for happiness)
+	private JPanel panel; // 
 	private JPanel forButtons; // panel for the buttons
-	private File sounds; // file with all the sounds
-	boolean playCompleted; // for audio stuffs (keeps clip playing until it's done)
+	private File sounds;
+	boolean playCompleted;
 	
 	
 	public ButtonBox(){
@@ -26,7 +27,7 @@ public class ButtonBox extends JFrame implements ActionListener, LineListener{
 		
 		JButton button; // for all the buttons
 		
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); // program close when exited (not necessary, but still spiff)
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); // program close when exited
 		setLayout( new BorderLayout() );
 		
 		forButtons = new JPanel(); // adding panel to frame
@@ -67,7 +68,7 @@ public class ButtonBox extends JFrame implements ActionListener, LineListener{
 		add( forButtons, BorderLayout.SOUTH ); // add the panel to the frame, set the layout
 			
 		setSize( getPreferredSize() ); // set the size of the frame to preferred
-		pack(); // pack the whole frame all happily
+		pack(); // pack the whole frame all happy
 		setVisible( true ); // This is pretty important, not gonna lie.
 	}
 	
@@ -76,8 +77,32 @@ public class ButtonBox extends JFrame implements ActionListener, LineListener{
     * This does the actual playing part.
     * @param takes a file
     */
-   void play( File sounds ) {
-       // These operations require a lot of try catch things to surround them, so here is just one big try catch so everyone is happy!!
+   void play( String noise ) {
+		switch( button.getActionCommand() ){
+			case "one":
+				sounds = new File("ominous.wav");
+				break; // always, always, ALWAYS remember to put your breaks in when you don't want fallthroughs -_-
+			case "two":
+				sounds = new File("seal.wav");
+				break;
+			case "three":
+				sounds = new File("sheep521.wav");
+				break;
+			case "four":
+				sounds = new File("thunder-02.wav");
+				break;
+			case "five":
+				sounds = new File("monkey2.wav");
+				break;
+			case "six":
+				sounds = new File("duck.wav");
+				break;
+			default:
+				JOptionPane.showMessageDialog( this,  "Unknown button pressed!" ); // shouldn't be needed, but DEFAULT!!
+				break;
+		}
+	   
+	   // These operations require a lot of try catch things to surround them, so here is just one big try catch so everyone is happy!!
        try {
     	   AudioInputStream audioStream = AudioSystem.getAudioInputStream( sounds ); // accesses file
 
@@ -87,7 +112,7 @@ public class ButtonBox extends JFrame implements ActionListener, LineListener{
 
            Clip audioClip = (Clip) AudioSystem.getLine(info); // making the clip
 
-           audioClip.addLineListener(this); // Listen to the clip. It knows what's up.
+           audioClip.addLineListener(this); // listen to the clip
 
            audioClip.open(audioStream); // open clip file
             
@@ -95,7 +120,7 @@ public class ButtonBox extends JFrame implements ActionListener, LineListener{
             
            while (!playCompleted) { // wait for clip to complete
                try {
-                   Thread.sleep(1000); // wait 1 second (1000 milliseconds)
+                   Thread.sleep(1000); // wait 1 second (1000 miliseconds)
                } catch (InterruptedException e) { // Catch the exception. Do nothing..
                }
            }
@@ -132,35 +157,7 @@ public class ButtonBox extends JFrame implements ActionListener, LineListener{
     */
 	public void actionPerformed( ActionEvent e ){
 		JButton button = (JButton)e.getSource();
-		switch( button.getActionCommand() ){
-			case "one":
-				sounds = new File("ominous.wav");
-				play( sounds );
-				break; // always, always, ALWAYS remember to put your breaks in when you don't want fallthroughs -_-
-			case "two":
-				sounds = new File("seal.wav");
-				play( sounds );
-				break;
-			case "three":
-				sounds = new File("sheep521.wav");
-				play( sounds );
-				break;
-			case "four":
-				sounds = new File("thunder-02.wav");
-				play( sounds );
-				break;
-			case "five":
-				sounds = new File("monkey2.wav");
-				play( sounds );
-				break;
-			case "six":
-				sounds = new File("duck.wav");
-				play( sounds );
-				break;
-			default:
-				JOptionPane.showMessageDialog( this,  "Unknown button pressed!" ); // shouldn't be needed, but DEFAULT!!
-				break;
-		}
+		
 	}
 	
 	

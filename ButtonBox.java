@@ -95,8 +95,68 @@ public class ButtonBox extends JFrame implements ActionListener {
  * Action listener method for the buttons
  */
 		public void actionPerformed(ActionEvent e) {
+			switch(e.getActionCommand()){
+			case "Play Back":
+				playBack(buttonPressed);
+				break;
+			default:
+				PlaySound(e);
+			}
+		}
+		public void playBack(ArrayList<String> buttonPressed){
+			try{
+			for(int ctr = 1; buttonPressed.size() >= ctr; ctr++ ){
+				//buttonPressed.get(ctr);
+				if(buttonPressed.get(ctr).equals("Sound One")){
+					File ding = new File("ding.wav"); // creates the file to reference for sound one
+					AudioInputStream dingStream = AudioSystem.getAudioInputStream(ding); // creates a new audio input stream
+					AudioFormat dingFormat = dingStream.getFormat(); // creates a new audio format
+					DataLine.Info dingInfo = new DataLine.Info( Clip.class, dingFormat); // creates a variable for additional information about the file
+					Clip dingClip = (Clip) AudioSystem.getLine(dingInfo); // creates the clip that will be played 
+					dingClip.open(dingStream); // opens the clip so that it can be played
+					dingClip.start(); // starts to play the clip
+					} 
+					if(buttonPressed.get(ctr).equals("Sound Two")){
+						File wapang = new File("WindowsCriticalStop.wav"); // creates a new file to reference for sound two
+						AudioInputStream wapangStream = AudioSystem.getAudioInputStream(wapang);  // creates a new audio input stream
+						AudioFormat wapangFormat = wapangStream.getFormat(); // creates a new audio format
+						DataLine.Info wapangInfo = new DataLine.Info( Clip.class, wapangFormat);  // creates a variable for additional information about the file
+						Clip wapangClip = (Clip) AudioSystem.getLine(wapangInfo); // creates the clip that will be played 
+						wapangClip.open(wapangStream); // opens the clip so that it can be played
+						wapangClip.start(); // starts to play the clip;
+						} 							
+						if(buttonPressed.get(ctr).equals("Sound Three")){
+							File recycle = new File("WindowsRecycle.wav");
+							AudioInputStream recycleStream = AudioSystem.getAudioInputStream(recycle);  // creates a new audio input stream
+							AudioFormat recycleFormat = recycleStream.getFormat(); // creates a new audio format
+							DataLine.Info recycleInfo = new DataLine.Info( Clip.class, recycleFormat);  // creates a variable for additional information about the file
+							Clip recycleClip = (Clip) AudioSystem.getLine(recycleInfo); // creates the clip that will be played 
+							recycleClip.open(recycleStream); // opens the clip so that it can be played
+							recycleClip.start(); // starts to play the clip
+						} 
+						if(buttonPressed.get(ctr).equals("Sound Four")){
+							File ringTone = new File("WindowsRingin.wav");
+							AudioInputStream ringToneStream = AudioSystem.getAudioInputStream(ringTone);  // creates a new audio input stream
+							AudioFormat ringToneFormat = ringToneStream.getFormat(); // creates a new audio format
+							DataLine.Info ringToneInfo = new DataLine.Info( Clip.class, ringToneFormat);  // creates a variable for additional information about the file
+							Clip ringToneClip = (Clip) AudioSystem.getLine(ringToneInfo); // creates the clip that will be played 
+							ringToneClip.open(ringToneStream); // opens the clip so that it can be played
+							ringToneClip.start(); // starts to play the clip
+							} 
+						/*
+						 * Change switch statement
+						 * add new switch statement
+						 * Change array list to type sound records
+						 */
+				}
+			} catch (Exception e1){
+					System.out.println(e1); // if an exception is found, the exception is printed in console
+				}
+		}
+		
+		public void PlaySound ( ActionEvent e){
 			JButton button = (JButton) e.getSource(); // button variable for swtitch statement
-			buttonPressed = new ArrayList<String>(100);
+			//buttonPressed = new ArrayList<SoundRecord>(100);
 			switch (button.getActionCommand()) {
 			case "Sound One":
 				
@@ -176,50 +236,10 @@ public class ButtonBox extends JFrame implements ActionListener {
 
 			}
 		}
-		public void playBack(ArrayList<String> buttonPressed){
-			try{
-			for(int ctr = 1; buttonPressed.size() >= ctr; ctr++ ){
-				//buttonPressed.get(ctr);
-				if(buttonPressed.get(ctr).equals("Sound One")){
-					File ding = new File("ding.wav"); // creates the file to reference for sound one
-					AudioInputStream dingStream = AudioSystem.getAudioInputStream(ding); // creates a new audio input stream
-					AudioFormat dingFormat = dingStream.getFormat(); // creates a new audio format
-					DataLine.Info dingInfo = new DataLine.Info( Clip.class, dingFormat); // creates a variable for additional information about the file
-					Clip dingClip = (Clip) AudioSystem.getLine(dingInfo); // creates the clip that will be played 
-					dingClip.open(dingStream); // opens the clip so that it can be played
-					dingClip.start(); // starts to play the clip
-					} 
-					if(buttonPressed.get(ctr).equals("Sound Two")){
-						File wapang = new File("WindowsCriticalStop.wav"); // creates a new file to reference for sound two
-						AudioInputStream wapangStream = AudioSystem.getAudioInputStream(wapang);  // creates a new audio input stream
-						AudioFormat wapangFormat = wapangStream.getFormat(); // creates a new audio format
-						DataLine.Info wapangInfo = new DataLine.Info( Clip.class, wapangFormat);  // creates a variable for additional information about the file
-						Clip wapangClip = (Clip) AudioSystem.getLine(wapangInfo); // creates the clip that will be played 
-						wapangClip.open(wapangStream); // opens the clip so that it can be played
-						wapangClip.start(); // starts to play the clip;
-						} 							
-						if(buttonPressed.get(ctr).equals("Sound Three")){
-							File recycle = new File("WindowsRecycle.wav");
-							AudioInputStream recycleStream = AudioSystem.getAudioInputStream(recycle);  // creates a new audio input stream
-							AudioFormat recycleFormat = recycleStream.getFormat(); // creates a new audio format
-							DataLine.Info recycleInfo = new DataLine.Info( Clip.class, recycleFormat);  // creates a variable for additional information about the file
-							Clip recycleClip = (Clip) AudioSystem.getLine(recycleInfo); // creates the clip that will be played 
-							recycleClip.open(recycleStream); // opens the clip so that it can be played
-							recycleClip.start(); // starts to play the clip
-						} 
-						if(buttonPressed.get(ctr).equals("Sound Four")){
-							File ringTone = new File("WindowsRingin.wav");
-							AudioInputStream ringToneStream = AudioSystem.getAudioInputStream(ringTone);  // creates a new audio input stream
-							AudioFormat ringToneFormat = ringToneStream.getFormat(); // creates a new audio format
-							DataLine.Info ringToneInfo = new DataLine.Info( Clip.class, ringToneFormat);  // creates a variable for additional information about the file
-							Clip ringToneClip = (Clip) AudioSystem.getLine(ringToneInfo); // creates the clip that will be played 
-							ringToneClip.open(ringToneStream); // opens the clip so that it can be played
-							ringToneClip.start(); // starts to play the clip
-							} 
-				}
-			} catch (Exception e1){
-					System.out.println(e1); // if an exception is found, the exception is printed in console
-				}
+		public class SoundRecord{
+			public String sound;
+			public long delay;
 		}
-}
+	}
+
 	

@@ -117,7 +117,7 @@ public class ButtonBox extends JFrame implements ActionListener {
 		
 		add(panel);
 		
-		filenameField = new JTextField("text.txt", 10);
+		filenameField = new JTextField("test.txt", 10);
 		openFile = filenameField.getText();
 		add(filenameField);
 		

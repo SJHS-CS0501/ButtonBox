@@ -2,6 +2,8 @@ import java.awt.*;
 import javax.swing.*;
 import java.awt.event.*;
 import java.io.*;   // needed to inherit java.io.InputStream
+import java.util.ArrayList;
+
 import javax.sound.sampled.*;
 
 
@@ -19,7 +21,8 @@ public class ButtonBox extends JFrame implements ActionListener, LineListener{
 	private JPanel forButtons; // panel for the buttons
 	private File sounds;
 	boolean playCompleted;
-	
+	Recording[] things;
+	ArrayList<Recording> buttonsAndStuff = new ArrayList<Recording>();
 	
 	public ButtonBox(){
 		
@@ -78,7 +81,7 @@ public class ButtonBox extends JFrame implements ActionListener, LineListener{
     * @param takes a file
     */
    void play( String noise ) {
-		switch( button.getActionCommand() ){
+		switch( noise ){
 			case "one":
 				sounds = new File("ominous.wav");
 				break; // always, always, ALWAYS remember to put your breaks in when you don't want fallthroughs -_-
@@ -157,6 +160,9 @@ public class ButtonBox extends JFrame implements ActionListener, LineListener{
     */
 	public void actionPerformed( ActionEvent e ){
 		JButton button = (JButton)e.getSource();
+		play(button.getActionCommand());
+		
+		
 		
 	}
 	

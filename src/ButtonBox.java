@@ -2,6 +2,7 @@ import java.io.*;
 import java.awt.*;
 import javax.swing.*;
 import java.awt.event.*;
+import java.util.ArrayList;
 import javax.sound.sampled.*;
 
 /**
@@ -11,10 +12,13 @@ import javax.sound.sampled.*;
 public class ButtonBox extends JFrame implements ActionListener {
 	
 	private static final long serialVersionUID = 1;
+	Record[] recording = new Record[5];
+	ArrayList<Record> moreSounds = new ArrayList<Record>();
 	AudioInputStream audioSound;
 	private JPanel buttonPanel; //buttons that will make sounds
 	private JPanel startStop; //start and stop buttons
 	private JLabel label;
+	private String string;
 	Boolean stop = false;
 	DataLine.Info info;
 	AudioFormat format;
@@ -90,6 +94,11 @@ public class ButtonBox extends JFrame implements ActionListener {
 		button.addActionListener( this );
 		startStop.add(button);
 		
+		button = new JButton( "Record" );
+		button.setActionCommand("Nine");
+		button.addActionListener( this );
+		startStop.add(button);
+		
 		add(label, BorderLayout.NORTH); //putting label at the top of the JFrame
 		add(buttonPanel, BorderLayout.CENTER); //putting the sound buttons in the center of the JFrame
 		add(startStop, BorderLayout.SOUTH); //putting the start/stop buttons at the bottom of the JFrame
@@ -113,6 +122,27 @@ public class ButtonBox extends JFrame implements ActionListener {
 	 */
 	public void actionPerformed( ActionEvent e ) {
 		JButton button = (JButton)e.getSource();
+		
+		switch ( button.getActionCommand() ) {
+		case "Seven":
+			audioClip.start();
+			break;
+		case "Eight":
+			audioClip.stop();
+			break;
+		default:
+			play(sound,button);
+			break;
+		}
+		
+	}
+	
+	/**
+	 * Plays sound
+	 * @param File sound
+	 */
+	public void play( File sound, JButton button ) {
+		
 		switch( button.getActionCommand() ) {
 		/*
 		 * all cases are set up:
@@ -126,45 +156,25 @@ public class ButtonBox extends JFrame implements ActionListener {
 		 */
 		case "One":
 			sound = new File("drum_roll2.wav");
-			play(sound);
 			break;
 		case "Two":
 			sound = new File("cymbals.wav");
-			play(sound);
 			break;
 		case "Three":
 			sound = new File("bicycle_bell.wav");
-			play(sound);
 			break;
 		case "Four":
 			sound = new File("cuckoo_clock1_x.wav");
-			play(sound);
 			break;
 		case "Five":
 			sound = new File("dolphin.wav");
-			play(sound);
 			break;
 		case "Six":
 			sound = new File("cow.wav");
-			play(sound);
-			break;
-		case "Seven":
-			audioClip.start();
-			break;
-		case "Eight":
-			audioClip.stop();
 			break;
 		default:
 			System.exit(0);
-			break;
 		}
-	}
-	
-	/**
-	 * Plays sound
-	 * @param File sound
-	 */
-	public void play( File sound ) {
 		
 		try {
 			audioSound = AudioSystem.getAudioInputStream(sound); //accessing file

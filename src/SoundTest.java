@@ -17,21 +17,18 @@ public class SoundTest extends JFrame implements ActionListener {
 
 	private static final long serialVersionUID = 1;
 	private JFrame frame;
-	private JPanel buttonPanel;
-	private JPanel radioButtonPanel;
 	private JPanel recordPanel;
-	private JPanel playbackPanel;
+	JPanel playbackPanel;
+	JPanel radioButtonPanel;
+	JPanel buttonPanel;
 	private JButton button;
 	private JRadioButton radioButton;
 	private ButtonGroup playbackGroup;
 	private boolean toggle = false;
-	private boolean recording = false;
+	boolean recording = false;
 	private ArrayList<SoundRecording> recordedSounds = new ArrayList<SoundRecording>();
-	private SoundRecording chimp = new SoundRecording();
-	private SoundRecording chimes = new SoundRecording();
-	private SoundRecording ding = new SoundRecording();
-	private SoundRecording tada = new SoundRecording();
-	private SoundRecording ring = new SoundRecording();
+	private SoundRecording AN = new SoundRecording();
+	SoundRecording AN1 = new SoundRecording();
 
 	/**
 	 * Constructor to setup the JFrame and also to place the buttons into two
@@ -111,20 +108,22 @@ public class SoundTest extends JFrame implements ActionListener {
 		button.addActionListener(this);
 		recordPanel.add(button);
 
-		recordPanel.setBorder(BorderFactory.createTitledBorder(BorderFactory.createEtchedBorder(EtchedBorder.RAISED), "Recording Options"));
+		recordPanel.setBorder(BorderFactory.createTitledBorder(BorderFactory.createEtchedBorder(EtchedBorder.RAISED),
+				"Recording Options"));
 
 		add(recordPanel);
-		
+
 		playbackPanel = new JPanel();
 		playbackPanel.setLayout(new GridLayout(1, 2));
-		
+
 		button = new JButton("Play");
-		button.setActionCommand("play");
+		button.setActionCommand("playback");
 		button.addActionListener(this);
 		playbackPanel.add(button);
-		
-		playbackPanel.setBorder(BorderFactory.createTitledBorder(BorderFactory.createEtchedBorder(EtchedBorder.RAISED), "Playback Options"));
-		
+
+		playbackPanel.setBorder(BorderFactory.createTitledBorder(BorderFactory.createEtchedBorder(EtchedBorder.RAISED),
+				"Playback Options"));
+
 		add(playbackPanel);
 
 		Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
@@ -151,58 +150,80 @@ public class SoundTest extends JFrame implements ActionListener {
 
 		case "record":
 			recording = true;
-			recordedSounds = new ArrayList<SoundRecording>();
-			handle(e.getActionCommand());
 			break;
 
 		case "stop":
 			recording = false;
 			break;
-			
+
+		case "playback":
+			playbackSounds();
+
 		default:
 			handle(e.getActionCommand());
 		}
 	}
 
+	public void playbackSounds() {
+		for (int i = 0; i < recordedSounds.size(); i++) {
+			AN = recordedSounds.get(i);
+			AN1 = recordedSounds.get(i);
+			handle(AN.sound);
+			System.out.println(AN.sound);
+			try {
+				Thread.sleep((AN1.delay - AN.delay));
+			} catch (Exception es) {
+				System.out.println("DUH DUH DUHHHHHHHH");
+			}
+
+		}
+	}
+
+
 	public void handle(String s) {
 		switch (s) {
 		case "chimpYell":
 			chimpYell();
-			if(recording == true) {
-				chimp.sound = "chimp";
-				chimp.delay = System.currentTimeMillis();
+			if (recording) {
+				AN.sound = s;
+				AN.delay = System.currentTimeMillis();
+				recordedSounds.add(AN);
 			}
 			break;
 
 		case "chimes":
 			chimes();
-			if(recording == true) {
-				chimes.sound = "chimes";
-				chimes.delay = System.currentTimeMillis();
+			if (recording) {
+				AN.sound = s;
+				AN.delay = System.currentTimeMillis();
+				recordedSounds.add(AN);
 			}
 			break;
 
 		case "ding":
 			ding();
-			if(recording == true) {
-				ding.sound = "ding";
-				ding.delay = System.currentTimeMillis();
+			if (recording) {
+				AN.sound = s;
+				AN.delay = System.currentTimeMillis();
+				recordedSounds.add(AN);
 			}
 			break;
 
 		case "tada":
 			tada();
-			if(recording == true) {
-				tada.sound = "tada";
-				tada.delay = System.currentTimeMillis();
+			if (recording) {
+				AN.sound = s;
+				AN.delay = System.currentTimeMillis();
+				recordedSounds.add(AN);
 			}
 			break;
 
 		case "ring":
 			ring();
-			if(recording == true) {
-				ring.sound = "ring";
-				ring.delay = System.currentTimeMillis();
+			if (recording) {
+				AN.sound = s;
+				AN.delay = System.currentTimeMillis();
+				recordedSounds.add(AN);
 			}
 			break;
 		}
@@ -211,10 +232,10 @@ public class SoundTest extends JFrame implements ActionListener {
 	public void chimpYell() {
 		try {
 			String sound = "Chimpanzee_sound_effect-412407.wav";
-			AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(new File(sound));
-			Clip clip = AudioSystem.getClip();
-			clip.open(audioInputStream);
-			clip.start();
+		AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(new File(sound));
+		Clip chimpClip = AudioSystem.getClip();
+		chimpClip.open(audioInputStream);
+		chimpClip.start();
 		} catch (Exception es) {
 			System.out.println("Problem with file: " + es.getMessage());
 		}

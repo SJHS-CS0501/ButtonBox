@@ -22,7 +22,7 @@ public class ButtonBox extends JFrame implements ActionListener {
 	private static final long serialVersionUID = 1;
 	private JLabel myLabel; // variable for label
 	private GridBagLayout layout; // variable for the gridbag layout
-	private ArrayList<String> buttonPressed;
+	private ArrayList<SoundRecord> buttonPressed;
 	/**
 	 * @param args
 	 */
@@ -103,7 +103,7 @@ public class ButtonBox extends JFrame implements ActionListener {
 				PlaySound(e);
 			}
 		}
-		public void playBack(ArrayList<String> buttonPressed){
+		public void playBack(ArrayList<SoundRecord> buttonPressed){
 			try{
 			for(int ctr = 1; buttonPressed.size() >= ctr; ctr++ ){
 				//buttonPressed.get(ctr);
@@ -160,7 +160,7 @@ public class ButtonBox extends JFrame implements ActionListener {
 			switch (button.getActionCommand()) {
 			case "Sound One":
 				
-					try {
+				try {
 					File ding = new File("ding.wav"); // creates the file to reference for sound one
 						AudioInputStream dingStream = AudioSystem.getAudioInputStream(ding); // creates a new audio input stream
 						AudioFormat dingFormat = dingStream.getFormat(); // creates a new audio format
@@ -168,7 +168,7 @@ public class ButtonBox extends JFrame implements ActionListener {
 						Clip dingClip = (Clip) AudioSystem.getLine(dingInfo); // creates the clip that will be played 
 						dingClip.open(dingStream); // opens the clip so that it can be played
 						dingClip.start(); // starts to play the clip
-						buttonPressed.add("Sound One");
+						//buttonPressed.add("Sound One");
 						} catch (Exception e1) {
 						System.out.println(e1); // if an exception is found, the exception is printed in console
 						}
@@ -184,7 +184,7 @@ public class ButtonBox extends JFrame implements ActionListener {
 					Clip wapangClip = (Clip) AudioSystem.getLine(wapangInfo); // creates the clip that will be played 
 					wapangClip.open(wapangStream); // opens the clip so that it can be played
 					wapangClip.start(); // starts to play the clip
-					buttonPressed.add("Sound Two");
+					//buttonPressed.add("Sound Two");
 					} catch (Exception e1) {
 					System.out.println(e1); // if an exception is found, the exception is printed in console
 					}
@@ -200,7 +200,7 @@ public class ButtonBox extends JFrame implements ActionListener {
 					Clip recycleClip = (Clip) AudioSystem.getLine(recycleInfo); // creates the clip that will be played 
 					recycleClip.open(recycleStream); // opens the clip so that it can be played
 					recycleClip.start(); // starts to play the clip
-					buttonPressed.add("Sound Three");
+					//buttonPressed.add("Sound Three");
 					} catch (Exception e1) {
 					System.out.println(e1); // if an exception is found, the exception is printed in console
 					}
@@ -217,7 +217,7 @@ public class ButtonBox extends JFrame implements ActionListener {
 					Clip ringToneClip = (Clip) AudioSystem.getLine(ringToneInfo); // creates the clip that will be played 
 					ringToneClip.open(ringToneStream); // opens the clip so that it can be played
 					ringToneClip.start(); // starts to play the clip
-					buttonPressed.add("Sound Four");
+					//buttonPressed.add("Sound Four");
 					} catch (Exception e1) {
 					System.out.println(e1); // if an exception is found, the exception is printed in console
 					}
@@ -226,9 +226,6 @@ public class ButtonBox extends JFrame implements ActionListener {
 			case "Play Back":
 				playBack(buttonPressed);
 					
-					
-				
-				
 				break;
 			default:
 
@@ -236,9 +233,40 @@ public class ButtonBox extends JFrame implements ActionListener {
 
 			}
 		}
-		public class SoundRecord{
-			public String sound;
-			public long delay;
+		public String getSoundString( String e, JButton button, String sound){
+			switch(button.getActionCommand()){
+			case "Sound One":
+				sound = "Sound One";
+				break;
+			case "Sound Two":
+				sound = "Sound Two";
+				break;
+			case "Sound Three":
+				sound = "Sound Three";
+				break;
+			case "Sound Four":
+				sound = "Sound Four";
+				break;
+			default:
+				System.out.println( "Ya dun screwed up somewhere! Now look what you've done!");
+			}
+			return sound;
+		}
+		
+		public long getSoundRecordDelay( long delay ){
+			 long record = System.nanoTime();
+			 long record1 = 0;
+			 
+			 SoundRecord.delay = record1 - record;
+			 
+			 return SoundRecord.delay;
+		}
+		
+		public static class SoundRecord{
+			public static String sound;
+			public static long delay;
+			
+			
 		}
 	}
 

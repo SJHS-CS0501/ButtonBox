@@ -157,9 +157,20 @@ public class ButttonBox extends JFrame implements ActionListener {
           layout.setConstraints( b, c );
           add( b );
           
-          //Label used to separate buttons
+        //Sixth Sound
+          c.weightx = 1;
+          //   c.gridwidth = GridBagConstraints.REMAINDER;
           c.gridx = 1;
           c.gridy = 4;
+          b = new JButton("Fail Sound");
+          b.setActionCommand("panic");
+          b.addActionListener(this);
+          layout.setConstraints( b, c );
+          add( b );
+          
+          //Label used to separate buttons
+          c.gridx = 1;
+          c.gridy = 5;
           l = new JLabel("More Options");
           layout.setConstraints( l, c );
           add(l );
@@ -168,7 +179,7 @@ public class ButttonBox extends JFrame implements ActionListener {
           c.weightx = 1;
           //   c.gridwidth = GridBagConstraints.REMAINDER;
           c.gridx = 1;
-          c.gridy = 5;
+          c.gridy = 6;
           b = new JButton("Playback Sounds");
           b.setActionCommand("play");
           b.addActionListener(this);
@@ -181,7 +192,7 @@ public class ButttonBox extends JFrame implements ActionListener {
           c.weightx = 1;
           //   c.gridwidth = GridBagConstraints.REMAINDER;
           c.gridx = 2;
-          c.gridy = 5;
+          c.gridy = 6;
           b = new JButton("New Sound String");
           b.setActionCommand("newSound");
           b.addActionListener(this);
@@ -210,9 +221,12 @@ public class ButttonBox extends JFrame implements ActionListener {
 		JButton button = (JButton)e.getSource();
 
 		//saves to command and time arraylists
+		
+		if(!e.getActionCommand().equals("play")){
 		sl.add(e.getActionCommand());
 		
 		time.add(System.nanoTime());
+		}
 		
 		//playSound(assign(e.getActionCommand()));
 	 	
@@ -283,6 +297,15 @@ public class ButttonBox extends JFrame implements ActionListener {
 			
 			break;
 			
+		case ("panic"):
+			
+			ding = new File("ir_end.wav");
+		
+			playSound(ding);
+			
+			//sl.add(button.getActionCommand());
+			
+			break;
 			
 		case ("play"):
 			
@@ -408,12 +431,16 @@ public class ButttonBox extends JFrame implements ActionListener {
 	 */
 	public File assign(String i){
 		
+		File ding;
+		
+		System.out.println(i);
+		
 		switch(i){
 		
 
 		case ("one"):
 		
-			File ding = new File("ding.wav");
+			 ding = new File("ding.wav");
 		
 			return ding;
 		
@@ -451,6 +478,11 @@ public class ButttonBox extends JFrame implements ActionListener {
 			
 			return ding;
 		
+		case ("panic"):
+			
+			ding = new File("ir_end.wav");
+		
+			return ding;
 			
 		}
 		

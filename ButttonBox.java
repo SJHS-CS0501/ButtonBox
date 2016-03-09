@@ -81,7 +81,7 @@ public class ButttonBox extends JFrame implements ActionListener {
        // c.gridwidth = GridBagConstraints.WEST;
         c.gridx = 0;
         c.gridy = 1;
-        b = new JButton("First Sound");
+        b = new JButton("First Ding");
         b.setActionCommand("one");
         b.addActionListener(this);
        // p.add(b);
@@ -106,7 +106,7 @@ public class ButttonBox extends JFrame implements ActionListener {
         //   c.gridwidth = GridBagConstraints.REMAINDER;
         c.gridx = 2;
         c.gridy = 1;
-        b = new JButton("Second Sound");
+        b = new JButton("Annoying Sound");
         b.setActionCommand("two");
         b.addActionListener(this);
         layout.setConstraints( b, c );
@@ -118,7 +118,7 @@ public class ButttonBox extends JFrame implements ActionListener {
      //   c.gridwidth = GridBagConstraints.REMAINDER;
         c.gridx = 1;
         c.gridy = 2;
-        b = new JButton("Third Sound");
+        b = new JButton("Piano");
         b.setActionCommand("three");
         b.addActionListener(this);
         layout.setConstraints( b, c );
@@ -129,7 +129,7 @@ public class ButttonBox extends JFrame implements ActionListener {
         //   c.gridwidth = GridBagConstraints.REMAINDER;
          c.gridx = 2;
          c.gridy = 2;
-         b = new JButton("Fourth Sound");
+         b = new JButton("Chime");
          b.setActionCommand("four");
          b.addActionListener(this);
          layout.setConstraints( b, c );
@@ -140,7 +140,7 @@ public class ButttonBox extends JFrame implements ActionListener {
          //   c.gridwidth = GridBagConstraints.REMAINDER;
           c.gridx = 1;
           c.gridy = 3;
-          b = new JButton("Fith Sound");
+          b = new JButton("Soft Sound");
           b.setActionCommand("five");
           b.addActionListener(this);
           layout.setConstraints( b, c );
@@ -151,7 +151,7 @@ public class ButttonBox extends JFrame implements ActionListener {
           //   c.gridwidth = GridBagConstraints.REMAINDER;
           c.gridx = 2;
           c.gridy = 3;
-          b = new JButton("Sixth Sound");
+          b = new JButton("Pointless Button");
           b.setActionCommand("six");
           b.addActionListener(this);
           layout.setConstraints( b, c );
@@ -165,7 +165,7 @@ public class ButttonBox extends JFrame implements ActionListener {
           b = new JButton("Fail Sound");
           b.setActionCommand("panic");
           b.addActionListener(this);
-          layout.setConstraints( b, c );
+          layout.setConstraints( b, c ); 
           add( b );
           
           //Label used to separate buttons
@@ -187,6 +187,8 @@ public class ButttonBox extends JFrame implements ActionListener {
           layout.setConstraints( b, c );
           add( b );
           
+          //Important Second Half
+          
           
           //new sound ArrayList button
           c.weightx = 1;
@@ -199,6 +201,63 @@ public class ButttonBox extends JFrame implements ActionListener {
          // p.add(b, BorderLayout.SOUTH);
           layout.setConstraints( b, c );
           add( b );
+          
+          c.gridx = 1;
+          c.gridy = 7;
+          l = new JLabel( "Save/Load Sound" );
+          layout.setConstraints( l, c );
+          add(l );
+          
+          c.weightx = 1;
+          //   c.gridwidth = GridBagConstraints.REMAINDER;
+          c.gridx = 1;
+          c.gridy = 6;
+          b = new JButton("Playback Sounds");
+          b.setActionCommand("play");
+          b.addActionListener(this);
+         // p.add(b, BorderLayout.SOUTH);
+          layout.setConstraints( b, c );
+          add( b );
+          
+          c.weightx = 1;
+          //   c.gridwidth = GridBagConstraints.REMAINDER;
+          c.gridx = 1;
+          c.gridy = 8;
+          b = new JButton("Save Sounds to File (Chose a name)");
+          b.setActionCommand("save");
+          b.addActionListener(this);
+         // p.add(b, BorderLayout.SOUTH);
+          layout.setConstraints( b, c );
+          add( b );
+          
+          c.weightx = 1;
+          //   c.gridwidth = GridBagConstraints.REMAINDER;
+          c.gridx = 2;
+          c.gridy = 8;
+          b = new JButton("Load Sounds from File (Input the Name)");
+          b.setActionCommand("load");
+          b.addActionListener(this);
+         // p.add(b, BorderLayout.SOUTH);
+          layout.setConstraints( b, c );
+          add( b );
+          
+          c.weightx = 1;
+          //   c.gridwidth = GridBagConstraints.REMAINDER;
+          c.gridx = 1;
+          c.gridy = 9;
+          c.gridwidth = GridBagConstraints.RELATIVE;
+          inputField = new JTextField( b.getText(), 40 );
+          layout.setConstraints(inputField, c);
+          this.add( inputField );
+          
+          c.weightx = 1;
+          //   c.gridwidth = GridBagConstraints.REMAINDER;
+          c.gridx = 2;
+          c.gridy = 9;
+          c.gridwidth = GridBagConstraints.RELATIVE;
+          inputField = new JTextField( b.getText(), 40 );
+          layout.setConstraints(inputField, c);
+          this.add( inputField );
              
              
              
@@ -222,7 +281,10 @@ public class ButttonBox extends JFrame implements ActionListener {
 
 		//saves to command and time arraylists
 		
-		if(!e.getActionCommand().equals("play")){
+		if(!e.getActionCommand().equals("play") 
+				&&!e.getActionCommand().equals("save")
+				&&!e.getActionCommand().equals("load")){
+			
 		sl.add(e.getActionCommand());
 		
 		time.add(System.nanoTime());

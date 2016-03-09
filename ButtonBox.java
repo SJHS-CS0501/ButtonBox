@@ -113,6 +113,7 @@ public class ButtonBox extends JFrame implements ActionListener {
 					AudioFormat dingFormat = dingStream.getFormat(); // creates a new audio format
 					DataLine.Info dingInfo = new DataLine.Info( Clip.class, dingFormat); // creates a variable for additional information about the file
 					Clip dingClip = (Clip) AudioSystem.getLine(dingInfo); // creates the clip that will be played 
+					dingClip.wait(SoundRecord.delay);
 					dingClip.open(dingStream); // opens the clip so that it can be played
 					dingClip.start(); // starts to play the clip
 					} 
@@ -122,6 +123,7 @@ public class ButtonBox extends JFrame implements ActionListener {
 						AudioFormat wapangFormat = wapangStream.getFormat(); // creates a new audio format
 						DataLine.Info wapangInfo = new DataLine.Info( Clip.class, wapangFormat);  // creates a variable for additional information about the file
 						Clip wapangClip = (Clip) AudioSystem.getLine(wapangInfo); // creates the clip that will be played 
+						wapangClip.wait(SoundRecord.delay);
 						wapangClip.open(wapangStream); // opens the clip so that it can be played
 						wapangClip.start(); // starts to play the clip;
 						} 							
@@ -131,6 +133,7 @@ public class ButtonBox extends JFrame implements ActionListener {
 							AudioFormat recycleFormat = recycleStream.getFormat(); // creates a new audio format
 							DataLine.Info recycleInfo = new DataLine.Info( Clip.class, recycleFormat);  // creates a variable for additional information about the file
 							Clip recycleClip = (Clip) AudioSystem.getLine(recycleInfo); // creates the clip that will be played 
+							recycleClip.wait(SoundRecord.delay);
 							recycleClip.open(recycleStream); // opens the clip so that it can be played
 							recycleClip.start(); // starts to play the clip
 						} 
@@ -140,6 +143,7 @@ public class ButtonBox extends JFrame implements ActionListener {
 							AudioFormat ringToneFormat = ringToneStream.getFormat(); // creates a new audio format
 							DataLine.Info ringToneInfo = new DataLine.Info( Clip.class, ringToneFormat);  // creates a variable for additional information about the file
 							Clip ringToneClip = (Clip) AudioSystem.getLine(ringToneInfo); // creates the clip that will be played 
+							ringToneClip.wait(SoundRecord.delay );
 							ringToneClip.open(ringToneStream); // opens the clip so that it can be played
 							ringToneClip.start(); // starts to play the clip
 							} 
@@ -166,9 +170,12 @@ public class ButtonBox extends JFrame implements ActionListener {
 						AudioFormat dingFormat = dingStream.getFormat(); // creates a new audio format
 						DataLine.Info dingInfo = new DataLine.Info( Clip.class, dingFormat); // creates a variable for additional information about the file
 						Clip dingClip = (Clip) AudioSystem.getLine(dingInfo); // creates the clip that will be played 
+						getSoundRecordDelay(SoundRecord.delay);
+						System.out.println( SoundRecord.delay / 100000000 );
 						dingClip.open(dingStream); // opens the clip so that it can be played
 						dingClip.start(); // starts to play the clip
 						//buttonPressed.add("Sound One");
+						
 						} catch (Exception e1) {
 						System.out.println(e1); // if an exception is found, the exception is printed in console
 						}
@@ -182,6 +189,7 @@ public class ButtonBox extends JFrame implements ActionListener {
 					AudioFormat wapangFormat = wapangStream.getFormat(); // creates a new audio format
 					DataLine.Info wapangInfo = new DataLine.Info( Clip.class, wapangFormat);  // creates a variable for additional information about the file
 					Clip wapangClip = (Clip) AudioSystem.getLine(wapangInfo); // creates the clip that will be played 
+					getSoundRecordDelay(SoundRecord.delay);
 					wapangClip.open(wapangStream); // opens the clip so that it can be played
 					wapangClip.start(); // starts to play the clip
 					//buttonPressed.add("Sound Two");
@@ -198,6 +206,7 @@ public class ButtonBox extends JFrame implements ActionListener {
 					AudioFormat recycleFormat = recycleStream.getFormat(); // creates a new audio format
 					DataLine.Info recycleInfo = new DataLine.Info( Clip.class, recycleFormat);  // creates a variable for additional information about the file
 					Clip recycleClip = (Clip) AudioSystem.getLine(recycleInfo); // creates the clip that will be played 
+					getSoundRecordDelay(SoundRecord.delay);
 					recycleClip.open(recycleStream); // opens the clip so that it can be played
 					recycleClip.start(); // starts to play the clip
 					//buttonPressed.add("Sound Three");
@@ -215,6 +224,7 @@ public class ButtonBox extends JFrame implements ActionListener {
 					AudioFormat ringToneFormat = ringToneStream.getFormat(); // creates a new audio format
 					DataLine.Info ringToneInfo = new DataLine.Info( Clip.class, ringToneFormat);  // creates a variable for additional information about the file
 					Clip ringToneClip = (Clip) AudioSystem.getLine(ringToneInfo); // creates the clip that will be played 
+					getSoundRecordDelay();
 					ringToneClip.open(ringToneStream); // opens the clip so that it can be played
 					ringToneClip.start(); // starts to play the clip
 					//buttonPressed.add("Sound Four");
@@ -233,38 +243,21 @@ public class ButtonBox extends JFrame implements ActionListener {
 
 			}
 		}
-		public String getSoundString( String e, JButton button, String sound){
-			switch(button.getActionCommand()){
-			case "Sound One":
-				sound = "Sound One";
-				break;
-			case "Sound Two":
-				sound = "Sound Two";
-				break;
-			case "Sound Three":
-				sound = "Sound Three";
-				break;
-			case "Sound Four":
-				sound = "Sound Four";
-				break;
-			default:
-				System.out.println( "Ya dun screwed up somewhere! Now look what you've done!");
-			}
-			return sound;
-		}
-		
+	
 		public long getSoundRecordDelay( long delay ){
+			 long soundRecordDelay = new SoundRecord().delay;
 			 long record = System.nanoTime();
-			 long record1 = 0;
+			 long record1 = 1;
 			 
-			 SoundRecord.delay = record1 - record;
+			soundRecordDelay = record1 - record;
 			 
-			 return SoundRecord.delay;
+			 return soundRecordDelay;
 		}
 		
-		public static class SoundRecord{
-			public static String sound;
-			public static long delay;
+		public class SoundRecord{
+			
+			public String sound;
+			public long delay;
 			
 			
 		}

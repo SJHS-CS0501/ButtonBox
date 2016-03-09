@@ -12,8 +12,6 @@ import javax.sound.sampled.*;
 public class ButtonBox extends JFrame implements ActionListener {
 	
 	private static final long serialVersionUID = 1;
-	Record[] recording = new Record[5];
-	ArrayList<Record> moreSounds = new ArrayList<Record>();
 	AudioInputStream audioSound;
 	private JPanel buttonPanel; //buttons that will make sounds
 	private JPanel startStop; //start and stop buttons
@@ -84,7 +82,7 @@ public class ButtonBox extends JFrame implements ActionListener {
 		button.addActionListener( this );
 		buttonPanel.add(button);
 		
-		button = new JButton( "Start" );
+		button = new JButton( "Play Back" );
 		button.setActionCommand("Seven");
 		button.addActionListener( this );
 		startStop.add(button);
@@ -129,6 +127,10 @@ public class ButtonBox extends JFrame implements ActionListener {
 			break;
 		case "Eight":
 			audioClip.stop();
+			break;
+		case "Nine":
+			Record thing = new Record();
+			thing.makeRecording(button);
 			break;
 		default:
 			play(sound,button);
@@ -204,5 +206,5 @@ public class ButtonBox extends JFrame implements ActionListener {
 		
 		audioClip.start(); //playing sound file
 	}
-
+	
 }

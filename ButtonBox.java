@@ -3,7 +3,6 @@ import javax.swing.*;
 import java.awt.event.*;
 import java.io.*;   // needed to inherit java.io.InputStream
 import java.util.ArrayList;
-
 import javax.sound.sampled.*;
 
 
@@ -17,10 +16,14 @@ public class ButtonBox extends JFrame implements ActionListener, LineListener{
 	// need both action and line listener to listen to button pushes and lines
 	
 	private static final long serialVersionUID = 1; // keeps from throwing an exception (needed for happiness)
-	private JPanel panel; // 
+//	private JPanel panel; // 
 	private JPanel forButtons; // panel for the buttons
 	private File sounds;
+	File
+	File recordStuff;
 	boolean playCompleted;
+	boolean r;
+	String pressed;
 	Recording[] things;
 	ArrayList<Recording> buttonsAndStuff = new ArrayList<Recording>();
 	
@@ -162,7 +165,22 @@ public class ButtonBox extends JFrame implements ActionListener, LineListener{
 		JButton button = (JButton)e.getSource();
 		play(button.getActionCommand());
 		
-		
+		switch( e.getActionCommand() ){
+			case "play":
+				
+				break;
+			case "stop":
+				
+				break;
+			case "record":
+				if( r = true ){
+					
+				}
+				break;
+			default:
+				play( e.getActionCommand() );
+				break;
+		}
 		
 	}
 	

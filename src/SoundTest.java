@@ -17,18 +17,14 @@ public class SoundTest extends JFrame implements ActionListener {
 
 	private static final long serialVersionUID = 1;
 	private JFrame frame;
-	private JPanel recordPanel;
-	JPanel playbackPanel;
-	JPanel radioButtonPanel;
-	JPanel buttonPanel;
-	private JButton button;
+	private JPanel recordPanel; JPanel playbackPanel; JPanel radioButtonPanel; JPanel buttonPanel;
+	private JButton button; JButton recordButton;
 	private JRadioButton radioButton;
 	private ButtonGroup playbackGroup;
-	private boolean toggle = false;
-	boolean recording = false;
+	private boolean toggle = false; boolean recording = false;
 	private ArrayList<SoundRecording> recordedSounds = new ArrayList<SoundRecording>();
-	private SoundRecording AN = new SoundRecording();
-	SoundRecording AN1 = new SoundRecording();
+	private SoundRecording AN = new SoundRecording(); SoundRecording AN1 = new SoundRecording();
+	private long waitTime = 0;
 
 	/**
 	 * Constructor to setup the JFrame and also to place the buttons into two
@@ -98,10 +94,10 @@ public class SoundTest extends JFrame implements ActionListener {
 		recordPanel = new JPanel();
 		recordPanel.setLayout(new GridLayout(1, 2));
 
-		button = new JButton("Record");
-		button.setActionCommand("record");
-		button.addActionListener(this);
-		recordPanel.add(button);
+		recordButton = new JButton("Record");
+		recordButton.setActionCommand("record");
+		recordButton.addActionListener(this);
+		recordPanel.add(recordButton);
 
 		button = new JButton("Stop");
 		button.setActionCommand("stop");
@@ -149,10 +145,13 @@ public class SoundTest extends JFrame implements ActionListener {
 			break;
 
 		case "record":
+			recordButton.setBackground(Color.RED);
+			recordedSounds = new ArrayList<SoundRecording>();
 			recording = true;
 			break;
 
 		case "stop":
+			recordButton.setBackground(((JButton)e.getSource()).getBackground());
 			recording = false;
 			break;
 
@@ -167,13 +166,14 @@ public class SoundTest extends JFrame implements ActionListener {
 	public void playbackSounds() {
 		for (int i = 0; i < recordedSounds.size(); i++) {
 			AN = recordedSounds.get(i);
-			AN1 = recordedSounds.get(i);
-			handle(AN.sound);
 			System.out.println(AN.sound);
 			try {
-				Thread.sleep((AN1.delay - AN.delay));
+				if(i < (recordedSounds.size() - 1)) {
+					AN1 = recordedSounds.get(i + 1);
+					Thread.sleep(AN1.delay - AN.delay);
+				}
 			} catch (Exception es) {
-				System.out.println("DUH DUH DUHHHHHHHH");
+				System.out.println("Error: " + es.getMessage());
 			}
 
 		}
@@ -185,6 +185,7 @@ public class SoundTest extends JFrame implements ActionListener {
 		case "chimpYell":
 			chimpYell();
 			if (recording) {
+				AN = new SoundRecording();
 				AN.sound = s;
 				AN.delay = System.currentTimeMillis();
 				recordedSounds.add(AN);
@@ -194,6 +195,7 @@ public class SoundTest extends JFrame implements ActionListener {
 		case "chimes":
 			chimes();
 			if (recording) {
+				AN = new SoundRecording();
 				AN.sound = s;
 				AN.delay = System.currentTimeMillis();
 				recordedSounds.add(AN);
@@ -203,6 +205,7 @@ public class SoundTest extends JFrame implements ActionListener {
 		case "ding":
 			ding();
 			if (recording) {
+				AN = new SoundRecording();
 				AN.sound = s;
 				AN.delay = System.currentTimeMillis();
 				recordedSounds.add(AN);
@@ -212,6 +215,7 @@ public class SoundTest extends JFrame implements ActionListener {
 		case "tada":
 			tada();
 			if (recording) {
+				AN = new SoundRecording();
 				AN.sound = s;
 				AN.delay = System.currentTimeMillis();
 				recordedSounds.add(AN);
@@ -221,6 +225,7 @@ public class SoundTest extends JFrame implements ActionListener {
 		case "ring":
 			ring();
 			if (recording) {
+				AN = new SoundRecording();
 				AN.sound = s;
 				AN.delay = System.currentTimeMillis();
 				recordedSounds.add(AN);
@@ -232,10 +237,18 @@ public class SoundTest extends JFrame implements ActionListener {
 	public void chimpYell() {
 		try {
 			String sound = "Chimpanzee_sound_effect-412407.wav";
-		AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(new File(sound));
-		Clip chimpClip = AudioSystem.getClip();
-		chimpClip.open(audioInputStream);
-		chimpClip.start();
+			AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(new File(sound));
+			Clip clip = AudioSystem.getClip();
+			clip.open(audioInputStream);
+			clip.start();
+			while(toggle) {
+				Thread.sleep(10);
+				if(clip.isActive()) {
+					toggle = true;
+				} else {
+					toggle = false;
+				}
+			}
 		} catch (Exception es) {
 			System.out.println("Problem with file: " + es.getMessage());
 		}
@@ -248,6 +261,13 @@ public class SoundTest extends JFrame implements ActionListener {
 			Clip clip = AudioSystem.getClip();
 			clip.open(audioInputStream);
 			clip.start();
+			if(toggle) {
+				while(clip.isRunning()) {
+					System.out.println("asdf");
+					Thread.sleep(10);
+				}
+			}
+			
 		} catch (Exception es) {
 			System.out.println("Problem with file: " + es.getMessage());
 		}
@@ -260,6 +280,14 @@ public class SoundTest extends JFrame implements ActionListener {
 			Clip clip = AudioSystem.getClip();
 			clip.open(audioInputStream);
 			clip.start();
+			while(toggle) {
+				Thread.sleep(10);
+				if(clip.isActive()) {
+					toggle = true;
+				} else {
+					toggle = false;
+				}
+			}
 		} catch (Exception es) {
 			System.out.println("Problem with file: " + es.getMessage());
 		}
@@ -272,6 +300,14 @@ public class SoundTest extends JFrame implements ActionListener {
 			Clip clip = AudioSystem.getClip();
 			clip.open(audioInputStream);
 			clip.start();
+			while(toggle) {
+				Thread.sleep(10);
+				if(clip.isActive()) {
+					toggle = true;
+				} else {
+					toggle = false;
+				}
+			}
 		} catch (Exception es) {
 			System.out.println("Problem with file: " + es.getMessage());
 		}
@@ -284,6 +320,14 @@ public class SoundTest extends JFrame implements ActionListener {
 			Clip clip = AudioSystem.getClip();
 			clip.open(audioInputStream);
 			clip.start();
+			while(toggle) {
+				Thread.sleep(10);
+				if(clip.isActive()) {
+					toggle = true;
+				} else {
+					toggle = false;
+				}
+			}
 		} catch (Exception es) {
 			System.out.println("Problem with file: " + es.getMessage());
 		}

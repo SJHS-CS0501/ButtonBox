@@ -19,8 +19,7 @@ public class ButtonBox extends JFrame implements ActionListener, LineListener{
 //	private JPanel panel; // 
 	private JPanel forButtons; // panel for the buttons
 	private File sounds;
-	File
-	File recordStuff;
+	//private File recordStuff;
 	boolean playCompleted;
 	boolean r;
 	String pressed;
@@ -174,7 +173,8 @@ public class ButtonBox extends JFrame implements ActionListener, LineListener{
 				break;
 			case "record":
 				if( r = true ){
-					
+					Recording foosRoDa = new Recording();
+					foosRoDa.sounds = e.getActionCommand();	
 				}
 				break;
 			default:

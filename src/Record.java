@@ -1,5 +1,5 @@
-import java.io.FileWriter;
-import java.util.ArrayList;
+import java.io.*;
+import java.util.*;
 import javax.swing.*;
 
 public class Record {
@@ -19,40 +19,39 @@ public class Record {
 			int c = 0;
 			switch( button.getActionCommand() ) {
 			case "One":
-				lotsOfSounds.add(c, button.getActionCommand());
 				break;
 			case "Two":
-				lotsOfSounds.add(c, button.getActionCommand());
 				break;
 			case "Three":
-				lotsOfSounds.add(c, button.getActionCommand());
 				break;
 			case "Four":
-				lotsOfSounds.add(c, button.getActionCommand());
 				break;
 			case "Five":
-				lotsOfSounds.add(c, button.getActionCommand());
 				break;
 			case "Six":
-				lotsOfSounds.add(c, button.getActionCommand());
+				break;
+			case "Eight":
 				break;
 			default:
 				System.exit(0);
 			}
-			c++;
-			if( button.getActionCommand().equals("Eight") ) {
-				FileWriter writer = new FileWriter("soundFile.txt");
-				writer.write(lotsOfSounds);
-				i = -1;
+			
+			if( button.getActionCommand()!=("Eight") ) {
+				lotsOfSounds.add(c, button.getActionCommand());
+				c++;
+			} else {
+				try {
+					PrintWriter writer = new PrintWriter("soundFile.txt");
+					
+					for (int ctr = 0; ctr >= 0; ctr++ ) {
+						writer.println( lotsOfSounds[ctr].button.getActionCommand() );
+					}
+				} catch (FileNotFoundException e) {
+					e.printStackTrace();
+				}
+				
 			}
 		}
-	}
-	
-	/**
-	 * Writing to file
-	 */
-	public void writer() {
-		
 	}
 
 }

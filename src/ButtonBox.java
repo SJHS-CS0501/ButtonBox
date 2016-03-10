@@ -27,13 +27,16 @@ public class ButtonBox extends JFrame implements ActionListener {
 	private JPanel buttonPanel;
 	static JButton quitButton;
 	static GridLayout layout;
-	public ArrayList<SoundRecord> buttonList;
+	public ArrayList<String> buttonList;
+	public ArrayList<Long> buttonDelay;
 
 	/**
 	 * Constructor
 	 */
 	public ButtonBox() {
 		super("Button Box");// Called because this class extends another class
+		buttonList = new ArrayList<String>();
+		buttonDelay = new ArrayList<Long>();
 		JButton button;
 		JLabel label;
 		myLabel = new JLabel("Press a button to play a sound");
@@ -73,13 +76,18 @@ public class ButtonBox extends JFrame implements ActionListener {
 		button.setActionCommand("five");
 		button.addActionListener(this);
 		buttonPanel.add(button);
-
-		add(buttonPanel, BorderLayout.SOUTH);
-
+		
 		button = new JButton("Play back");
 		button.setActionCommand("six");
 		button.addActionListener(this);
 		buttonPanel.add(button);
+		
+		button = new JButton("CLEAR ALL SOUNDS");
+		button.setActionCommand("seven");
+		button.addActionListener(this);
+		buttonPanel.add(button);
+
+		add(buttonPanel, BorderLayout.SOUTH);
 
 		label = new JLabel("Press a button to play a sound: ");
 		mainPanel.add(label);
@@ -99,7 +107,8 @@ public class ButtonBox extends JFrame implements ActionListener {
 	 */
 	public void actionPerformed(ActionEvent e) {
 		JButton button = (JButton)e.getSource();//reference for JButton
-		buttonList = new ArrayList<SoundRecord>(100);
+		buttonList.add(e.getActionCommand());//adds button press to arraylist
+		buttonDelay.add(System.nanoTime());//adds delay to arraylist
 		switch(button.getActionCommand()) {
 		case "one":
 			myLabel.setText("Playing sound 1...");
@@ -109,7 +118,7 @@ public class ButtonBox extends JFrame implements ActionListener {
 				AudioFormat formatOne = ding.getFormat();//new audio format
 				DataLine.Info dingInfo = new DataLine.Info(Clip.class, formatOne);
 				Clip dingClip  = (Clip) AudioSystem.getLine(dingInfo);//creates clip to be played
-				getDelay(SoundRecord.delay);
+				//getDelay(SoundRecord.delay);
 				dingClip.open(ding);//opens the clip
 				dingClip.start();//plays the clip
 				//buttonList.add("one");
@@ -125,7 +134,7 @@ public class ButtonBox extends JFrame implements ActionListener {
 				AudioFormat formatTwo = soundTwoStream.getFormat();//new audio format
 				DataLine.Info soundTwoInfo = new DataLine.Info(Clip.class, formatTwo);
 				Clip soundTwoClip  = (Clip) AudioSystem.getLine(soundTwoInfo);//creates clip to be played
-				getDelay(SoundRecord.delay);
+				//getDelay(SoundRecord.delay);
 				soundTwoClip.open(soundTwoStream);//opens the clip
 				soundTwoClip.start();//plays the clip
 				//buttonList.add("two");
@@ -141,7 +150,7 @@ public class ButtonBox extends JFrame implements ActionListener {
 				AudioFormat formatThree = soundThreeStream.getFormat();//new audio format
 				DataLine.Info soundThreeInfo = new DataLine.Info(Clip.class, formatThree);
 				Clip soundThreeClip  = (Clip) AudioSystem.getLine(soundThreeInfo);//creates clip to be played
-				getDelay(SoundRecord.delay);
+				//getDelay(SoundRecord.delay);
 				soundThreeClip.open(soundThreeStream);//opens the clip
 				soundThreeClip.start();//plays the clip
 				//buttonList.add("three");
@@ -157,7 +166,7 @@ public class ButtonBox extends JFrame implements ActionListener {
 				AudioFormat formatFour = soundFourStream.getFormat();//new audio format
 				DataLine.Info soundFourInfo = new DataLine.Info(Clip.class, formatFour);
 				Clip soundFourClip  = (Clip) AudioSystem.getLine(soundFourInfo);//creates clip to be played
-				getDelay(SoundRecord.delay);
+				//getDelay(SoundRecord.delay);
 				soundFourClip.open(soundFourStream);//opens the clip
 				soundFourClip.start();//plays the clip
 				//buttonList.add("four");
@@ -173,7 +182,7 @@ public class ButtonBox extends JFrame implements ActionListener {
 				AudioFormat formatFive = soundFiveStream.getFormat();//new audio format
 				DataLine.Info soundFiveInfo = new DataLine.Info(Clip.class, formatFive);
 				Clip soundFiveClip  = (Clip) AudioSystem.getLine(soundFiveInfo);//creates clip to be played
-				getDelay(SoundRecord.delay);
+				//getDelay(SoundRecord.delay);
 				soundFiveClip.open(soundFiveStream);//opens the clip
 				soundFiveClip.start();//plays the clip
 				//buttonList.add("five");
@@ -182,16 +191,23 @@ public class ButtonBox extends JFrame implements ActionListener {
 				}
 			break;
 		case "six":
-			myLabel.setText("Play that funky music!");
+			long delay = 0;
+			myLabel.setText("YO! What a sick track!");
 			try{
-				for(int counter = 1; buttonList.size() >= counter; counter++) {
+				for(int counter = 0; buttonList.size() >= counter; counter++) {
+					try {
+						buttonList.get(counter);
+						delay = (buttonDelay.get(counter + 1) - buttonDelay.get(counter)) / 1000000;
+					} catch(IndexOutOfBoundsException e7) {
+						System.out.println();
+					}
 					if(buttonList.get(counter).equals("one")) {
 						File dingSound = new File("ding.wav");//creating sound file reference
 						AudioInputStream ding = AudioSystem.getAudioInputStream(dingSound);//creating AudioInputStream for sound ding
 						AudioFormat formatOne = ding.getFormat();//new audio format
 						DataLine.Info dingInfo = new DataLine.Info(Clip.class, formatOne);
 						Clip dingClip  = (Clip) AudioSystem.getLine(dingInfo);//creates clip to be played
-						dingClip.wait(SoundRecord.delay / 1000000);
+						Thread.sleep(delay);
 						dingClip.open(ding);//opens the clip
 						dingClip.start();//plays the clip
 					}
@@ -201,7 +217,7 @@ public class ButtonBox extends JFrame implements ActionListener {
 						AudioFormat formatTwo = soundTwoStream.getFormat();//new audio format
 						DataLine.Info soundTwoInfo = new DataLine.Info(Clip.class, formatTwo);
 						Clip soundTwoClip  = (Clip) AudioSystem.getLine(soundTwoInfo);//creates clip to be played
-						soundTwoClip.wait(SoundRecord.delay / 1000000);
+						Thread.sleep(delay);
 						soundTwoClip.open(soundTwoStream);//opens the clip
 						soundTwoClip.start();//plays the clip
 					}
@@ -211,7 +227,7 @@ public class ButtonBox extends JFrame implements ActionListener {
 						AudioFormat formatThree = soundThreeStream.getFormat();//new audio format
 						DataLine.Info soundThreeInfo = new DataLine.Info(Clip.class, formatThree);
 						Clip soundThreeClip  = (Clip) AudioSystem.getLine(soundThreeInfo);//creates clip to be played
-						soundThreeClip.wait(SoundRecord.delay / 1000000);
+						Thread.sleep(delay);
 						soundThreeClip.open(soundThreeStream);//opens the clip
 						soundThreeClip.start();//plays the clip
 					}
@@ -221,7 +237,7 @@ public class ButtonBox extends JFrame implements ActionListener {
 						AudioFormat formatFour = soundFourStream.getFormat();//new audio format
 						DataLine.Info soundFourInfo = new DataLine.Info(Clip.class, formatFour);
 						Clip soundFourClip  = (Clip) AudioSystem.getLine(soundFourInfo);//creates clip to be played
-						soundFourClip.wait(SoundRecord.delay / 1000000);
+						Thread.sleep(delay);
 						soundFourClip.open(soundFourStream);//opens the clip
 						soundFourClip.start();//plays the clip
 					}
@@ -231,56 +247,24 @@ public class ButtonBox extends JFrame implements ActionListener {
 						AudioFormat formatFive = soundFiveStream.getFormat();//new audio format
 						DataLine.Info soundFiveInfo = new DataLine.Info(Clip.class, formatFive);
 						Clip soundFiveClip  = (Clip) AudioSystem.getLine(soundFiveInfo);//creates clip to be played
-						soundFiveClip.wait(SoundRecord.delay / 1000000);
+						Thread.sleep(delay);
 						soundFiveClip.open(soundFiveStream);//opens the clip
 						soundFiveClip.start();//plays the clip
 					}
 				}
 			} catch(Exception e6) {
-			System.out.println(e6);
+			System.out.println();
 			}
 			break;
-		default:
-			JOptionPane.showMessageDialog(this, "Unknown button pressed");//Will never happen.
+		//Switch statement clears sounds so that next time it plays back, only the sounds played after this button is pressed will play
+		case "seven":
+			myLabel.setText("Clearing sounds");
+			buttonList = new ArrayList<String>();
+			buttonDelay = new ArrayList<Long>();
 		}
 		
 	}
-	
-	public String getSound(JButton button, String sound) {
-		switch(button.getActionCommand()) {
-		case "one":
-			sound = "one";
-			break;
-		case "two":
-			sound = "two";
-			break;
-		case "three":
-			sound = "three";
-			break;
-		case "four":
-			sound = "four";
-			break;
-		case "five":
-			sound = "five";
-			break;
-		default:
-			System.out.println("SADNESS, or should I say, 10!!!!");
-		}
-		return sound;
-	}
-	
-	public long getDelay(long delay) {
-		long record = System.nanoTime();
-		long record1 = 1;
-		SoundRecord.delay = record1 - record;
-		return SoundRecord.delay;
-	}
-	
-	public static class SoundRecord {
-		SoundRecord soundrecord;
-		public static String sound;
-		public static long delay;
-	}
+
 
 	/**
 	 * @param args

@@ -11,7 +11,9 @@ import java.util.*;
  * @author Jack Protivnak
  * 
  *         This program is designed to allow the user to play different sounds
- *         based on the click of a JButton.
+ *         based on the click of a JButton. They also have the ability to record
+ *         the different sounds in any order with the time between as well. They can
+ *         then playback the recorded sounds. 
  */
 public class SoundTest extends JFrame implements ActionListener {
 
@@ -27,9 +29,9 @@ public class SoundTest extends JFrame implements ActionListener {
 	private long waitTime = 0;
 
 	/**
-	 * Constructor to setup the JFrame and also to place the buttons into two
-	 * different panels. One panel for the sound buttons and the other for the
-	 * radio buttons.
+	 * Constructor to setup the JFrame and also to place the buttons into four
+	 * different panels. One panel for the sound buttons, one for the
+	 * radio buttons, another for recording options, and a final one for playback. 
 	 */
 	public SoundTest() {
 		super("SoundTest");
@@ -132,7 +134,7 @@ public class SoundTest extends JFrame implements ActionListener {
 
 	/**
 	 * ActionListener to catch the actions performed by button click as well as
-	 * for the radio buttons.
+	 * for the radio buttons. The sounds are redirected to a handle method. 
 	 */
 	public void actionPerformed(ActionEvent e) {
 		switch (e.getActionCommand()) {
@@ -163,6 +165,10 @@ public class SoundTest extends JFrame implements ActionListener {
 		}
 	}
 
+        /**
+         * This method is designed to playback the sounds recorded by the user. 
+         */
+
 	public void playbackSounds() {
 		for (int i = 0; i < recordedSounds.size(); i++) {
 			AN = recordedSounds.get(i);
@@ -179,6 +185,10 @@ public class SoundTest extends JFrame implements ActionListener {
 		}
 	}
 
+        /**
+         * This method will get information from the action listener
+         * and play a sound based on the button click of the user. 
+         */
 
 	public void handle(String s) {
 		switch (s) {
@@ -234,6 +244,10 @@ public class SoundTest extends JFrame implements ActionListener {
 		}
 	}
 
+       /**
+        * Method for sound playback. 
+        */
+
 	public void chimpYell() {
 		try {
 			String sound = "Chimpanzee_sound_effect-412407.wav";
@@ -254,6 +268,10 @@ public class SoundTest extends JFrame implements ActionListener {
 		}
 	}
 
+       /**
+        * Method for sound playback. 
+        */
+
 	public void chimes() {
 		try {
 			String sound = "chimes.wav";
@@ -272,6 +290,10 @@ public class SoundTest extends JFrame implements ActionListener {
 			System.out.println("Problem with file: " + es.getMessage());
 		}
 	}
+
+        /**
+        * Method for sound playback. 
+        */
 
 	public void ding() {
 		try {
@@ -293,6 +315,10 @@ public class SoundTest extends JFrame implements ActionListener {
 		}
 	}
 
+        /**
+        * Method for sound playback. 
+        */
+
 	public void tada() {
 		try {
 			String sound = "tada.wav";
@@ -313,6 +339,10 @@ public class SoundTest extends JFrame implements ActionListener {
 		}
 	}
 
+        /**
+        * Method for sound playback. 
+        */
+
 	public void ring() {
 		try {
 			String sound = "Windows Ringin.wav";
@@ -331,10 +361,6 @@ public class SoundTest extends JFrame implements ActionListener {
 		} catch (Exception es) {
 			System.out.println("Problem with file: " + es.getMessage());
 		}
-	}
-
-	public void record(ActionEvent e) {
-		handle(e.getActionCommand());
 	}
 
 	/**

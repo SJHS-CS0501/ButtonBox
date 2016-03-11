@@ -12,32 +12,37 @@ import java.util.*;
  * 
  *         This program is designed to allow the user to play different sounds
  *         based on the click of a JButton. They also have the ability to record
- *         the different sounds in any order with the time between as well. They can
- *         then playback the recorded sounds. 
+ *         the different sounds in any order with the time between as well. They
+ *         can then playback the recorded sounds.
  */
 public class SoundTest extends JFrame implements ActionListener {
 
 	private static final long serialVersionUID = 1;
 	private JFrame frame;
-	private JPanel recordPanel; JPanel playbackPanel; JPanel radioButtonPanel; JPanel buttonPanel;
-	private JButton button; JButton recordButton;
+	private JPanel recordPanel;
+	JPanel playbackPanel;
+	JPanel radioButtonPanel;
+	JPanel buttonPanel;
+	private JButton button;
+	JButton recordButton;
 	private JRadioButton radioButton;
 	private ButtonGroup playbackGroup;
-	private boolean toggle = false; boolean recording = false;
 	private ArrayList<SoundRecording> recordedSounds = new ArrayList<SoundRecording>();
-	private SoundRecording AN = new SoundRecording(); SoundRecording AN1 = new SoundRecording();
-	private long waitTime = 0;
+	private SoundRecording AN = new SoundRecording();
+	SoundRecording AN1 = new SoundRecording();
+	private boolean toggle = false;
+	boolean recording = false;
 
 	/**
 	 * Constructor to setup the JFrame and also to place the buttons into four
-	 * different panels. One panel for the sound buttons, one for the
-	 * radio buttons, another for recording options, and a final one for playback. 
+	 * different panels. One panel for the sound buttons, one for the radio
+	 * buttons, another for recording options, and a final one for play back.
 	 */
 	public SoundTest() {
 		super("SoundTest");
 
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setLayout(new FlowLayout());
+		setLayout(new GridLayout(2, 2));
 
 		buttonPanel = new JPanel();
 		buttonPanel.setLayout(new GridLayout(5, 1));
@@ -119,8 +124,8 @@ public class SoundTest extends JFrame implements ActionListener {
 		button.addActionListener(this);
 		playbackPanel.add(button);
 
-		playbackPanel.setBorder(BorderFactory.createTitledBorder(BorderFactory.createEtchedBorder(EtchedBorder.RAISED),
-				"Playback Options"));
+		playbackPanel.setBorder(
+				BorderFactory.createTitledBorder(BorderFactory.createEtchedBorder(EtchedBorder.RAISED), "Playback"));
 
 		add(playbackPanel);
 
@@ -134,7 +139,7 @@ public class SoundTest extends JFrame implements ActionListener {
 
 	/**
 	 * ActionListener to catch the actions performed by button click as well as
-	 * for the radio buttons. The sounds are redirected to a handle method. 
+	 * for the radio buttons. The sounds are redirected to a handle method.
 	 */
 	public void actionPerformed(ActionEvent e) {
 		switch (e.getActionCommand()) {
@@ -153,7 +158,7 @@ public class SoundTest extends JFrame implements ActionListener {
 			break;
 
 		case "stop":
-			recordButton.setBackground(((JButton)e.getSource()).getBackground());
+			recordButton.setBackground(((JButton) e.getSource()).getBackground());
 			recording = false;
 			break;
 
@@ -165,16 +170,17 @@ public class SoundTest extends JFrame implements ActionListener {
 		}
 	}
 
-        /**
-         * This method is designed to playback the sounds recorded by the user. 
-         */
+	/**
+	 * This method is designed to playback the sounds recorded by the user.
+	 */
 
 	public void playbackSounds() {
 		for (int i = 0; i < recordedSounds.size(); i++) {
 			AN = recordedSounds.get(i);
 			System.out.println(AN.sound);
+			handle(AN.sound);
 			try {
-				if(i < (recordedSounds.size() - 1)) {
+				if (i < (recordedSounds.size() - 1)) {
 					AN1 = recordedSounds.get(i + 1);
 					Thread.sleep(AN1.delay - AN.delay);
 				}
@@ -185,10 +191,10 @@ public class SoundTest extends JFrame implements ActionListener {
 		}
 	}
 
-        /**
-         * This method will get information from the action listener
-         * and play a sound based on the button click of the user. 
-         */
+	/**
+	 * This method will get information from the action listener and play a
+	 * sound based on the button click of the user.
+	 */
 
 	public void handle(String s) {
 		switch (s) {
@@ -244,9 +250,9 @@ public class SoundTest extends JFrame implements ActionListener {
 		}
 	}
 
-       /**
-        * Method for sound playback. 
-        */
+	/**
+	 * Method for sound playback.
+	 */
 
 	public void chimpYell() {
 		try {
@@ -255,9 +261,9 @@ public class SoundTest extends JFrame implements ActionListener {
 			Clip clip = AudioSystem.getClip();
 			clip.open(audioInputStream);
 			clip.start();
-			while(toggle) {
+			while (toggle) {
 				Thread.sleep(10);
-				if(clip.isActive()) {
+				if (clip.isActive()) {
 					toggle = true;
 				} else {
 					toggle = false;
@@ -268,9 +274,9 @@ public class SoundTest extends JFrame implements ActionListener {
 		}
 	}
 
-       /**
-        * Method for sound playback. 
-        */
+	/**
+	 * Method for sound playback.
+	 */
 
 	public void chimes() {
 		try {
@@ -279,21 +285,21 @@ public class SoundTest extends JFrame implements ActionListener {
 			Clip clip = AudioSystem.getClip();
 			clip.open(audioInputStream);
 			clip.start();
-			if(toggle) {
-				while(clip.isRunning()) {
+			if (toggle) {
+				while (clip.isRunning()) {
 					System.out.println("asdf");
 					Thread.sleep(10);
 				}
 			}
-			
+
 		} catch (Exception es) {
 			System.out.println("Problem with file: " + es.getMessage());
 		}
 	}
 
-        /**
-        * Method for sound playback. 
-        */
+	/**
+	 * Method for sound playback.
+	 */
 
 	public void ding() {
 		try {
@@ -302,9 +308,9 @@ public class SoundTest extends JFrame implements ActionListener {
 			Clip clip = AudioSystem.getClip();
 			clip.open(audioInputStream);
 			clip.start();
-			while(toggle) {
+			while (toggle) {
 				Thread.sleep(10);
-				if(clip.isActive()) {
+				if (clip.isActive()) {
 					toggle = true;
 				} else {
 					toggle = false;
@@ -315,9 +321,9 @@ public class SoundTest extends JFrame implements ActionListener {
 		}
 	}
 
-        /**
-        * Method for sound playback. 
-        */
+	/**
+	 * Method for sound playback.
+	 */
 
 	public void tada() {
 		try {
@@ -326,9 +332,9 @@ public class SoundTest extends JFrame implements ActionListener {
 			Clip clip = AudioSystem.getClip();
 			clip.open(audioInputStream);
 			clip.start();
-			while(toggle) {
+			while (toggle) {
 				Thread.sleep(10);
-				if(clip.isActive()) {
+				if (clip.isActive()) {
 					toggle = true;
 				} else {
 					toggle = false;
@@ -339,9 +345,9 @@ public class SoundTest extends JFrame implements ActionListener {
 		}
 	}
 
-        /**
-        * Method for sound playback. 
-        */
+	/**
+	 * Method for sound playback.
+	 */
 
 	public void ring() {
 		try {
@@ -350,9 +356,9 @@ public class SoundTest extends JFrame implements ActionListener {
 			Clip clip = AudioSystem.getClip();
 			clip.open(audioInputStream);
 			clip.start();
-			while(toggle) {
+			while (toggle) {
 				Thread.sleep(10);
-				if(clip.isActive()) {
+				if (clip.isActive()) {
 					toggle = true;
 				} else {
 					toggle = false;

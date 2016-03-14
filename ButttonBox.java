@@ -8,11 +8,18 @@ import javax.swing.*;
 
 import sun.audio.AudioStream;
 
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.List;
 
 import javax.sound.sampled.AudioFormat;
 import javax.sound.sampled.AudioInputStream;
@@ -41,9 +48,15 @@ public class ButttonBox extends JFrame implements ActionListener {
 	private AudioInputStream audio;// helps to play audio
 	private ArrayList <String> sl;// stores button Action Commands
 	private ArrayList <Long> time;// stores time between each button press
+	private ArrayList<SoundLists> soundlistList;
 	private long nanot;// nanoseconds
 	static Color fail;
 	private int assign;
+	private SoundLists object;
+	private JTextField inputField, tinputField;
+	private BufferedReader reader;
+	private PrintWriter writer;
+	private File ding;
 	//private ActionListener listener = new MyListener();
 	
 	/**
@@ -56,7 +69,6 @@ public class ButttonBox extends JFrame implements ActionListener {
 		layout = new GridBagLayout();
 		setLayout(layout);
 		
-		JTextField inputField;
 		
 		//sets constants
 		c = new GridBagConstraints();
@@ -202,6 +214,7 @@ public class ButttonBox extends JFrame implements ActionListener {
           layout.setConstraints( b, c );
           add( b );
           
+          /*
           c.gridx = 1;
           c.gridy = 7;
           l = new JLabel( "Save/Load Sound" );
@@ -232,6 +245,15 @@ public class ButttonBox extends JFrame implements ActionListener {
           
           c.weightx = 1;
           //   c.gridwidth = GridBagConstraints.REMAINDER;
+          c.gridx = 1;
+          c.gridy = 9;
+          c.gridwidth = GridBagConstraints.RELATIVE;
+          tinputField = new JTextField( b.getText(), 20 );
+          layout.setConstraints(tinputField, c);
+          this.add( tinputField );
+          
+          c.weightx = 1;
+          //   c.gridwidth = GridBagConstraints.REMAINDER;
           c.gridx = 2;
           c.gridy = 8;
           b = new JButton("Load Sounds from File (Input the Name)");
@@ -241,21 +263,13 @@ public class ButttonBox extends JFrame implements ActionListener {
           layout.setConstraints( b, c );
           add( b );
           
-          c.weightx = 1;
-          //   c.gridwidth = GridBagConstraints.REMAINDER;
-          c.gridx = 1;
-          c.gridy = 9;
-          c.gridwidth = GridBagConstraints.RELATIVE;
-          inputField = new JTextField( b.getText(), 40 );
-          layout.setConstraints(inputField, c);
-          this.add( inputField );
           
           c.weightx = 1;
           //   c.gridwidth = GridBagConstraints.REMAINDER;
           c.gridx = 2;
           c.gridy = 9;
           c.gridwidth = GridBagConstraints.RELATIVE;
-          inputField = new JTextField( b.getText(), 40 );
+          inputField = new JTextField( b.getText(), 20 );
           layout.setConstraints(inputField, c);
           this.add( inputField );
              
@@ -264,7 +278,21 @@ public class ButttonBox extends JFrame implements ActionListener {
           //instantiates command and time arrays
               sl = new ArrayList <String>();
               time = new ArrayList <Long>();
+              soundlistList = new ArrayList<SoundLists>();
+              
+              ding = new File("CustomSounds");
+              
+              try {
+				reader = new BufferedReader( new FileReader("CustomSounds"));
+			} catch (FileNotFoundException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			*/
         
+          sl = new ArrayList <String>();
+          time = new ArrayList <Long>();
+          
         setSize( getPreferredSize());
 		pack();
 		setVisible(true);
@@ -297,7 +325,7 @@ public class ButttonBox extends JFrame implements ActionListener {
 	
 		case ("one"):
 		
-			File ding = new File("ding.wav");
+			ding = new File("ding.wav");
 		
 			playSound(ding);
 		
@@ -383,16 +411,62 @@ public class ButttonBox extends JFrame implements ActionListener {
         	time = new ArrayList <Long>();
 		
         	break;
-        	
+        /*	
 		case ("save"):
 			
+			object = new SoundLists();
+			object.setName(tinputField.getText());
+			object.setCommand(sl);
+			object.setTime(time);
+			
+			//soundlistList = new ArrayList<SoundLists>();
+			soundlistList.add(object);
+			
+			//ding = new File("CustomSounds");
 			
 			
+			
+		try {
+			writer = new PrintWriter( new BufferedWriter(new FileWriter("CustomSounds")));
+		} catch (IOException e2) {
+			// TODO Auto-generated catch block
+			e2.printStackTrace();
+		}
+			
+			for(int i = 0; i< soundlistList.size(); i++) {
+				SoundLists l = soundlistList.get(i);
+				l.write(writer);
+				
+				
+				/*
+				 * Equivalent:
+				 * Task foo = tasklist.get(i);
+				 * foo.write(writer);
+				 */
+			//}
+			
+				//writer.close();
+				
+				//tinputField.setText("Save Successful");
+			
+			//soundlistList.clear();
+		/*
 			break;
+			
+			
 		
 		case ("load"):
-			
+			System.out.println("Save occurring");
+		for(int i = 0; i<soundlistList.size(); i++){
+			System.out.println(soundlistList.get(i).getName());
+			if(soundlistList.get(i).getName().equals(inputField) ){
+				System.out.println("Here");
+				playBack(soundlistList.get(i).getTime(), soundlistList.get(i).getCommand() );
+			}
+		}
+		System.out.println("Save done");
 			break;
+		*/	
 			
 		default:
 			
@@ -571,5 +645,76 @@ public class ButttonBox extends JFrame implements ActionListener {
 
 		new  ButttonBox();
 	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	public void playBack(ArrayList<Long> t, ArrayList<String> c) {
+		
+		for(int i = 0; i< sl.size(); i++){
+			
+			c.get(i);
+			t.get(i);
+			
+			//compares times for elements in the arraylist
+			try{
+			nanot = (time.get(i + 1)- time.get(i));
+			}catch(Exception e){
+				System.out.println("Its ok");
+			}
+			
+			if(nanot > 1500000000){
+				nanot = 10000000;
+			}
+			System.out.println(nanot);
+			playSound(assign(sl.get(i)));
+			
+			//pauses program for given time
+			try {
+				Thread.sleep(nanot/1000000);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
+			
+		}
+	
+	}
+	
 
 }

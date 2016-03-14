@@ -1,5 +1,8 @@
 
 
+import java.io.PrintWriter;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
 /**
@@ -50,6 +53,18 @@ public class SoundLists {
 	public ArrayList<Long> getTime(){
 		
 		return time;
+	}
+	
+	public void write(PrintWriter writer){
+		StringBuilder s = new StringBuilder();
+		 
+		s.append(listName);
+		s.append("\t");
+		s.append(command);
+		s.append("\t");
+		s.append(time);
+		 
+		 writer.println(s);
 	}
 
 }

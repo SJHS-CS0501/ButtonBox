@@ -11,16 +11,18 @@ import javax.sound.sampled.*;
  */
 public class ButtonBox extends JFrame implements ActionListener {
 	
+	ArrayList<String> lotsOfSounds = new ArrayList<String>();
 	private static final long serialVersionUID = 1;
 	AudioInputStream audioSound;
 	private JPanel buttonPanel; //buttons that will make sounds
 	private JPanel startStop; //start and stop buttons
 	private JLabel label;
-	private String string;
 	Boolean stop = false;
 	DataLine.Info info;
 	AudioFormat format;
+	PrintWriter writer;
 	Clip clip = null;
+	String[] sounds;
 	Clip audioClip;
 	File sound;
 	
@@ -129,8 +131,8 @@ public class ButtonBox extends JFrame implements ActionListener {
 			audioClip.stop();
 			break;
 		case "Nine":
-			Record thing = new Record();
-			thing.makeRecording(button);
+			stop = true;
+			makeRecording(button, stop);
 			break;
 		default:
 			play(sound,button);
@@ -205,6 +207,52 @@ public class ButtonBox extends JFrame implements ActionListener {
 		}
 		
 		audioClip.start(); //playing sound file
+	}
+	
+	/**
+	 * Making array (recording)
+	 * @param button
+	 */
+	public void makeRecording(JButton button, Boolean stop) {
+		
+			switch( button.getActionCommand() ) {
+			case "One":
+				break;
+			case "Two":
+				break;
+			case "Three":
+				break;
+			case "Four":
+				break;
+			case "Five":
+				break;
+			case "Six":
+				break;
+			case "Eight":
+				break;
+			default:
+				System.out.print("Bad thing");
+			}
+			
+			if( button.getActionCommand()!=("Eight") ) {
+				int c = 0;
+				lotsOfSounds.add(c, button.getActionCommand());
+				c++;
+			} else {
+				
+				try {
+					writer = new PrintWriter("soundFile.txt");
+					
+					for (int ctr = 0; ctr >= 0; ctr++ ) {
+						sounds = lotsOfSounds.toArray(new String[lotsOfSounds.size()]);
+						writer.println( sounds[ctr] );
+					}
+				} catch (FileNotFoundException e) {
+					e.printStackTrace();
+				}
+				
+			}
+			
 	}
 	
 }

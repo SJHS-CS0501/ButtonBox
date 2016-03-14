@@ -15,8 +15,7 @@ import javax.sound.sampled.*;
 public class ButtonBox extends JFrame implements ActionListener, LineListener{ 
 	// need both action and line listener to listen to button pushes and lines
 	
-	private static final long serialVersionUID = 1; // keeps from throwing an exception (needed for happiness)
-//	private JPanel panel; // 
+	private static final long serialVersionUID = 1; // keeps from throwing an exception (needed for happiness) 
 	private JPanel forButtons; // panel for the buttons
 	private File sounds;
 	//private File recordStuff;
@@ -37,7 +36,7 @@ public class ButtonBox extends JFrame implements ActionListener, LineListener{
 		
 		forButtons = new JPanel(); // adding panel to frame
 		
-		forButtons.setLayout( new GridLayout( 2, 3) ); // laying out the buttons in a 2 row, 3 column set up
+		forButtons.setLayout( new GridLayout( 3, 3) ); // laying out the buttons in a 3 row, 3 column set up
 		
 		button = new JButton( "Ominous" ); // name on button
 		button.setActionCommand( "one" ); // identification in switch
@@ -67,6 +66,21 @@ public class ButtonBox extends JFrame implements ActionListener, LineListener{
 		
 		button = new JButton( "Duck" );
 		button.setActionCommand( "six" );
+		button.addActionListener( this );
+		forButtons.add( button );
+		
+		button = new JButton( "Play Recording" );
+		button.setActionCommand( "play" );
+		button.addActionListener( this );
+		forButtons.add( button );
+		
+		button = new JButton( "Stop Recording" );
+		button.setActionCommand( "stop" );
+		button.addActionListener( this );
+		forButtons.add( button );
+		
+		button = new JButton( "Record" );
+		button.setActionCommand( "record" );
 		button.addActionListener( this );
 		forButtons.add( button );
 		
@@ -173,8 +187,10 @@ public class ButtonBox extends JFrame implements ActionListener, LineListener{
 				break;
 			case "record":
 				if( r = true ){
-					Recording foosRoDa = new Recording();
-					foosRoDa.sounds = e.getActionCommand();	
+					Recording foosRoDa = new Recording( e.getActionCommand() );
+					//foosRoDa.sounds = e.getActionCommand();
+					
+					
 				}
 				break;
 			default:

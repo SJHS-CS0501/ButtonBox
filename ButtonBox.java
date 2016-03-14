@@ -15,7 +15,7 @@ import java.util.*;
 
 /**
  * @author SJHSStudent
- *
+ * This program is plays back button presses that the user has in a beat box style. 
  */
 public class ButtonBox extends JFrame implements ActionListener {
 
@@ -35,9 +35,9 @@ public class ButtonBox extends JFrame implements ActionListener {
 		JButton sound3; // button for sound three, RECYCLE
 		JButton sound4; // button for sound four, RING TONE
 		JButton playBack; // button for playing back the sounds
-		JButton clearSounds;
-		buttonPressed = new ArrayList<String>();
-		delayTime = new ArrayList<Long>();
+		JButton clearSounds; // button for clearing the sounds stored
+		buttonPressed = new ArrayList<String>(); // the array for tracking the buttons pressed
+		delayTime = new ArrayList<Long>(); // array for the delay of the buttons pressed 
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);// sets it to close as default
 		layout = new GridBagLayout(); // creates a new GridBagLayout
 		setLayout(layout); // sets the layout of myFrame according to GridBagLayout
@@ -59,40 +59,42 @@ public class ButtonBox extends JFrame implements ActionListener {
 		sound2 = new JButton("WAPANG"); // sound for WAPANG
 		sound3 = new JButton("RECYCLE"); // sound for RECYCLE
 		sound4 = new JButton("RING TONE"); // sound for RING TONE
-		clearSounds = new JButton("Clear Sounds");
+		clearSounds = new JButton("Clear Sounds"); // creates the button for clearing the sounds
 		playBack = new JButton("PLAYBACK"); // creates the button for playing for play back sounds
 		sound1.setFont(new Font("TimesRoman", Font.ITALIC, 12)); // sets font, makes font italicized and font size
 		sound2.setFont(new Font("TimesRoman", Font.ITALIC, 12)); // sets font, makes font italicized and font size
 		sound3.setFont(new Font("TimesRoman", Font.ITALIC, 12)); // sets font, makes font italicized and font size
 		sound4.setFont(new Font("TimesRoman", Font.ITALIC, 12)); // sets font, makes font italicized and font size
-		playBack.setFont(new Font("TimesRoman", Font.ITALIC, 12));
+		playBack.setFont(new Font("TimesRoman", Font.ITALIC, 12)); // sets font, makes font italicized and font size
 		clearSounds.setFont(new Font("TimesRoman", Font.ITALIC, 12)); // sets font, makes font italicized and font size
-		sound1.addActionListener(this); // adds ActionListener to button to roll dice
-		sound2.addActionListener(this);// adds ActionListener to button to stop rolling dice
-		sound4.addActionListener(this); // adds ActionListener to button to roll dice
-		sound3.addActionListener(this);// adds ActionListener to button to stop rolling dice
-		playBack.addActionListener(this);
-		clearSounds.addActionListener(this);
-		sound1.setActionCommand("Sound One");
-		sound2.setActionCommand("Sound Two");
-		sound3.setActionCommand("Sound Three");
-		sound4.setActionCommand("Sound Four");
-		playBack.setActionCommand("Play Back");
-		clearSounds.setActionCommand("Clear Sounds");
+		sound1.addActionListener(this); // adds ActionListener to button to play sound
+		sound2.addActionListener(this); // adds ActionListener to button to play sound
+		sound4.addActionListener(this); // adds ActionListener to button to play sound
+		sound3.addActionListener(this); // adds ActionListener to button to play sound
+		playBack.addActionListener(this); // adds ActionListener to button to play back sounds
+		clearSounds.addActionListener(this); // adds ActionListener to clear sounds stored in the arrays
+		sound1.setActionCommand("Sound One"); // sets the action command to Sound One
+		sound2.setActionCommand("Sound Two"); // sets the action command to Sound Two
+		sound3.setActionCommand("Sound Three"); // sets the action command to Sound Three
+		sound4.setActionCommand("Sound Four"); // sets the action command to Sound Four
+		playBack.setActionCommand("Play Back"); // sets the action command to Play Back
+		clearSounds.setActionCommand("Clear Sounds"); // sets the action command to Clear Sounds
 		layout.setConstraints(sound1, c); // more button constraints
 		layout.setConstraints(sound2, c); // more button constraints
 		layout.setConstraints(sound3, c); // more button constraints
 		layout.setConstraints(sound4, c); // more button constraints
+		layout.setConstraints(playBack, c); // more button constraints
+		layout.setConstraints(clearSounds, c); // more button constraints
 		
 		add(sound1); // adds button to frame
 		add(sound2); // adds button to frame
 		add(sound3); // adds button to frame
 		add(sound4); // adds button to frame
-		add(playBack);  
-		add(clearSounds);
+		add(playBack); // adds button to frame
+		add(clearSounds); // adds button to frame
 		setResizable(false); // makes the frame unresizable 
 		 setSize( getPreferredSize() ); // sets the frame to the preferred size 
-		 pack(); // 
+		 pack(); // sets the window to the preferred size 
 		 setVisible(true); // makes the frame visible
 	}
 
@@ -102,7 +104,7 @@ public class ButtonBox extends JFrame implements ActionListener {
 	}
 
 /**
- * Action listener method for the buttons
+ * Method for the Action Listener
  */
 		public void actionPerformed(ActionEvent e) {
 			switch(e.getActionCommand()){
@@ -116,13 +118,18 @@ public class ButtonBox extends JFrame implements ActionListener {
 				PlaySound(e); // if not the playback button or clear sounds, 
 			}
 		}
+		/**
+		 * Method for playing back the button presses with the delays
+		 * @param buttonPressed
+		 * @param delayTime
+		 */
 		public void playBack(ArrayList<String> buttonPressed, ArrayList<Long> delayTime){
-			long actualDelay = 0;
+			long actualDelay = 0; // variable for the actual delay of the program
 			try{
 			for(int ctr = 0; buttonPressed.size() >= ctr; ctr++ ){
 				try{
-				buttonPressed.get(ctr);
-				actualDelay = (delayTime.get(ctr + 1)- delayTime.get(ctr)) / 1000000;
+				buttonPressed.get(ctr); // gets the value of button pressed at ctr
+				actualDelay = (delayTime.get(ctr + 1) - delayTime.get(ctr)) / 1000000; // gets the actual delay of the button press
 				}
 				catch ( IndexOutOfBoundsException e2){
 					System.out.println("Ingnore and move on, nothing to see here");
@@ -134,7 +141,7 @@ public class ButtonBox extends JFrame implements ActionListener {
 					AudioFormat dingFormat = dingStream.getFormat(); // creates a new audio format
 					DataLine.Info dingInfo = new DataLine.Info( Clip.class, dingFormat); // creates a variable for additional information about the file
 					Clip dingClip = (Clip) AudioSystem.getLine(dingInfo); // creates the clip that will be played 
-					Thread.sleep(actualDelay);
+					Thread.sleep(actualDelay); // sets the sound to sleep for the delay 
 					dingClip.open(dingStream); // opens the clip so that it can be played
 					dingClip.start(); // starts to play the clip
 					} 
@@ -144,7 +151,7 @@ public class ButtonBox extends JFrame implements ActionListener {
 						AudioFormat wapangFormat = wapangStream.getFormat(); // creates a new audio format
 						DataLine.Info wapangInfo = new DataLine.Info( Clip.class, wapangFormat);  // creates a variable for additional information about the file
 						Clip wapangClip = (Clip) AudioSystem.getLine(wapangInfo); // creates the clip that will be played 
-						Thread.sleep(actualDelay);
+						Thread.sleep(actualDelay); // sets the sound to sleep for the delay 
 						wapangClip.open(wapangStream); // opens the clip so that it can be played
 						wapangClip.start(); // starts to play the clip;
 						} 							
@@ -154,7 +161,7 @@ public class ButtonBox extends JFrame implements ActionListener {
 							AudioFormat recycleFormat = recycleStream.getFormat(); // creates a new audio format
 							DataLine.Info recycleInfo = new DataLine.Info( Clip.class, recycleFormat);  // creates a variable for additional information about the file
 							Clip recycleClip = (Clip) AudioSystem.getLine(recycleInfo); // creates the clip that will be played 
-							Thread.sleep(actualDelay);
+							Thread.sleep(actualDelay); // sets the sound to sleep for the delay 
 							recycleClip.open(recycleStream); // opens the clip so that it can be played
 							recycleClip.start(); // starts to play the clip
 						} 
@@ -164,7 +171,7 @@ public class ButtonBox extends JFrame implements ActionListener {
 							AudioFormat ringToneFormat = ringToneStream.getFormat(); // creates a new audio format
 							DataLine.Info ringToneInfo = new DataLine.Info( Clip.class, ringToneFormat);  // creates a variable for additional information about the file
 							Clip ringToneClip = (Clip) AudioSystem.getLine(ringToneInfo); // creates the clip that will be played 
-							Thread.sleep(actualDelay);
+							Thread.sleep(actualDelay); // sets the sound to sleep for the delay 
 							ringToneClip.open(ringToneStream); // opens the clip so that it can be played
 							ringToneClip.start(); // starts to play the clip
 							} 
@@ -174,12 +181,15 @@ public class ButtonBox extends JFrame implements ActionListener {
 					System.out.println("If this exception is an IndexOutOfBoundsException, ingnore it, you saw nothing");
 				}
 		}
-		
+		/**
+		 * Method for playing the sounds normally
+		 * @param e
+		 */
 		public void PlaySound ( ActionEvent e){
 			
-			JButton button = (JButton) e.getSource(); // button variable for swtitch statement
-			buttonPressed.add(e.getActionCommand());
-			delayTime.add(System.nanoTime());
+			JButton button = (JButton) e.getSource(); // button variable for switch statement
+			buttonPressed.add(e.getActionCommand()); // adds action command to the button pressed button
+			delayTime.add(System.nanoTime()); // adds a delay to the delayTime arrayList
 			switch (button.getActionCommand()) {
 			case "Sound One":
 				
@@ -248,11 +258,11 @@ public class ButtonBox extends JFrame implements ActionListener {
 					
 				break;
 			case "Play Back":
-				playBack(buttonPressed, delayTime);
+				playBack(buttonPressed, delayTime); // calls the method play back to play back the buttons pressed
 					
 				break;
 			default:
-
+					System.out.println("Well, you screwed up somewhere, preparing to ignite the world..."); // if you somehow end up here...
 				break;
 
 			}

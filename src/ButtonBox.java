@@ -231,7 +231,7 @@ public class ButtonBox extends JFrame implements ActionListener {
 			case "Eight":
 				break;
 			default:
-				System.out.print("Bad thing");
+				System.out.print("Bad stuff");
 			}
 			
 			if( button.getActionCommand()!=("Eight") ) {

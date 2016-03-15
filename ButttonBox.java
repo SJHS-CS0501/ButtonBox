@@ -214,7 +214,7 @@ public class ButttonBox extends JFrame implements ActionListener {
           layout.setConstraints( b, c );
           add( b );
           
-          
+          /*
           c.gridx = 1;
           c.gridy = 7;
           l = new JLabel( "Save/Load Sound" );
@@ -242,7 +242,7 @@ public class ButttonBox extends JFrame implements ActionListener {
          // p.add(b, BorderLayout.SOUTH);
           layout.setConstraints( b, c );
           add( b );
-          */
+          
           
           c.weightx = 1;
           //   c.gridwidth = GridBagConstraints.REMAINDER;

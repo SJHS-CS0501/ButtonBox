@@ -132,7 +132,7 @@ public class ButtonBox extends JFrame implements ActionListener {
 			break;
 		case "Nine":
 			stop = true;
-			makeRecording(button, stop);
+			makeRecording(e);
 			break;
 		default:
 			play(sound,button);
@@ -213,43 +213,38 @@ public class ButtonBox extends JFrame implements ActionListener {
 	 * Making array (recording)
 	 * @param button
 	 */
-	public void makeRecording(JButton button, Boolean stop) {
+	public void makeRecording(ActionEvent s) {
 		
-			switch( button.getActionCommand() ) {
+			switch( s.getActionCommand() ) {
 			case "One":
+				stop = true;
 				break;
 			case "Two":
+				stop = true;
 				break;
 			case "Three":
+				stop = true;
 				break;
 			case "Four":
+				stop = true;
 				break;
 			case "Five":
+				stop = true;
 				break;
 			case "Six":
+				stop = true;
 				break;
 			case "Eight":
+				stop = false;
 				break;
 			default:
-				System.out.print("Bad stuff");
+				System.out.print("Sadness :'(");
+				System.exit(0);
 			}
 			
-			if( button.getActionCommand()!=("Eight") ) {
-				int c = 0;
-				lotsOfSounds.add(c, button.getActionCommand());
-				c++;
+			if( stop ) {
+				lotsOfSounds.add( s.getActionCommand());
 			} else {
-				
-				try {
-					writer = new PrintWriter("soundFile.txt");
-					
-					for (int ctr = 0; ctr >= 0; ctr++ ) {
-						sounds = lotsOfSounds.toArray(new String[lotsOfSounds.size()]);
-						writer.println( sounds[ctr] );
-					}
-				} catch (FileNotFoundException e) {
-					e.printStackTrace();
-				}
 				
 			}
 			

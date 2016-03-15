@@ -18,7 +18,6 @@ public class ButtonBox extends JFrame implements ActionListener, LineListener{
 	private static final long serialVersionUID = 1; // keeps from throwing an exception (needed for happiness) 
 	private JPanel forButtons; // panel for the buttons
 	private File sounds;
-	//private File recordStuff;
 	boolean playCompleted;
 	boolean r;
 	String pressed;
@@ -139,7 +138,7 @@ public class ButtonBox extends JFrame implements ActionListener, LineListener{
             
            while (!playCompleted) { // wait for clip to complete
                try {
-                   Thread.sleep(1000); // wait 1 second (1000 miliseconds)
+                   Thread.sleep(1000); // wait 1 second (1000 milliseconds)
                } catch (InterruptedException e) { // Catch the exception. Do nothing..
                }
            }
@@ -188,8 +187,8 @@ public class ButtonBox extends JFrame implements ActionListener, LineListener{
 			case "record":
 				if( r = true ){
 					Recording foosRoDa = new Recording( e.getActionCommand() );
-					//foosRoDa.sounds = e.getActionCommand();
 					
+					buttonsAndStuff = foosRoDa.recordWav( sounds );
 					
 				}
 				break;

@@ -8,27 +8,32 @@ public class Recording{
 	
 		switch( command ){
 			case "one":
+				sounds.add( command );
 				break;
 			case "two":
+				sounds.add( command );
 				break;
 			case "three":
+				sounds.add( command );
 				break;
 			case "four":
+				sounds.add( command );
 				break;
 			case "five":
+				sounds.add( command );
 				break;
 			case "six":
+				sounds.add( command );
 				break;
-	}
+		}
 	
 	}	
 	
-	File file;
-	
 	ArrayList<String> sounds = new ArrayList<String>();
-	public long delay;
+	//public long delay;
 	
-	public void recordWav(){
+	public ArrayList<String> recordWav(){
+		return sounds;
 	}
 	
 	

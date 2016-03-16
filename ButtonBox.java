@@ -22,7 +22,8 @@ public class ButtonBox extends JFrame implements ActionListener, LineListener{
 	boolean r;
 	String pressed;
 	Recording[] things;
-	ArrayList<Recording> buttonsAndStuff = new ArrayList<Recording>();
+	ArrayList<String> buttonsAndStuff = new ArrayList<String>();
+	
 	
 	public ButtonBox(){
 		
@@ -188,7 +189,7 @@ public class ButtonBox extends JFrame implements ActionListener, LineListener{
 				if( r = true ){
 					Recording foosRoDa = new Recording( e.getActionCommand() );
 					
-					buttonsAndStuff = foosRoDa.recordWav( sounds );
+					buttonsAndStuff = foosRoDa.recordWav();
 					
 				}
 				break;

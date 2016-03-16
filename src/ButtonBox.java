@@ -121,12 +121,12 @@ public class ButtonBox extends JFrame implements ActionListener {
 	 * @param ActionEvent e, button to be clicked
 	 */
 	public void actionPerformed( ActionEvent e ) {
-		JButton button = (JButton)e.getSource();
 		
-		switch ( button.getActionCommand() ) {
+		switch ( e.getActionCommand() ) {
 		case "Seven":
 			for(int i = 0; i <= lotsOfSounds.size(); i++ ) {
 				
+				play(sound,e);
 			}
 			break;
 		case "Eight":
@@ -137,7 +137,7 @@ public class ButtonBox extends JFrame implements ActionListener {
 			makeRecording(e);
 			break;
 		default:
-			play(sound,button);
+			play(sound,e);
 			break;
 		}
 		
@@ -147,9 +147,9 @@ public class ButtonBox extends JFrame implements ActionListener {
 	 * Plays sound
 	 * @param File sound
 	 */
-	public void play( File sound, JButton button ) {
+	public void play( File sound, ActionEvent s ) {
 		
-		switch( button.getActionCommand() ) {
+		switch( s.getActionCommand() ) {
 		case "One":
 			sound = new File("drum_roll2.wav");
 			break;

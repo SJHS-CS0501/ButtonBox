@@ -124,8 +124,9 @@ public class ButtonBox extends JFrame implements ActionListener {
 		
 		switch ( e.getActionCommand() ) {
 		case "Seven":
+			stop = false;
 			for(int i = 0; i <= lotsOfSounds.size(); i++ ) {
-				
+				lotsOfSounds.get(i);
 				play(sound,e);
 			}
 			break;
@@ -134,9 +135,10 @@ public class ButtonBox extends JFrame implements ActionListener {
 			break;
 		case "Nine":
 			stop = true;
-			makeRecording(e);
+			//play(sound,e);
 			break;
 		default:
+			stop = false;
 			play(sound,e);
 			break;
 		}
@@ -152,21 +154,39 @@ public class ButtonBox extends JFrame implements ActionListener {
 		switch( s.getActionCommand() ) {
 		case "One":
 			sound = new File("drum_roll2.wav");
+			if ( stop ) {
+				makeRecording(s);
+			}
 			break;
 		case "Two":
 			sound = new File("cymbals.wav");
+			if ( stop ) {
+				makeRecording(s);
+			}
 			break;
 		case "Three":
 			sound = new File("bicycle_bell.wav");
+			if ( stop ) {
+				makeRecording(s);
+			}
 			break;
 		case "Four":
 			sound = new File("cuckoo_clock1_x.wav");
+			if ( stop ) {
+				makeRecording(s);
+			}
 			break;
 		case "Five":
 			sound = new File("dolphin.wav");
+			if ( stop ) {
+				makeRecording(s);
+			}
 			break;
 		case "Six":
 			sound = new File("cow.wav");
+			if ( stop ) {
+				makeRecording(s);
+			}
 			break;
 		default:
 			System.exit(0);
@@ -206,8 +226,9 @@ public class ButtonBox extends JFrame implements ActionListener {
 	 * @param button
 	 */
 	public void makeRecording(ActionEvent s) {
-		switch (s.getActionCommand()) {
 		/*
+		switch (s.getActionCommand()) {
+		
 		case "One":
 			stop = true;
 			break;
@@ -226,15 +247,13 @@ public class ButtonBox extends JFrame implements ActionListener {
 		case "Six":
 			stop = true;
 			break;
-			*/
 		case "Eight":
 			stop = false;
 			break;
 		default:
 			System.out.print("Sadness :'(");
 		}
-		
-		lotsOfSounds.add(s.getActionCommand());
-			
+		*/
+		lotsOfSounds.add(s.getActionCommand());	
 	}
 }

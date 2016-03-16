@@ -125,10 +125,12 @@ public class ButtonBox extends JFrame implements ActionListener {
 		
 		switch ( button.getActionCommand() ) {
 		case "Seven":
-			audioClip.start();
+			for(int i = 0; i <= lotsOfSounds.size(); i++ ) {
+				
+			}
 			break;
 		case "Eight":
-			audioClip.stop();
+			stop = false;
 			break;
 		case "Nine":
 			stop = true;
@@ -148,16 +150,6 @@ public class ButtonBox extends JFrame implements ActionListener {
 	public void play( File sound, JButton button ) {
 		
 		switch( button.getActionCommand() ) {
-		/*
-		 * all cases are set up:
-		 * 
-		 * - New file created
-		 * - Call on 'play' method to actually play the sound
-		 * 
-		 * - Start/stop have commands to start/stop the sound playing
-		 * 
-		 * - Default terminates the program
-		 */
 		case "One":
 			sound = new File("drum_roll2.wav");
 			break;
@@ -214,40 +206,35 @@ public class ButtonBox extends JFrame implements ActionListener {
 	 * @param button
 	 */
 	public void makeRecording(ActionEvent s) {
+		switch (s.getActionCommand()) {
+		/*
+		case "One":
+			stop = true;
+			break;
+		case "Two":
+			stop = true;
+			break;
+		case "Three":
+			stop = true;
+			break;
+		case "Four":
+			stop = true;
+			break;
+		case "Five":
+			stop = true;
+			break;
+		case "Six":
+			stop = true;
+			break;
+			*/
+		case "Eight":
+			stop = false;
+			break;
+		default:
+			System.out.print("Sadness :'(");
+		}
 		
-			switch( s.getActionCommand() ) {
-			case "One":
-				stop = true;
-				break;
-			case "Two":
-				stop = true;
-				break;
-			case "Three":
-				stop = true;
-				break;
-			case "Four":
-				stop = true;
-				break;
-			case "Five":
-				stop = true;
-				break;
-			case "Six":
-				stop = true;
-				break;
-			case "Eight":
-				stop = false;
-				break;
-			default:
-				System.out.print("Sadness :'(");
-				System.exit(0);
-			}
-			
-			if( stop ) {
-				lotsOfSounds.add( s.getActionCommand());
-			} else {
-				
-			}
+		lotsOfSounds.add(s.getActionCommand());
 			
 	}
-	
 }

@@ -126,8 +126,7 @@ public class ButtonBox extends JFrame implements ActionListener {
 		case "Seven":
 			stop = false;
 			for(int i = 0; i <= lotsOfSounds.size(); i++ ) {
-				lotsOfSounds.get(i);
-				play(sound,e);
+				play(lotsOfSounds.get(i));
 			}
 			break;
 		case "Eight":
@@ -139,7 +138,7 @@ public class ButtonBox extends JFrame implements ActionListener {
 			break;
 		default:
 			stop = false;
-			play(sound,e);
+			play(e);
 			break;
 		}
 		
@@ -149,7 +148,7 @@ public class ButtonBox extends JFrame implements ActionListener {
 	 * Plays sound
 	 * @param File sound
 	 */
-	public void play( File sound, ActionEvent s ) {
+	public void play( ActionEvent s ) {
 		
 		switch( s.getActionCommand() ) {
 		case "One":

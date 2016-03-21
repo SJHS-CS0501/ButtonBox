@@ -126,7 +126,7 @@ public class ButtonBox extends JFrame implements ActionListener {
 		case "Seven":
 			stop = false;
 			for(int i = 0; i <= lotsOfSounds.size(); i++ ) {
-				play(lotsOfSounds.get(i));
+				recPlay(lotsOfSounds.get(i));
 			}
 			break;
 		case "Eight":
@@ -142,6 +142,62 @@ public class ButtonBox extends JFrame implements ActionListener {
 			break;
 		}
 		
+	}
+	
+	/**
+	 * Plays from recording
+	 */
+	public void recPlay( String t ) {
+		switch( t ) {
+		case "One":
+			sound = new File("drum_roll2.wav");
+			break;
+		case "Two":
+			sound = new File("cymbals.wav");
+			break;
+		case "Three":
+			sound = new File("bicycle_bell.wav");
+			break;
+		case "Four":
+			sound = new File("cuckoo_clock1_x.wav");
+			break;
+		case "Five":
+			sound = new File("dolphin.wav");
+			break;
+		case "Six":
+			sound = new File("cow.wav");
+			break;
+		default:
+			System.exit(0);
+		}
+		
+		try {
+			audioSound = AudioSystem.getAudioInputStream(sound); //accessing file
+		} catch (UnsupportedAudioFileException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
+		format = audioSound.getFormat();
+		
+		DataLine.Info info = new DataLine.Info(Clip.class, format); //adding functionality to sounds
+		
+		try {
+			audioClip = (Clip) AudioSystem.getLine(info); //accessing file again after going through DataLine
+		} catch (LineUnavailableException e) {
+			e.printStackTrace();
+		}
+		
+		try {
+			audioClip.open(audioSound); //opening sound file
+		} catch (LineUnavailableException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
+		audioClip.start(); //playing sound file
 	}
 	
 	/**
@@ -225,34 +281,9 @@ public class ButtonBox extends JFrame implements ActionListener {
 	 * @param button
 	 */
 	public void makeRecording(ActionEvent s) {
-		/*
-		switch (s.getActionCommand()) {
 		
-		case "One":
-			stop = true;
-			break;
-		case "Two":
-			stop = true;
-			break;
-		case "Three":
-			stop = true;
-			break;
-		case "Four":
-			stop = true;
-			break;
-		case "Five":
-			stop = true;
-			break;
-		case "Six":
-			stop = true;
-			break;
-		case "Eight":
-			stop = false;
-			break;
-		default:
-			System.out.print("Sadness :'(");
-		}
-		*/
 		lotsOfSounds.add(s.getActionCommand());	
+	
 	}
+	
 }

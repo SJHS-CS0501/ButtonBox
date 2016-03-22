@@ -188,12 +188,8 @@ public class ButtonBox extends JFrame implements ActionListener, LineListener{
 			case "record":
 				if( r = true ){
 					Recording foosRoDa = new Recording( e.getActionCommand() );
-<<<<<<< HEAD
-=======
 					
 					buttonsAndStuff = foosRoDa.recordWav();
-					
->>>>>>> origin/master
 				}
 				break;
 			default:

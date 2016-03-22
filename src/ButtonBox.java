@@ -11,20 +11,21 @@ import javax.sound.sampled.*;
  */
 public class ButtonBox extends JFrame implements ActionListener {
 	
-	ArrayList<String> lotsOfSounds = new ArrayList<String>();
+	private ArrayList<String> lotsOfSounds = new ArrayList<String>(); //for recording
+	private ArrayList<Long> timing = new ArrayList<Long>(); //for the breaks in between
+	private long time; //used to find the amount of time in between in milliseconds
 	private static final long serialVersionUID = 1;
-	AudioInputStream audioSound;
+	private AudioInputStream audioSound;
 	private JPanel buttonPanel; //buttons that will make sounds
 	private JPanel startStop; //start and stop buttons
 	private JLabel label;
-	Boolean stop = false;
-	DataLine.Info info;
-	AudioFormat format;
-	PrintWriter writer;
-	Clip clip = null;
-	String[] sounds;
-	Clip audioClip;
-	File sound;
+	private Boolean stop = false, timer = false; 
+	//private DataLine.Info info; don't think I need
+	private AudioFormat format;
+	//private Clip clip = null; don't think I need
+	//private String[] sounds; don't think I need
+	private Clip audioClip;
+	private File sound; //holds sounds
 	
 	//constructor
 	public ButtonBox() {
@@ -37,7 +38,8 @@ public class ButtonBox extends JFrame implements ActionListener {
 		JButton button;
 		
 		GridBagConstraints c = new GridBagConstraints();
-		c.fill = GridBagConstraints.BOTH; //makes components fill space both horizontally and vertically
+		//makes components fill space both horizontally and vertically
+		c.fill = GridBagConstraints.BOTH;
 		
 		c.weightx = 0.0; //resizing behavior
         c.gridwidth = GridBagConstraints.RELATIVE; //rows, last one in its row
@@ -48,62 +50,66 @@ public class ButtonBox extends JFrame implements ActionListener {
          * This is what the next bit of code is doing:
          * 
          * - Making button for [drum roll] sound (also, start and stop)
-         * - Setting word that is recognized by switch statement
-         * - Adding ACtionListener so it will listen for this button
+         * - Setting word that is recognized by switch statement (a.k.a ActionCommand)
+         * - Adding ActionListener so it will listen for this button
          * 		[this] referring to the current button
          * - Adding button to the panel
          */
         
 		button = new JButton( "Drum roll" );
-		button.setActionCommand( "One" );
+		button.setActionCommand( "Drum" );
 		button.addActionListener( this );
 		buttonPanel.add(button);
 		
 		button = new JButton( "Cymbals" );
-		button.setActionCommand( "Two" );
+		button.setActionCommand( "Cymbal" );
 		button.addActionListener( this );
 		buttonPanel.add(button);
 		
 		button = new JButton( "Bicycle Bell" );
-		button.setActionCommand( "Three" );
+		button.setActionCommand( "Bell" );
 		button.addActionListener( this );
 		buttonPanel.add(button);
 		
 		button = new JButton( "Cuckoo Clock" );
-		button.setActionCommand( "Four" );
+		button.setActionCommand( "Clock" );
 		button.addActionListener( this );
 		buttonPanel.add(button);
 		
 		button = new JButton( "Dolphin" );
-		button.setActionCommand( "Five" );
+		button.setActionCommand( "Dolphin" );
 		button.addActionListener( this );
 		buttonPanel.add(button);
 		
 		button = new JButton( "Cow" );
-		button.setActionCommand( "Six" );
+		button.setActionCommand( "Cow" );
 		button.addActionListener( this );
 		buttonPanel.add(button);
 		
 		button = new JButton( "Play Back" );
-		button.setActionCommand("Seven");
+		button.setActionCommand("Play Back");
 		button.addActionListener( this );
 		startStop.add(button);
 		
 		button = new JButton( "Stop" );
-		button.setActionCommand("Eight");
+		button.setActionCommand("Stop");
 		button.addActionListener( this );
 		startStop.add(button);
 		
 		button = new JButton( "Record" );
-		button.setActionCommand("Nine");
+		button.setActionCommand("Record");
 		button.addActionListener( this );
 		startStop.add(button);
 		
-		add(label, BorderLayout.NORTH); //putting label at the top of the JFrame
-		add(buttonPanel, BorderLayout.CENTER); //putting the sound buttons in the center of the JFrame
-		add(startStop, BorderLayout.SOUTH); //putting the start/stop buttons at the bottom of the JFrame
+		//putting label at the top of the JFrame
+		add(label, BorderLayout.NORTH);
+		//putting the sound buttons in the center of the JFrame
+		add(buttonPanel, BorderLayout.CENTER);
+		//putting the start/stop buttons at the bottom of the JFrame
+		add(startStop, BorderLayout.SOUTH);
 		
-		setSize(getPreferredSize()); //when resizing it resizes to the preferred size of each container
+		//when resizing it resizes to the preferred size of each container
+		setSize(getPreferredSize());
 		pack();
 		setVisible(true); //setting frame visible
 	}
@@ -122,19 +128,18 @@ public class ButtonBox extends JFrame implements ActionListener {
 	 */
 	public void actionPerformed( ActionEvent e ) {
 		
-		switch ( e.getActionCommand() ) {
-		case "Seven":
+		switch ( e.getActionCommand() ) { //switching on ActionCommands
+		case "Play Back":
 			stop = false;
 			for(int i = 0; i <= lotsOfSounds.size(); i++ ) {
 				recPlay(lotsOfSounds.get(i));
 			}
 			break;
-		case "Eight":
+		case "Stop":
 			stop = false;
 			break;
-		case "Nine":
+		case "Record":
 			stop = true;
-			//play(sound,e);
 			break;
 		default:
 			stop = false;
@@ -145,26 +150,28 @@ public class ButtonBox extends JFrame implements ActionListener {
 	}
 	
 	/**
-	 * Plays from recording
+	 * Playing back recording of sounds
+	 * @param t
 	 */
-	public void recPlay( String t ) {
-		switch( t ) {
-		case "One":
+	public void recPlay( String t ) { 
+		switch( t ) { //switching on the ActionCommands (strings) from array
+		//every time a new file is created
+		case "Drum":
 			sound = new File("drum_roll2.wav");
 			break;
-		case "Two":
+		case "Cymbal":
 			sound = new File("cymbals.wav");
 			break;
-		case "Three":
+		case "Bell":
 			sound = new File("bicycle_bell.wav");
 			break;
-		case "Four":
+		case "Clock":
 			sound = new File("cuckoo_clock1_x.wav");
 			break;
-		case "Five":
+		case "Dolphin":
 			sound = new File("dolphin.wav");
 			break;
-		case "Six":
+		case "Cow":
 			sound = new File("cow.wav");
 			break;
 		default:
@@ -181,10 +188,12 @@ public class ButtonBox extends JFrame implements ActionListener {
 		
 		format = audioSound.getFormat();
 		
-		DataLine.Info info = new DataLine.Info(Clip.class, format); //adding functionality to sounds
+		//adding functionality to sounds
+		DataLine.Info info = new DataLine.Info(Clip.class, format);
 		
 		try {
-			audioClip = (Clip) AudioSystem.getLine(info); //accessing file again after going through DataLine
+			//accessing file again after going through DataLine
+			audioClip = (Clip) AudioSystem.getLine(info);
 		} catch (LineUnavailableException e) {
 			e.printStackTrace();
 		}
@@ -201,51 +210,91 @@ public class ButtonBox extends JFrame implements ActionListener {
 	}
 	
 	/**
-	 * Plays sound
+	 * Plays sound (regular, not from recording)
 	 * @param File sound
 	 */
-	public void play( ActionEvent s ) {
+	public void play( ActionEvent s ) { 
 		
-		switch( s.getActionCommand() ) {
-		case "One":
+		switch( s.getActionCommand() ) { //switching on ActionCommands
+		case "Drum":
 			sound = new File("drum_roll2.wav");
-			if ( stop ) {
-				makeRecording(s);
+			if ( stop ) { //if it's recording (Boolean stop is true)...comes here
+				lotsOfSounds.add(s.getActionCommand()); //adding it the recording ArrayList
+				System.out.print("Yes sound added to array");
+				time = System.currentTimeMillis(); //getting first time
+				if ( timer ) { //if true..for the second button clicked
+					//time is the first saved time minus the current time to give time in
+					//between clicks
+					time = System.currentTimeMillis() - time;
+					timing.add(time); //adding that time to the ArrayList for timing
+				}
 			}
 			break;
-		case "Two":
+		case "Cymbal":
 			sound = new File("cymbals.wav");
 			if ( stop ) {
-				makeRecording(s);
+				lotsOfSounds.add(s.getActionCommand());
+				System.out.print("Yes sound added to array");
+				time = System.currentTimeMillis();
+				if ( timer ) {
+					time = System.currentTimeMillis() - time;
+					timing.add(time);
+				}
 			}
 			break;
-		case "Three":
+		case "Bell":
 			sound = new File("bicycle_bell.wav");
 			if ( stop ) {
-				makeRecording(s);
+				lotsOfSounds.add(s.getActionCommand());
+				System.out.print("Yes sound added to array");
+				time = System.currentTimeMillis();
+				if ( timer ) {
+					time = System.currentTimeMillis() - time;
+					timing.add(time);
+				}
 			}
 			break;
-		case "Four":
+		case "Clock":
 			sound = new File("cuckoo_clock1_x.wav");
 			if ( stop ) {
-				makeRecording(s);
+				lotsOfSounds.add(s.getActionCommand());
+				System.out.print("Yes sound added to array");
+				time = System.currentTimeMillis();
+				if ( timer ) {
+					time = System.currentTimeMillis() - time;
+					timing.add(time);
+				}
 			}
 			break;
-		case "Five":
+		case "Dolphin":
 			sound = new File("dolphin.wav");
 			if ( stop ) {
-				makeRecording(s);
+				lotsOfSounds.add(s.getActionCommand());
+				System.out.print("Yes sound added to array");
+				time = System.currentTimeMillis();
+				if ( timer ) {
+					time = System.currentTimeMillis() - time;
+					timing.add(time);
+				}
 			}
 			break;
-		case "Six":
+		case "Cow":
 			sound = new File("cow.wav");
 			if ( stop ) {
-				makeRecording(s);
+				lotsOfSounds.add(s.getActionCommand());
+				System.out.print("Yes sound added to array");
+				time = System.currentTimeMillis();
+				if ( timer ) {
+					time = System.currentTimeMillis() - time;
+					timing.add(time);
+				}
 			}
 			break;
 		default:
 			System.exit(0);
 		}
+		
+		timer = true;
 		
 		try {
 			audioSound = AudioSystem.getAudioInputStream(sound); //accessing file
@@ -257,10 +306,12 @@ public class ButtonBox extends JFrame implements ActionListener {
 		
 		format = audioSound.getFormat();
 		
-		DataLine.Info info = new DataLine.Info(Clip.class, format); //adding functionality to sounds
+		//adding functionality to sounds
+		DataLine.Info info = new DataLine.Info(Clip.class, format);
 		
 		try {
-			audioClip = (Clip) AudioSystem.getLine(info); //accessing file again after going through DataLine
+			//accessing file again after going through DataLine
+			audioClip = (Clip) AudioSystem.getLine(info);
 		} catch (LineUnavailableException e) {
 			e.printStackTrace();
 		}
@@ -274,16 +325,8 @@ public class ButtonBox extends JFrame implements ActionListener {
 		}
 		
 		audioClip.start(); //playing sound file
-	}
-	
-	/**
-	 * Making array (recording)
-	 * @param button
-	 */
-	public void makeRecording(ActionEvent s) {
-		
-		lotsOfSounds.add(s.getActionCommand());	
-	
 	}
 	
 }
+
+//problem at 135..recPlay

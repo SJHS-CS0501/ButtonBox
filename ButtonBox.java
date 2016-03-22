@@ -177,18 +177,18 @@ public class ButtonBox extends JFrame implements ActionListener, LineListener{
 	public void actionPerformed( ActionEvent e ){
 		JButton button = (JButton)e.getSource();
 		play(button.getActionCommand());
+		Recording foosRoDa = new Recording( e.getActionCommand() );
 		
 		switch( e.getActionCommand() ){
 			case "play":
-				
+				buttonsAndStuff.toString();
+				play( buttonsAndStuff );
 				break;
 			case "stop":
-				
+				r = false;
 				break;
 			case "record":
 				if( r = true ){
-					Recording foosRoDa = new Recording( e.getActionCommand() );
-					
 					buttonsAndStuff = foosRoDa.recordWav();
 				}
 				break;

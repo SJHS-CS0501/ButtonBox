@@ -13,19 +13,20 @@ public class ButtonBox extends JFrame implements ActionListener {
 	
 	private ArrayList<String> lotsOfSounds = new ArrayList<String>(); //for recording
 	private ArrayList<Long> timing = new ArrayList<Long>(); //for the breaks in between
-	private long time; //used to find the amount of time in between in milliseconds
+	private Boolean recording = false, timer = false;
 	private static final long serialVersionUID = 1;
 	private AudioInputStream audioSound;
+	private AudioFormat format;
 	private JPanel buttonPanel; //buttons that will make sounds
 	private JPanel startStop; //start and stop buttons
+	private Clip audioClip;
 	private JLabel label;
-	private Boolean stop = false, timer = false; 
+	private File sound; //holds sounds
+	private long time; //used to find the amount of time in between in milliseconds
+	
 	//private DataLine.Info info; don't think I need
-	private AudioFormat format;
 	//private Clip clip = null; don't think I need
 	//private String[] sounds; don't think I need
-	private Clip audioClip;
-	private File sound; //holds sounds
 	
 	//constructor
 	public ButtonBox() {
@@ -130,19 +131,19 @@ public class ButtonBox extends JFrame implements ActionListener {
 		
 		switch ( e.getActionCommand() ) { //switching on ActionCommands
 		case "Play Back":
-			stop = false;
+			recording = false;
 			for(int i = 0; i <= lotsOfSounds.size(); i++ ) {
 				recPlay(lotsOfSounds.get(i));
 			}
 			break;
 		case "Stop":
-			stop = false;
+			recording = false;
 			break;
 		case "Record":
-			stop = true;
+			recording = true;
 			break;
 		default:
-			stop = false;
+			recording = false;
 			play(e);
 			break;
 		}
@@ -180,37 +181,22 @@ public class ButtonBox extends JFrame implements ActionListener {
 		
 		try {
 			audioSound = AudioSystem.getAudioInputStream(sound); //accessing file
-		} catch (UnsupportedAudioFileException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		
-		format = audioSound.getFormat();
-		
-		//adding functionality to sounds
-		DataLine.Info info = new DataLine.Info(Clip.class, format);
-		
-		try {
+			format = audioSound.getFormat();
+			//adding functionality to sounds
+			DataLine.Info info = new DataLine.Info(Clip.class, format);
 			//accessing file again after going through DataLine
 			audioClip = (Clip) AudioSystem.getLine(info);
-		} catch (LineUnavailableException e) {
-			e.printStackTrace();
-		}
-		
-		try {
 			audioClip.open(audioSound); //opening sound file
-		} catch (LineUnavailableException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
+			
+		} catch (Exception e) {
+			System.out.print("ERROR");
 		}
 		
 		audioClip.start(); //playing sound file
 	}
 	
 	/**
-	 * Plays sound (regular, not from recording)
+	 * Plays sound/makes ArrayList for recording
 	 * @param File sound
 	 */
 	public void play( ActionEvent s ) { 
@@ -218,9 +204,9 @@ public class ButtonBox extends JFrame implements ActionListener {
 		switch( s.getActionCommand() ) { //switching on ActionCommands
 		case "Drum":
 			sound = new File("drum_roll2.wav");
-			if ( stop ) { //if it's recording (Boolean stop is true)...comes here
+			if ( recording ) { //if it's recording (Boolean recording is true)...comes here
 				lotsOfSounds.add(s.getActionCommand()); //adding it the recording ArrayList
-				System.out.print("Yes sound added to array");
+				System.out.print("Yes sound added to array"); //check
 				time = System.currentTimeMillis(); //getting first time
 				if ( timer ) { //if true..for the second button clicked
 					//time is the first saved time minus the current time to give time in
@@ -232,7 +218,7 @@ public class ButtonBox extends JFrame implements ActionListener {
 			break;
 		case "Cymbal":
 			sound = new File("cymbals.wav");
-			if ( stop ) {
+			if ( recording ) {
 				lotsOfSounds.add(s.getActionCommand());
 				System.out.print("Yes sound added to array");
 				time = System.currentTimeMillis();
@@ -244,7 +230,7 @@ public class ButtonBox extends JFrame implements ActionListener {
 			break;
 		case "Bell":
 			sound = new File("bicycle_bell.wav");
-			if ( stop ) {
+			if ( recording ) {
 				lotsOfSounds.add(s.getActionCommand());
 				System.out.print("Yes sound added to array");
 				time = System.currentTimeMillis();
@@ -256,7 +242,7 @@ public class ButtonBox extends JFrame implements ActionListener {
 			break;
 		case "Clock":
 			sound = new File("cuckoo_clock1_x.wav");
-			if ( stop ) {
+			if ( recording ) {
 				lotsOfSounds.add(s.getActionCommand());
 				System.out.print("Yes sound added to array");
 				time = System.currentTimeMillis();
@@ -268,7 +254,7 @@ public class ButtonBox extends JFrame implements ActionListener {
 			break;
 		case "Dolphin":
 			sound = new File("dolphin.wav");
-			if ( stop ) {
+			if ( recording ) {
 				lotsOfSounds.add(s.getActionCommand());
 				System.out.print("Yes sound added to array");
 				time = System.currentTimeMillis();
@@ -280,7 +266,7 @@ public class ButtonBox extends JFrame implements ActionListener {
 			break;
 		case "Cow":
 			sound = new File("cow.wav");
-			if ( stop ) {
+			if ( recording ) {
 				lotsOfSounds.add(s.getActionCommand());
 				System.out.print("Yes sound added to array");
 				time = System.currentTimeMillis();
@@ -298,35 +284,18 @@ public class ButtonBox extends JFrame implements ActionListener {
 		
 		try {
 			audioSound = AudioSystem.getAudioInputStream(sound); //accessing file
-		} catch (UnsupportedAudioFileException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		
-		format = audioSound.getFormat();
-		
-		//adding functionality to sounds
-		DataLine.Info info = new DataLine.Info(Clip.class, format);
-		
-		try {
+			format = audioSound.getFormat();
+			//adding functionality to sounds
+			DataLine.Info info = new DataLine.Info(Clip.class, format);
 			//accessing file again after going through DataLine
 			audioClip = (Clip) AudioSystem.getLine(info);
-		} catch (LineUnavailableException e) {
-			e.printStackTrace();
-		}
-		
-		try {
 			audioClip.open(audioSound); //opening sound file
-		} catch (LineUnavailableException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
+			
+		} catch (Exception e) {
+			System.out.print("ERROR");
 		}
 		
 		audioClip.start(); //playing sound file
 	}
 	
 }
-
-//problem at 135..recPlay

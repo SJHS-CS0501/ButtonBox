@@ -18,11 +18,12 @@ public class ButtonBox extends JFrame implements ActionListener, LineListener{
 	private static final long serialVersionUID = 1; // keeps from throwing an exception (needed for happiness) 
 	private JPanel forButtons; // panel for the buttons
 	private File sounds;
+	ArrayList<String> soundList = new ArrayList<String>();
 	boolean playCompleted;
 	boolean r;
-	String pressed;
-	Recording[] things;
-	ArrayList<String> buttonsAndStuff = new ArrayList<String>();
+	ArrayList<Recording> things;
+	private static Recording oneThing = null;
+	String buttonsAndStuff;
 	
 	
 	public ButtonBox(){
@@ -118,6 +119,7 @@ public class ButtonBox extends JFrame implements ActionListener, LineListener{
 				break;
 			default:
 				JOptionPane.showMessageDialog( this,  "Unknown button pressed!" ); // shouldn't be needed, but DEFAULT!!
+				sounds = new File("ominous.wav");
 				break;
 		}
 	   
@@ -155,6 +157,38 @@ public class ButtonBox extends JFrame implements ActionListener, LineListener{
         
    }
     
+   public void recording( String command ){
+	   switch( command ){
+		case "ominous":
+			soundList.add( command );
+			break;
+		case "seal":
+			soundList.add( command );
+			break;
+		case "sheep":
+			soundList.add( command );
+			break;
+		case "thunder":
+			soundList.add( command );
+			break;
+		case "monkey":
+			soundList.add( command );
+			break;
+		case "duck":
+			soundList.add( command );
+			break;
+	}
+	   
+   }
+   
+   
+   public void playbackRecording(){
+	   for( int ctr = 0; ctr < things.size(); ctr++ ){
+		   oneThing = things.get( ctr );
+		   
+	   }
+   }
+   
    
    /**
     * Listens to the START and STOP events of the audio line.
@@ -177,20 +211,18 @@ public class ButtonBox extends JFrame implements ActionListener, LineListener{
 	public void actionPerformed( ActionEvent e ){
 		JButton button = (JButton)e.getSource();
 		play(button.getActionCommand());
-		Recording foosRoDa = new Recording( e.getActionCommand() );
+		//Recording foosRoDa = new Recording( e.getActionCommand() );
 		
 		switch( e.getActionCommand() ){
 			case "play":
-				buttonsAndStuff.toString();
 				play( buttonsAndStuff );
 				break;
 			case "stop":
 				r = false;
 				break;
 			case "record":
-				if( r = true ){
-					buttonsAndStuff = foosRoDa.recordWav();
-				}
+				
+				r = true;
 				break;
 			default:
 				play( e.getActionCommand() );

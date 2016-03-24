@@ -11,8 +11,8 @@ import javax.sound.sampled.*;
  */
 public class ButtonBox extends JFrame implements ActionListener {
 	
-	private ArrayList<String> lotsOfSounds = new ArrayList<String>(); //for recording
-	private ArrayList<Long> timing = new ArrayList<Long>(); //for the breaks in between
+	private ArrayList<String> lotsOfSounds = new ArrayList<String>(10); //for recording
+	private ArrayList<Long> timing = new ArrayList<Long>(10); //for the breaks in between
 	private Boolean recording = false, timer = false;
 	private static final long serialVersionUID = 1;
 	private AudioInputStream audioSound;
@@ -133,6 +133,8 @@ public class ButtonBox extends JFrame implements ActionListener {
 		case "Play Back":
 			recording = false;
 			for(int i = 0; i <= lotsOfSounds.size(); i++ ) {
+				System.out.print("going through array");
+				System.out.print("i = " + i);
 				recPlay(lotsOfSounds.get(i));
 			}
 			break;
@@ -205,8 +207,10 @@ public class ButtonBox extends JFrame implements ActionListener {
 		case "Drum":
 			sound = new File("drum_roll2.wav");
 			if ( recording ) { //if it's recording (Boolean recording is true)...comes here
+				System.out.print("I GOT HERE");
 				lotsOfSounds.add(s.getActionCommand()); //adding it the recording ArrayList
 				System.out.print("Yes sound added to array"); //check
+				
 				time = System.currentTimeMillis(); //getting first time
 				if ( timer ) { //if true..for the second button clicked
 					//time is the first saved time minus the current time to give time in
@@ -221,6 +225,7 @@ public class ButtonBox extends JFrame implements ActionListener {
 			if ( recording ) {
 				lotsOfSounds.add(s.getActionCommand());
 				System.out.print("Yes sound added to array");
+				
 				time = System.currentTimeMillis();
 				if ( timer ) {
 					time = System.currentTimeMillis() - time;
@@ -233,6 +238,7 @@ public class ButtonBox extends JFrame implements ActionListener {
 			if ( recording ) {
 				lotsOfSounds.add(s.getActionCommand());
 				System.out.print("Yes sound added to array");
+				
 				time = System.currentTimeMillis();
 				if ( timer ) {
 					time = System.currentTimeMillis() - time;
@@ -245,6 +251,7 @@ public class ButtonBox extends JFrame implements ActionListener {
 			if ( recording ) {
 				lotsOfSounds.add(s.getActionCommand());
 				System.out.print("Yes sound added to array");
+				
 				time = System.currentTimeMillis();
 				if ( timer ) {
 					time = System.currentTimeMillis() - time;
@@ -257,6 +264,7 @@ public class ButtonBox extends JFrame implements ActionListener {
 			if ( recording ) {
 				lotsOfSounds.add(s.getActionCommand());
 				System.out.print("Yes sound added to array");
+				
 				time = System.currentTimeMillis();
 				if ( timer ) {
 					time = System.currentTimeMillis() - time;
@@ -269,6 +277,7 @@ public class ButtonBox extends JFrame implements ActionListener {
 			if ( recording ) {
 				lotsOfSounds.add(s.getActionCommand());
 				System.out.print("Yes sound added to array");
+				
 				time = System.currentTimeMillis();
 				if ( timer ) {
 					time = System.currentTimeMillis() - time;

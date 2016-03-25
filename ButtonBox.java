@@ -21,8 +21,8 @@ public class ButtonBox extends JFrame implements ActionListener, LineListener{
 	ArrayList<String> soundList = new ArrayList<String>();
 	boolean playCompleted;
 	boolean r;
-	ArrayList<Recording> things;
-	private static Recording oneThing = null;
+	//ArrayList<Recording> things;
+	//private static Recording oneThing = null;
 	String buttonsAndStuff;
 	
 	
@@ -183,9 +183,9 @@ public class ButtonBox extends JFrame implements ActionListener, LineListener{
    
    
    public void playbackRecording(){
-	   for( int ctr = 0; ctr < things.size(); ctr++ ){
-		   oneThing = things.get( ctr );
-		   
+	   for( int ctr = 0; ctr < soundList.size(); ctr++ ){
+		   buttonsAndStuff = soundList.get( ctr );
+		   play( buttonsAndStuff ); 
 	   }
    }
    
@@ -209,20 +209,20 @@ public class ButtonBox extends JFrame implements ActionListener, LineListener{
     * Tells the program which sound to play!
     */
 	public void actionPerformed( ActionEvent e ){
-		JButton button = (JButton)e.getSource();
-		play(button.getActionCommand());
+		//JButton button = (JButton)e.getSource();
+		//play(button.getActionCommand());
 		//Recording foosRoDa = new Recording( e.getActionCommand() );
 		
 		switch( e.getActionCommand() ){
 			case "play":
-				play( buttonsAndStuff );
+				playbackRecording();
 				break;
 			case "stop":
 				r = false;
 				break;
 			case "record":
-				
 				r = true;
+				recording( e.getActionCommand() );
 				break;
 			default:
 				play( e.getActionCommand() );
@@ -230,7 +230,6 @@ public class ButtonBox extends JFrame implements ActionListener, LineListener{
 		}
 		
 	}
-	
 	
 	public static void main(String[] args) {
 		new ButtonBox(); // Run the program!!

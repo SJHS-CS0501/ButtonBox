@@ -19,16 +19,13 @@ public class ButtonBox extends JFrame implements ActionListener, LineListener{
 	private JPanel forButtons; // panel for the buttons
 	private File sounds;
 	ArrayList<String> soundList = new ArrayList<String>();
-	boolean playCompleted;
-	boolean r;
-	//ArrayList<Recording> things;
-	//private static Recording oneThing = null;
+	boolean playCompleted; // used in the super try-catch (That's the really cool one that covers all the catching)
 	String buttonsAndStuff;
 	
 	
 	public ButtonBox(){
 		
-		super( "ButtonBox" );
+		super( "ButtonBox" ); // there's also Bat(ButtonBox)
 		
 		JButton button; // for all the buttons
 		
@@ -75,8 +72,8 @@ public class ButtonBox extends JFrame implements ActionListener, LineListener{
 		button.addActionListener( this );
 		forButtons.add( button );
 		
-		button = new JButton( "Stop Recording" );
-		button.setActionCommand( "stop" );
+		button = new JButton( "PRESS BEFORE RECORD" );
+		button.setActionCommand( "fixin' stuff" );
 		button.addActionListener( this );
 		forButtons.add( button );
 		
@@ -99,28 +96,24 @@ public class ButtonBox extends JFrame implements ActionListener, LineListener{
     */
    void play( String noise ) {
 		switch( noise ){
-			case "one":
-				sounds = new File("ominous.wav");
-				break; // always, always, ALWAYS remember to put your breaks in when you don't want fallthroughs -_-
-			case "two":
-				sounds = new File("seal.wav");
-				break;
-			case "three":
-				sounds = new File("sheep521.wav");
-				break;
-			case "four":
-				sounds = new File("thunder-02.wav");
-				break;
-			case "five":
-				sounds = new File("monkey2.wav");
-				break;
-			case "six":
-				sounds = new File("duck.wav");
-				break;
-			default:
-				JOptionPane.showMessageDialog( this,  "Unknown button pressed!" ); // shouldn't be needed, but DEFAULT!!
-				sounds = new File("ominous.wav");
-				break;
+		case "one":
+			sounds = new File("ominous.wav");
+			break; // always, always, ALWAYS remember to put your breaks in when you don't want fallthroughs -_-
+		case "two":
+			sounds = new File("seal.wav");
+			break;
+		case "three":
+			sounds = new File("sheep521.wav");
+			break;
+		case "four":
+			sounds = new File("thunder-02.wav");
+			break;
+		case "five":
+			sounds = new File("monkey2.wav");
+			break;
+		case "six":
+			sounds = new File("duck.wav");
+			break;
 		}
 	   
 	   // These operations require a lot of try catch things to surround them, so here is just one big try catch so everyone is happy!!
@@ -157,35 +150,41 @@ public class ButtonBox extends JFrame implements ActionListener, LineListener{
         
    }
     
+   // for adding sounds to list?
    public void recording( String command ){
 	   switch( command ){
-		case "ominous":
-			soundList.add( command );
-			break;
-		case "seal":
-			soundList.add( command );
-			break;
-		case "sheep":
-			soundList.add( command );
-			break;
-		case "thunder":
-			soundList.add( command );
-			break;
-		case "monkey":
-			soundList.add( command );
-			break;
-		case "duck":
-			soundList.add( command );
-			break;
-	}
+	   case "ominous":
+		   soundList.add( command );
+		   break;
+	   case "seal":
+		   soundList.add( command );
+		   break;
+	   case "sheep":
+		   soundList.add( command );
+		   break;
+	   case "thunder":
+		   soundList.add( command );
+		   break;
+	   case "monkey":
+		   soundList.add( command );
+		   break;
+	   case "duck":
+		   soundList.add( command );
+		   break;
+	   }
 	   
    }
    
-   
-   public void playbackRecording(){
+   // this should play back the recorded sounds
+   public void playbackRecording( ArrayList<String> soundList ){
 	   for( int ctr = 0; ctr < soundList.size(); ctr++ ){
 		   buttonsAndStuff = soundList.get( ctr );
 		   play( buttonsAndStuff ); 
+		   // decided to use a Thread.sleep instead of incorporating longs into program
+		   try{
+			   Thread.sleep(2000);
+		   } catch(InterruptedException e){
+		   }
 	   }
    }
    
@@ -209,22 +208,21 @@ public class ButtonBox extends JFrame implements ActionListener, LineListener{
     * Tells the program which sound to play!
     */
 	public void actionPerformed( ActionEvent e ){
-		//JButton button = (JButton)e.getSource();
-		//play(button.getActionCommand());
-		//Recording foosRoDa = new Recording( e.getActionCommand() );
+		JButton button = (JButton)e.getSource();
+		soundList.add(button.getActionCommand());
 		
-		switch( e.getActionCommand() ){
+		switch( button.getActionCommand() ){
 			case "play":
-				playbackRecording();
+				playbackRecording( soundList );
 				break;
-			case "stop":
-				r = false;
+			case "fixin' stuff":
+				soundList.clear(); // clears old sounds before user starts wanting to actually record sounds
 				break;
 			case "record":
-				r = true;
 				recording( e.getActionCommand() );
 				break;
 			default:
+				soundList.clear(); // for that person who decides to skip the "PRESS BEFORE RECORD" button
 				play( e.getActionCommand() );
 				break;
 		}

@@ -140,7 +140,15 @@ public class ButtonBox extends JFrame implements ActionListener {
 				} catch (Exception c) {
 					System.exit(0);
 				}
+				
+				try {
+					Thread.sleep(1000); //one second wait
+				} catch (Exception t) {
+					System.exit(0);
+				}
 
+				/*
+				 * can't get this to work..
 				for (int q = 0; q < timing.size(); q++) {
 					try {
 						Thread.sleep(timing.get(q + 1) - timing.get(q));
@@ -148,12 +156,14 @@ public class ButtonBox extends JFrame implements ActionListener {
 						System.exit(0);
 					}
 				}
+				*/
+				
 			}
 			break;
 		case "Record":
 			recording = true;
 			lotsOfSounds.clear();
-			timing.clear();
+			//timing.clear();
 			break;
 		default:
 			if (recording == true) { // checking if recording is already set to

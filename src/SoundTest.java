@@ -64,8 +64,7 @@ public class SoundTest extends JFrame implements ActionListener {
 		button.addActionListener(this);
 		buttonPanel.add(button);
 
-		buttonPanel.setBorder(
-				BorderFactory.createTitledBorder(BorderFactory.createEtchedBorder(EtchedBorder.RAISED), "Sounds"));
+		buttonPanel.setBorder(BorderFactory.createTitledBorder(BorderFactory.createEtchedBorder(EtchedBorder.RAISED), "Sounds"));
 
 		add(buttonPanel);
 
